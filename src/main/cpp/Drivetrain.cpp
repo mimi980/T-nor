@@ -212,9 +212,6 @@ void Drivetrain::Drive(double joystick_V, double joystick_W) //
     {
     case State::lowGear:
     {
-
-        m_MotorLeft1.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, Calcul_De_Notre_Brave_JM(m_rateLimiter_V_Slow.m_current, m_rateLimiter_W_Slow.m_current, 0));
-        m_MotorRight1.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, Calcul_De_Notre_Brave_JM(m_rateLimiter_V_Slow.m_current, m_rateLimiter_W_Slow.m_current, 1));
         if (isUpshiftingAllowed())
         {
             m_CurrentGearboxRatio = REDUC_V2;
@@ -259,8 +256,6 @@ void Drivetrain::Drive(double joystick_V, double joystick_W) //
     frc::SmartDashboard::PutNumber("m_JoystickRaw_V", m_JoystickRaw_V.m_current);
     frc::SmartDashboard::PutNumber("m_JoystickRaw_V_Acceleration", m_JoystickRaw_V.m_delta);
     frc::SmartDashboard::PutNumber("Gearboxes_Ration", m_GearboxLeftOutAdjustedRpm/m_GearboxRightOutAdjustedRpm);
-    frc::SmartDashboard::PutNumber("GetEncoderRight", m_EncoderRight.GetDistance());
-    frc::SmartDashboard::PutNumber("GetEncoderLeft", m_EncoderLeft.GetDistance());
     frc::SmartDashboard::PutNumber("GetEncoderMotorRight", m_SuperMotorRightRawRpm);
     frc::SmartDashboard::PutNumber("GetEncoderMotorLeft", m_SuperMotorLeftRawRpm);
     frc::SmartDashboard::PutNumber("m_GearboxLeftOutAdjustedRpm", m_GearboxLeftOutAdjustedRpm);
@@ -283,8 +278,6 @@ void Drivetrain::DriveAuto(double speed, double rotation)
 
 void Drivetrain::Reset()
 {
-    m_EncoderLeft.Reset();
-    m_EncoderRight.Reset();
 
     m_JoystickPrelimited_V.Reset(0.0, 0.0, 2.0); // reset des rate limiters
     m_JoystickLimited_V.Reset(0.0, 0.0, 0.05);
