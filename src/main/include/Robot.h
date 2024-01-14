@@ -5,6 +5,8 @@
 #pragma once
 
 #include <frc/TimedRobot.h>
+#include "Drivetrain.h"
+#include "frc/Joystick.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -25,4 +27,8 @@ class Robot : public frc::TimedRobot {
 
   void SimulationInit() override;
   void SimulationPeriodic() override;
+
+  Drivetrain m_drivetrain;
+  frc::Joystick m_joystickLeft {1};
+  frc::Joystick m_joystickRight{2};
 };

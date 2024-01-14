@@ -11,7 +11,11 @@ void Robot::AutonomousInit() {}
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {}
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+  m_joystickLeft.GetY();
+  m_joystickRight.GetX();
+  m_drivetrain.Drive( m_joystickLeft.GetY(),m_joystickRight.GetX());
+}
 
 void Robot::DisabledInit() {}
 void Robot::DisabledPeriodic() {}
