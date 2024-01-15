@@ -29,6 +29,6 @@ class Robot : public frc::TimedRobot {
   void SimulationPeriodic() override;
 
   Drivetrain m_drivetrain;
-  frc::Joystick m_joystickLeft {1};
-  frc::Joystick m_joystickRight{2};
+  frc::Joystick m_joystickLeft {0};
+  frc::Joystick m_joystickRight{1};
 };

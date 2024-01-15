@@ -5,16 +5,16 @@
 #include "Robot.h"
 
 void Robot::RobotInit() {}
-void Robot::RobotPeriodic() {}
+void Robot::RobotPeriodic() {
+    frc2::CommandScheduler::GetInstance().Run();
+}
 
 void Robot::AutonomousInit() {}
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {}
 void Robot::TeleopPeriodic() {
-  m_joystickLeft.GetY();
-  m_joystickRight.GetX();
-  m_drivetrain.Drive( m_joystickLeft.GetY(),m_joystickRight.GetX());
+  m_drivetrain.Drive(m_joystickLeft.GetY(),m_joystickRight.GetZ());
 }
 
 void Robot::DisabledInit() {}
