@@ -12,12 +12,17 @@ void Robot::RobotPeriodic() {
 void Robot::AutonomousInit() {}
 void Robot::AutonomousPeriodic() {}
 
-void Robot::TeleopInit() {}
+void Robot::TeleopInit() {
+  m_drivetrain.m_logCSV.open("/home/lvuser/log/",true);
+  }
 void Robot::TeleopPeriodic() {
-  m_drivetrain.Drive(m_joystickLeft.GetY(),m_joystickRight.GetZ());
+  m_drivetrain.Drive(-m_joystickLeft.GetY(),m_joystickRight.GetZ(),m_joystickRight.GetRawButton(1));
 }
 
-void Robot::DisabledInit() {}
+void Robot::DisabledInit() {
+  m_drivetrain.m_logCSV.close();
+}
+
 void Robot::DisabledPeriodic() {}
 
 void Robot::TestInit() {}

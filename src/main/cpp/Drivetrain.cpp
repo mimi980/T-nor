@@ -85,11 +85,20 @@ Drivetrain::Drivetrain() : m_GearboxLeftOutAveragedRpt(AVERAGE_SAMPLES_NUMBER),
     m_JoystickLimited_V.Reset(0.0, 0.0, 0.04);   // 5
 
     m_JoystickPrelimited_W.Reset(0.0, 0.0, 2.0);
-    m_JoystickLimited_W.Reset(0.0, 0.0, 0.08); // 5
+    m_JoystickLimited_W.Reset(0.0, 0.0, 0.05); // 5
 
     ActiveBallShifterV1();
     m_State = State::lowGear;
     m_CurrentGearboxRatio = REDUC_V1;
+
+    m_logCSV.setItem(0, "AR1", 5, &m_AR1);
+    m_logCSV.setItem(1, "AR2", 5, &m_AR2);
+    m_logCSV.setItem(2, "AR3", 5, &m_AR3);
+    m_logCSV.setItem(3, "AL1", 5, &m_AL1);
+    m_logCSV.setItem(4, "AL2", 5, &m_AL2);
+    m_logCSV.setItem(5, "AL3", 5, &m_AL3);
+    m_logCSV.setItem(6, "SpeedRobot", 5, &m_GearboxesOutAdjustedRpm.m_current);
+    m_logCSV.setItem(7, "état", 5, &m_CurrentGearboxRatio);
 }
 
 void Drivetrain::Set(double v_motor) // set des moteurs
@@ -128,8 +137,7 @@ double Drivetrain::Calcul_De_Notre_Brave_JM(double forward, double turn, bool wh
 }
 
 bool Drivetrain::isUpshiftingAllowed() // mode up, détermine si on peut passer en V2
-{
-
+{   
         if ((m_GearShiftingTimeLock == 0.0)  and (m_GearboxLeftOutAdjustedRpm / m_GearboxRightOutAdjustedRpm < (1 + TURNING_TOLERANCE)) and ((1 - TURNING_TOLERANCE) < m_GearboxLeftOutAdjustedRpm / m_GearboxRightOutAdjustedRpm))
         {
             if (std::abs(m_GearboxesOutAdjustedRpm.m_current) > UP_SHIFTING_POINT_GEARBOXES_OUT_RPM and
@@ -165,9 +173,15 @@ void Drivetrain::ShiftGearDown() // passage de la vitesse en V1
     ActiveBallShifterV1();
 }
 
-void Drivetrain::Drive(double joystick_V, double joystick_W) //
+void Drivetrain::Drive(double joystick_V, double joystick_W,bool button_Past) //
 {
-    m_sigma = NLERP(0.7, 0.3, NABS(joystick_V)); //0401
+    m_AL1 =m_MotorLeft1.GetOutputCurrent();
+    m_AL2 =m_MotorLeft2.GetOutputCurrent();
+    m_AL3 =m_MotorLeft3.GetOutputCurrent();
+    m_AR1 =m_MotorRight1.GetOutputCurrent();
+    m_AR2=m_MotorRight2.GetOutputCurrent();
+    m_AR3=m_MotorRight3.GetOutputCurrent();
+
     frc::SmartDashboard::PutNumber("joyV", joystick_V);
     frc::SmartDashboard::PutNumber("joyW", joystick_W);
     // calcul de la vitesse moyenne des deux encodeurs de sortie de boite. (GetDistance renvoie un nombre de tours car setup fait dans le constructeur)(.SetDistancePerPulse(1.0/2048.0)
@@ -212,7 +226,8 @@ void Drivetrain::Drive(double joystick_V, double joystick_W) //
     {
     case State::lowGear:
     {
-        if (isUpshiftingAllowed())
+        m_sigma = NLERP(0.7, 0.3, NABS(joystick_V)); //0401
+        if (isUpshiftingAllowed()and button_Past==false)
         {
             m_CurrentGearboxRatio = REDUC_V2;
             ShiftGearUp();
@@ -224,9 +239,10 @@ void Drivetrain::Drive(double joystick_V, double joystick_W) //
 
     case State::highGear:
     {
+        m_sigma = NLERP(0.7, 0.5, NABS(joystick_V)); //0401
         // m_MotorLeft1.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, Calcul_De_Notre_Brave_JM(m_rateLimiter_V_Slow.m_current, m_rateLimiter_W_Slow.m_current, 0));
         // m_MotorRight1.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, Calcul_De_Notre_Brave_JM(m_rateLimiter_V_Slow.m_current, m_rateLimiter_W_Slow.m_current, 1));
-        if ( isKickdownShiftingAllowed())
+        if ( isKickdownShiftingAllowed() or button_Past==true )
         {
             m_CurrentGearboxRatio = REDUC_V1;
             ShiftGearDown();
@@ -235,9 +251,10 @@ void Drivetrain::Drive(double joystick_V, double joystick_W) //
         }
     }
     }
-    std::cout<<Calcul_De_Notre_Brave_JM(m_JoystickLimited_V.m_current, m_JoystickLimited_W.m_current, 0)<<std::endl;
+    std::cout<<button_Past<<std::endl;
     m_MotorLeft1.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, Calcul_De_Notre_Brave_JM(m_JoystickLimited_V.m_current, m_JoystickLimited_W.m_current, 0));
     m_MotorRight1.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, Calcul_De_Notre_Brave_JM(m_JoystickLimited_V.m_current, m_JoystickLimited_W.m_current, 1));
+    m_logCSV.write();
 
     frc::SmartDashboard::PutNumber("m_JoystickPrelimited_V",    m_JoystickPrelimited_V.m_current);
     frc::SmartDashboard::PutNumber("m_JoystickLimited_V",       m_JoystickLimited_V.m_current);

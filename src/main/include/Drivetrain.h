@@ -55,7 +55,7 @@ public:
 
   void ActiveBallShifterV1(); // ok
   void ActiveBallShifterV2();
-  void Drive(double joystickLeft, double joystickRight);
+  void Drive(double joystickLeft, double joystickRight,bool joystickButton);
 
   void DriveAuto(double speed, double rotation);
   double Calcul_De_Notre_Brave_JM(double forward, double turn, bool wheelSide); // Si wheelSide 0: roue droite / Si wheelSide 1: roue gauche
@@ -112,6 +112,15 @@ public:
 
   bool IsAuto;
   double m_sigma;
+  NLCSV m_logCSV{8}; // log csv
+  double m_AR1;
+  double m_AR2;
+  double m_AR3;
+  double m_AL1;
+  double m_AL2;
+  double m_AL3;
+
+
 
 private:
   ctre::phoenix::motorcontrol::can::TalonFX m_MotorRight1{ID_MOTOR_DRIVE_TRAIN_RIGHT};
