@@ -251,7 +251,7 @@ void Drivetrain::Drive(double joystick_V, double joystick_W,bool button_Past) //
         }
     }
     }
-    std::cout<<button_Past<<std::endl;
+    std::cout<<button_Past<<std::endl;  
     m_MotorLeft1.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, Calcul_De_Notre_Brave_JM(m_JoystickLimited_V.m_current, m_JoystickLimited_W.m_current, 0));
     m_MotorRight1.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, Calcul_De_Notre_Brave_JM(m_JoystickLimited_V.m_current, m_JoystickLimited_W.m_current, 1));
     m_logCSV.write();
