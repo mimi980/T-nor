@@ -7,7 +7,7 @@
 #include <time.h>
 #include <assert.h>
 
-#define NLCSVITEM_LABEL_MAXSIZE		32
+#define NLCSVITEM_LABEL_MAXSIZE		64
 #define NLCSVITEM_FORMAT_MAXSIZE	8
 #define NLCSVITEM_FILENAME_MAXSIZE	256
 
