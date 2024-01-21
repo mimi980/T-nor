@@ -11,6 +11,7 @@
 #include "lib/NL/MotionControl/Trajectory/NLTrajectoryPack.h"
 #include <AHRS.h>
 #include <frc2/command/Command.h>
+#include "Drivetrain.h"
 
 
 class Robot : public frc::TimedRobot {
@@ -49,6 +50,7 @@ class Robot : public frc::TimedRobot {
   NLFOLLOWER_TANK m_follower;
 
   RobotContainer m_robotContainer;
+  Drivetrain m_drivetrain;
   AHRS m_gyro{frc::SerialPort::Port::kUSB};
 
 

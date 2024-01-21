@@ -286,11 +286,11 @@ void Drivetrain::Drive(double joystick_V, double joystick_W,bool button_Past) //
     frc::SmartDashboard::PutNumber("m_GearboxesOutAdjustedRpm.m_delta", m_GearboxesOutAdjustedRpm.m_delta);
 }
 
-void Drivetrain::DriveAuto(double speed, double rotation)
+void Drivetrain::DriveAuto(double left, double right)
 {
     // std::cout << "on passe en frive auto" << std::endl;
-    m_MotorLeft1.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, speed + rotation);
-    m_MotorRight1.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, speed - rotation);
+    m_MotorLeft1.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, left/12);
+    m_MotorRight1.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, right/12);
 }
 
 void Drivetrain::Reset()

@@ -38,50 +38,50 @@ void Robot::AutonomousInit() {
 }
 void Robot::AutonomousPeriodic() 
 {
-  NLRAMSETEOUTPUT output;
-  NLFOLLOWER_TANK_OUTPUT *pout = nullptr;
+  // NLRAMSETEOUTPUT output;
+  // NLFOLLOWER_TANK_OUTPUT *pout = nullptr;
 
-  NLTRJ_POSTED_MESSAGE message; // Posted Message
+  // NLTRJ_POSTED_MESSAGE message; // Posted Message
 
-  switch (m_state)
-  {
-  case Robot::STATE::PATH_ERROR:
-    break;
+  // switch (m_state)
+  // {
+  // case Robot::STATE::PATH_ERROR:
+  //   break;
 
-  case Robot::STATE::PATH_FOLLOWING:
-    // *****************************************************    'THE' METHOD(e)
-    // A) Feed back:
-    // avec les encodeurs on estime la position du robot:
-    //			l = distance parcourue par la roue gauche depuis le dernier reset encodeur.
-    //			r = distance parcourue par la roue droite depuis le dernier reset encodeur.
-    //
-    //			dl et dr = distances parcourues par les roues gauche et droite depuis le dernier call.
-    //			(note dl/dt = vitesse roue gauche et dr/dt = vitesse roue droite  )
-    //
+  // case Robot::STATE::PATH_FOLLOWING:
+  //   // *****************************************************    'THE' METHOD(e)
+  //   // A) Feed back:
+  //   // avec les encodeurs on estime la position du robot:
+  //   //			l = distance parcourue par la roue gauche depuis le dernier reset encodeur.
+  //   //			r = distance parcourue par la roue droite depuis le dernier reset encodeur.
+  //   //
+  //   //			dl et dr = distances parcourues par les roues gauche et droite depuis le dernier call.
+  //   //			(note dl/dt = vitesse roue gauche et dr/dt = vitesse roue droite  )
+  //   //
 
-    m_follower.estimate(m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance(), m_robotContainer.m_drivetrain.m_EncoderRight.GetDistance(), NDEGtoRAD(m_gyro.GetAngle()));
-    m_follower.updateTarget(&m_TrajectoryPack, 0.02f);
-    pout = m_follower.compute();
-    m_robotContainer.m_drivetrain.SetVoltage(m_CrtzR.getVoltage(pout->m_rightVelocity, pout->m_rightAcceleration), m_CrtzL.getVoltage(pout->m_leftVelocity, pout->m_leftAcceleration));
+  //   m_follower.estimate(m_drivetrain.m_GearboxLeftOutAdjustedRpm, m_drivetrain.m_GearboxRightOutAdjustedRpm, NDEGtoRAD(m_gyro.GetAngle()));
+  //   m_follower.updateTarget(&m_TrajectoryPack, 0.02f);
+  //   pout = m_follower.compute();
+  //   m_drivetrain.DriveAuto(m_CrtzR.getVoltage(pout->m_rightVelocity, pout->m_rightAcceleration), m_CrtzL.getVoltage(pout->m_leftVelocity, pout->m_leftAcceleration));
 
-    while (m_follower.getMessage(&message))
-    {
-      switch (message.m_id)
-      {
-      default:
-        break;
-      }
-    }
+  //   while (m_follower.getMessage(&message))
+  //   {
+  //     switch (message.m_id)
+  //     {
+  //     default:
+  //       break;
+  //     }
+  //   }
 
-    break;
+  //   break;
 
-  case Robot::STATE::PATH_END:
+  // case Robot::STATE::PATH_END:
 
-    break;
-  default:
-    NErrorIf(1, NERROR_UNAUTHORIZED_CASE);
-    break;
-  }
+  //   break;
+  // default:
+  //   NErrorIf(1, NERROR_UNAUTHORIZED_CASE);
+  //   break;
+  // }
   
 }
 
