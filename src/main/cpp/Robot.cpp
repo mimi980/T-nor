@@ -7,11 +7,15 @@
 void Robot::RobotInit() {}
 void Robot::RobotPeriodic() {
     frc2::CommandScheduler::GetInstance().Run();
+
 }
 
 void Robot::AutonomousInit() {
   m_gyro.Reset();
   m_gyro.Calibrate();
+  m_drivetrain.m_EncoderLeft.Reset();
+  m_drivetrain.m_EncoderRight.Reset();
+
 
   // ######## NLMOTOR_CHARACTERIZATION ########
   // NLCHARACTERIZATION_TABLE characterization_table(4);
@@ -31,62 +35,56 @@ void Robot::AutonomousInit() {
   m_CrtzR.m_forwardIntercept = 0.4218986448873328f; // = m_intercept[0]
   m_CrtzR.m_backwardIntercept = -0.49001485320659466f;
 
-  m_TrajectoryPack.load("/home/lvuser/auto/red_right_db2cub_tcub_lightX.trk");
+  m_TrajectoryPack.load("/home/lvuser/auto/trucV3.trk");
 
   m_follower.initialize(&m_TrajectoryPack);
   m_state = Robot::STATE::PATH_FOLLOWING;
 }
 void Robot::AutonomousPeriodic() 
 {
-  // NLRAMSETEOUTPUT output;
-  // NLFOLLOWER_TANK_OUTPUT *pout = nullptr;
+  NLRAMSETEOUTPUT output;
+  NLFOLLOWER_TANK_OUTPUT *pout = nullptr;
 
-  // NLTRJ_POSTED_MESSAGE message; // Posted Message
+  NLTRJ_POSTED_MESSAGE message; // Posted Message
 
-  // switch (m_state)
-  // {
-  // case Robot::STATE::PATH_ERROR:
-  //   break;
+  switch (m_state)
+  {
+  case Robot::STATE::PATH_ERROR:
+    break;
 
-  // case Robot::STATE::PATH_FOLLOWING:
-  //   // *****************************************************    'THE' METHOD(e)
-  //   // A) Feed back:
-  //   // avec les encodeurs on estime la position du robot:
-  //   //			l = distance parcourue par la roue gauche depuis le dernier reset encodeur.
-  //   //			r = distance parcourue par la roue droite depuis le dernier reset encodeur.
-  //   //
-  //   //			dl et dr = distances parcourues par les roues gauche et droite depuis le dernier call.
-  //   //			(note dl/dt = vitesse roue gauche et dr/dt = vitesse roue droite  )
-  //   //
+  case Robot::STATE::PATH_FOLLOWING:
+    // *****************************************************    'THE' METHOD(e)
+    // A) Feed back:
+    // avec les encodeurs on estime la position du robot:
+    //			l = distance parcourue par la roue gauche depuis le dernier reset encodeur.
+    //			r = distance parcourue par la roue droite depuis le dernier reset encodeur.
+    //
+    //			dl et dr = distances parcourues par les roues gauche et droite depuis le dernier call.
+    //			(note dl/dt = vitesse roue gauche et dr/dt = vitesse roue droite  )
+    //
 
-  //   m_follower.estimate(m_drivetrain.m_GearboxLeftOutAdjustedRpm, m_drivetrain.m_GearboxRightOutAdjustedRpm, NDEGtoRAD(m_gyro.GetAngle()));
-  //   m_follower.updateTarget(&m_TrajectoryPack, 0.02f);
-  //   pout = m_follower.compute();
-  //   m_drivetrain.DriveAuto(m_CrtzR.getVoltage(pout->m_rightVelocity, pout->m_rightAcceleration), m_CrtzL.getVoltage(pout->m_leftVelocity, pout->m_leftAcceleration));
+    m_follower.estimate(m_drivetrain.m_EncoderLeft.GetDistance(), m_drivetrain.m_EncoderRight.GetDistance(), NDEGtoRAD(m_gyro.GetAngle()));
+    m_follower.updateTarget(&m_TrajectoryPack, 0.02f);
+    pout = m_follower.compute();
+    m_drivetrain.DriveAuto(m_CrtzR.getVoltage(pout->m_rightVelocity, pout->m_rightAcceleration), m_CrtzL.getVoltage(pout->m_leftVelocity, pout->m_leftAcceleration));
+      std::cout<<"pathFollowing"<<std::endl;
+    break;
 
-  //   while (m_follower.getMessage(&message))
-  //   {
-  //     switch (message.m_id)
-  //     {
-  //     default:
-  //       break;
-  //     }
-  //   }
-
-  //   break;
-
-  // case Robot::STATE::PATH_END:
-
-  //   break;
-  // default:
-  //   NErrorIf(1, NERROR_UNAUTHORIZED_CASE);
-  //   break;
-  // }
+  case Robot::STATE::PATH_END:
+    std::cout<<"pathEND"<<std::endl;
+    break;
+  default:
+    NErrorIf(1, NERROR_UNAUTHORIZED_CASE);
+    break;
+  }
   
 }
 
 void Robot::TeleopInit() {}
 void Robot::TeleopPeriodic() {
+  std::cout<<m_gyro.GetAngle()<<std::endl;
+  std::cout<<m_drivetrain.m_EncoderLeft.GetDistance()<<std::endl;
+  std::cout<<m_drivetrain.m_EncoderRight.GetDistance()<<std::endl;
   m_drivetrain.Drive(-m_joystickLeft.GetY(),m_joystickRight.GetZ(),m_joystickRight.GetRawButton(1));
 }
 

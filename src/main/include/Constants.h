@@ -39,10 +39,10 @@
 
 // #########################    ID Encoder    #########################
 
-#define ID_ENCODER_DRIVE_TRAIN_RIGHT_A 0
-#define ID_ENCODER_DRIVE_TRAIN_RIGHT_B 1
-#define ID_ENCODER_DRIVE_TRAIN_LEFT_A 2
-#define ID_ENCODER_DRIVE_TRAIN_LEFT_B 3
+#define ID_ENCODER_DRIVE_TRAIN_RIGHT_A 2
+#define ID_ENCODER_DRIVE_TRAIN_RIGHT_B 3
+#define ID_ENCODER_DRIVE_TRAIN_LEFT_A 0
+#define ID_ENCODER_DRIVE_TRAIN_LEFT_B 1
 #define ID_ENCODER_TURRET_A 6
 #define ID_ENCODER_TURRET_B 7
 #define ID_ENCODER_ELEVATOR_A 4
@@ -74,7 +74,7 @@
 
 // #########################    VoltageCompensation    #########################
 
-#define DRIVETRAIN_VOLTAGE_COMPENSATION 10.0
+#define DRIVETRAIN_VOLTAGE_COMPENSATION 12.0
 #define TURRET_VOLTAGE_COMPENSATION 8.0
 #define ELEVATOR_VOLTAGE_COMPENSATION 8.0
 #define ARM_VOLTAGE_COMPENSATION 8.0
@@ -84,7 +84,7 @@
 
 // #########################    SmartCurrentLimit    #########################
 
-#define DRIVETRAIN_CURRENT_LIMIT 40
+#define DRIVETRAIN_CURRENT_LIMIT 404
 #define TURRET_CURRENT_LIMIT 40
 #define ELEVATOR_CURRENT_LIMIT 40
 #define ARM_CURRENT_LIMIT 40

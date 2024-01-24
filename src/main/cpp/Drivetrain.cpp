@@ -80,6 +80,9 @@ Drivetrain::Drivetrain() : m_GearboxLeftOutAveragedRpt(AVERAGE_SAMPLES_NUMBER),
     m_MotorRight2.Follow(m_MotorRight1);
     m_MotorRight3.Follow(m_MotorRight1);
 
+    m_EncoderRight.SetDistancePerPulse(-1.0 / 2048.0); // 1 tour correspond à 2048 ticks
+    m_EncoderLeft.SetDistancePerPulse(1.0 / 2048.0);  // 1 tour correspond à 2048 ticks
+
 
     m_JoystickPrelimited_V.Reset(0.0, 0.0, 2.0); // reset des rate limiters
     m_JoystickLimited_V.Reset(0.0, 0.0, 0.04);   // 5

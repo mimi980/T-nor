@@ -13,6 +13,7 @@
 #include <fstream>
 #include <lib/Dynamic.h>
 #include "Constants.h"
+#include "frc/Encoder.h"
 
 #define VOLTAGE_REF 12.0    // tension de référence
 #define MOTOR_WF_RPM 6380.0 // Free Speed théorique du moteur à la tension de reference (12V)
@@ -120,7 +121,8 @@ public:
   double m_AL2;
   double m_AL3;
 
-
+  frc::Encoder m_EncoderRight{ID_ENCODER_DRIVE_TRAIN_RIGHT_A, ID_ENCODER_DRIVE_TRAIN_RIGHT_B, true};
+  frc::Encoder m_EncoderLeft{ID_ENCODER_DRIVE_TRAIN_LEFT_A, ID_ENCODER_DRIVE_TRAIN_LEFT_B, false};
 
 private:
   ctre::phoenix::motorcontrol::can::TalonFX m_MotorRight1{ID_MOTOR_DRIVE_TRAIN_RIGHT};

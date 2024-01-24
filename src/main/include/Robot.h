@@ -11,7 +11,9 @@
 #include "lib/NL/MotionControl/Trajectory/NLTrajectoryPack.h"
 #include <AHRS.h>
 #include <frc2/command/Command.h>
+#include "frc/Joystick.h"
 #include "Drivetrain.h"
+#include "iostream"
 
 
 class Robot : public frc::TimedRobot {
@@ -52,6 +54,8 @@ class Robot : public frc::TimedRobot {
   RobotContainer m_robotContainer;
   Drivetrain m_drivetrain;
   AHRS m_gyro{frc::SerialPort::Port::kUSB};
+  frc::Joystick m_joystickLeft {0};
+  frc::Joystick m_joystickRight{1};
 
 
 };
