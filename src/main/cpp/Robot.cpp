@@ -35,7 +35,7 @@ void Robot::AutonomousInit() {
   m_CrtzR.m_forwardIntercept = 0.4218986448873328f; // = m_intercept[0]
   m_CrtzR.m_backwardIntercept = -0.49001485320659466f;
 
-  m_TrajectoryPack.load("/home/lvuser/auto/trucV3.trk");
+  m_TrajectoryPack.load("/home/lvuser/auto/3600.trk");
 
   m_follower.initialize(&m_TrajectoryPack);
   m_state = Robot::STATE::PATH_FOLLOWING;
