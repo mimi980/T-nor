@@ -7,7 +7,6 @@
 #include <frc/PowerDistribution.h>
 #include <lib/NRollingAverage.h>
 #include <lib/rate_limiter.h>
-#include <lib/NLCsv.h>
 #include <frc/Compressor.h>
 #include <ostream>
 #include <fstream>
@@ -113,7 +112,7 @@ public:
 
   bool IsAuto;
   double m_sigma;
-  NLCSV m_logCSV{8}; // log csv
+  // NLCSV m_logCSV{8}; // log csv
   double m_AR1;
   double m_AR2;
   double m_AR3;

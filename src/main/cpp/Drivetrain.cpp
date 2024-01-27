@@ -94,14 +94,14 @@ Drivetrain::Drivetrain() : m_GearboxLeftOutAveragedRpt(AVERAGE_SAMPLES_NUMBER),
     m_State = State::lowGear;
     m_CurrentGearboxRatio = REDUC_V1;
 
-    m_logCSV.setItem(0, "AR1", 5, &m_AR1);
-    m_logCSV.setItem(1, "AR2", 5, &m_AR2);
-    m_logCSV.setItem(2, "AR3", 5, &m_AR3);
-    m_logCSV.setItem(3, "AL1", 5, &m_AL1);
-    m_logCSV.setItem(4, "AL2", 5, &m_AL2);
-    m_logCSV.setItem(5, "AL3", 5, &m_AL3);
-    m_logCSV.setItem(6, "SpeedRobot", 5, &m_GearboxesOutAdjustedRpm.m_current);
-    m_logCSV.setItem(7, "état", 5, &m_CurrentGearboxRatio);
+    // m_logCSV.setItem(0, "AR1", 5, &m_AR1);
+    // m_logCSV.setItem(1, "AR2", 5, &m_AR2);
+    // m_logCSV.setItem(2, "AR3", 5, &m_AR3);
+    // m_logCSV.setItem(3, "AL1", 5, &m_AL1);
+    // m_logCSV.setItem(4, "AL2", 5, &m_AL2);
+    // m_logCSV.setItem(5, "AL3", 5, &m_AL3);
+    // m_logCSV.setItem(6, "SpeedRobot", 5, &m_GearboxesOutAdjustedRpm.m_current);
+    // m_logCSV.setItem(7, "état", 5, &m_CurrentGearboxRatio);
 }
 
 void Drivetrain::Set(double v_motor) // set des moteurs
@@ -257,7 +257,7 @@ void Drivetrain::Drive(double joystick_V, double joystick_W,bool button_Past) //
     std::cout<<button_Past<<std::endl;  
     m_MotorLeft1.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, Calcul_De_Notre_Brave_JM(m_JoystickLimited_V.m_current, m_JoystickLimited_W.m_current, 0));
     m_MotorRight1.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, Calcul_De_Notre_Brave_JM(m_JoystickLimited_V.m_current, m_JoystickLimited_W.m_current, 1));
-    m_logCSV.write();
+    // m_logCSV.write();
 
     frc::SmartDashboard::PutNumber("m_JoystickPrelimited_V",    m_JoystickPrelimited_V.m_current);
     frc::SmartDashboard::PutNumber("m_JoystickLimited_V",       m_JoystickLimited_V.m_current);
