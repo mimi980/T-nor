@@ -9,8 +9,6 @@
 #include <frc/Joystick.h>
 #include "frc/smartdashboard/SmartDashboard.h"
 
-
-
 class Robot : public frc::TimedRobot {
  public:
   void RobotInit() override;
@@ -31,13 +29,19 @@ class Robot : public frc::TimedRobot {
   void SimulationInit() override;
   void SimulationPeriodic() override;
 
-  frc::Joystick m_joystickRight{0};
+  private:
+    frc::Joystick m_joystickRight{0};
   frc::Joystick m_joystickLeft{1};
 
-  ctre::phoenix::motorcontrol::can::TalonFX m_MotorLeft{1};
-  ctre::phoenix::motorcontrol::can::TalonFX m_MotorRight{2};
+  ctre::phoenix::motorcontrol::can::TalonFX m_MotorLeft{3};
+  ctre::phoenix::motorcontrol::can::TalonFX m_MotorRight{1};
 
-  double m_speed;
+  double m_percent;
+  double m_coeff_droit;
+  double m_coeff_gauche;
   double m_coeff;
+  double m_moteur;
+  bool m_sate;
+  
 
 };
