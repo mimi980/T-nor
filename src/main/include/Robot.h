@@ -41,7 +41,7 @@ class Robot : public frc::TimedRobot {
   double m_coeff_gauche;
   double m_coeff;
   double m_moteur;
-  bool m_sate;
+  double m_ecart;
   
 
 };

@@ -38,6 +38,7 @@ void Robot::TeleopInit() {
     m_MotorLeft.ConfigVoltageCompSaturation(12);
 
     m_MotorLeft.ConfigClosedloopRamp(0.5);
+    m_MotorRight.ConfigClosedloopRamp(0.5);
 
 
     // m_MotorLeft.Follow(m_MotorRight); 
@@ -46,6 +47,8 @@ void Robot::TeleopInit() {
     frc::SmartDashboard::PutNumber("coeff",0.1);
     frc::SmartDashboard::PutNumber("Percent",0.0);
     frc::SmartDashboard::PutNumber("speed",0.0);
+    frc::SmartDashboard::PutNumber("Pas",0.01);
+    frc::SmartDashboard::PutNumber("Ecart",0.0);
     m_coeff=0.6;
     
 
@@ -58,24 +61,19 @@ void Robot::TeleopPeriodic() {
   m_percent=m_joystickRight.GetY();
   frc::SmartDashboard::PutNumber("Percent",-m_percent);
   frc::SmartDashboard::PutNumber("speed",m_MotorLeft.GetSensorCollection().GetIntegratedSensorVelocity());
+  m_ecart=frc::SmartDashboard::GetNumber("Ecart",0.0);
+
 
   //m_coeff= (m_joystickRight.GetRawAxis(3) +1 )/2;
 
- if (m_joystickRight.GetRawButtonPressed(4) and m_sate == true)
+ if (m_joystickRight.GetRawButtonPressed(4))
  {
-  m_coeff+=0.01;
-  m_sate = false;
+  m_coeff+=frc::SmartDashboard::GetNumber("Pas",0.01);
  }
 
- else if (m_joystickRight.GetRawButtonPressed(3) and m_sate == true)
+ else if (m_joystickRight.GetRawButtonPressed(3))
  {
-  m_coeff-=0.01;
-  m_sate = false;
- }
- 
- if (m_joystickRight.GetRawButtonReleased(3) or m_joystickRight.GetRawButtonReleased(4))
- {
-  m_sate=true;
+  m_coeff-=frc::SmartDashboard::GetNumber("Pas",0.01);
  }
 
  if (m_joystickRight.GetRawButton(1)){
@@ -92,8 +90,8 @@ void Robot::TeleopPeriodic() {
   
   
   frc::SmartDashboard::PutNumber("coeff",m_coeff);
-  m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_moteur);
-  m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_moteur);
+  m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_moteur+(m_ecart/2));
+  m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_moteur-(m_ecart/2));
   
 
 
