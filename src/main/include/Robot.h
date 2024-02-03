@@ -5,6 +5,10 @@
 #pragma once
 
 #include <frc/TimedRobot.h>
+#include <ctre/Phoenix/motorcontrol/can/TalonFX.h>
+#include <rev/CANSparkMax.h>
+#include <frc/Joystick.h>
+#include "frc/smartdashboard/SmartDashboard.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -25,4 +29,5 @@ class Robot : public frc::TimedRobot {
 
   void SimulationInit() override;
   void SimulationPeriodic() override;
+
 };
