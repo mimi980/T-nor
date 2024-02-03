@@ -37,4 +37,8 @@ class Robot : public frc::TimedRobot {
 
   rev::CANSparkMax m_miniNeo{3, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
   frc::Joystick m_Jostick{0};
+
+  double m_speedShoot;
+  double m_speedAspiration;
+  double m_speedCatch;
 };
