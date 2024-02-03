@@ -30,4 +30,11 @@ class Robot : public frc::TimedRobot {
   void SimulationInit() override;
   void SimulationPeriodic() override;
 
+  private:
+
+  ctre::phoenix::motorcontrol::can::TalonFX m_MotorRight{1};
+  ctre::phoenix::motorcontrol::can::TalonFX m_MotorLeft{2};
+
+  rev::CANSparkMax m_miniNeo{3, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
+  frc::Joystick m_Jostick{0};
 };
