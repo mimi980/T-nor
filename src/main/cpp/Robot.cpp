@@ -16,8 +16,8 @@ void Robot::TeleopInit() {
     m_MotorRight.ConfigFactoryDefault();
 
 
-    m_MotorLeft.ConfigSupplyCurrentLimit(ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(true, 40, 40, 0)); 
-    m_MotorRight.ConfigSupplyCurrentLimit(ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(true, 40, 40, 0));
+    m_MotorLeft.ConfigSupplyCurrentLimit(ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(true, 45, 45, 0)); 
+    m_MotorRight.ConfigSupplyCurrentLimit(ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(true, 45, 45, 0));
 
     m_MotorRight.SetInverted(false);
     m_MotorLeft.SetInverted(false);
@@ -42,17 +42,18 @@ void Robot::TeleopInit() {
     
 
     frc::SmartDashboard::PutNumber("speedShooter",1.0);
-    frc::SmartDashboard::PutNumber("speedAspiration",-0.5);
+    frc::SmartDashboard::PutNumber("speedAspiration",-0.3);
     frc::SmartDashboard::PutNumber("speedCatch",1.0);
 
 }
 void Robot::TeleopPeriodic() {
 
   m_speedShoot=frc::SmartDashboard::GetNumber("speedShooter",1.0);
-  m_speedAspiration=frc::SmartDashboard::GetNumber("speedAspiration",-0.5);
+  m_speedAspiration=frc::SmartDashboard::GetNumber("speedAspiration",-0.3);
   m_speedCatch=frc::SmartDashboard::GetNumber("speedCatch",1.0);
 
-  double m_speedShoootR=m_speedShoot*6.0/8.0;
+
+  double m_speedShoootR=m_speedShoot*7.0/8.0;
 
 
  if (m_Jostick.GetRawButton(1)) //shoot
