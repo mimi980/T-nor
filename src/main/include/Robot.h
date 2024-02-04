@@ -41,4 +41,5 @@ class Robot : public frc::TimedRobot {
   double m_speedShoot;
   double m_speedAspiration;
   double m_speedCatch;
+  double m_encoder;
 };

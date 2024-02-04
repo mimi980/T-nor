@@ -16,8 +16,8 @@ void Robot::TeleopInit() {
     m_MotorRight.ConfigFactoryDefault();
 
 
-    m_MotorLeft.ConfigSupplyCurrentLimit(ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(true, 45, 45, 0)); 
-    m_MotorRight.ConfigSupplyCurrentLimit(ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(true, 45, 45, 0));
+    m_MotorLeft.ConfigSupplyCurrentLimit(ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(true, 40, 40, 0)); 
+    m_MotorRight.ConfigSupplyCurrentLimit(ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(true, 40, 40, 0));
 
     m_MotorRight.SetInverted(false);
     m_MotorLeft.SetInverted(false);
@@ -47,10 +47,12 @@ void Robot::TeleopInit() {
 
 }
 void Robot::TeleopPeriodic() {
+  m_encoder=m_MotorRight.GetSensorCollection().GetIntegratedSensorVelocity();
 
   m_speedShoot=frc::SmartDashboard::GetNumber("speedShooter",1.0);
   m_speedAspiration=frc::SmartDashboard::GetNumber("speedAspiration",-0.3);
   m_speedCatch=frc::SmartDashboard::GetNumber("speedCatch",1.0);
+  frc::SmartDashboard::PutNumber("vitesse",m_encoder);
 
 
   double m_speedShoootR=m_speedShoot*7.0/8.0;
