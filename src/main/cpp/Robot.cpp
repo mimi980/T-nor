@@ -10,8 +10,17 @@ void Robot::RobotPeriodic() {}
 void Robot::AutonomousInit() {}
 void Robot::AutonomousPeriodic() {}
 
-void Robot::TeleopInit() {}
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopInit() {
+  m_Gros.RestoreFactoryDefaults();
+  m_Gros.SetSmartCurrentLimit(40);
+  m_Gros.EnableVoltageCompensation(12);
+  m_Gros.SetInverted(true);
+  m_Gros.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+}
+void Robot::TeleopPeriodic() 
+{
+  m_Gros.Set(m_Joystick.GetY());
+}
 
 void Robot::DisabledInit() {}
 void Robot::DisabledPeriodic() {}
