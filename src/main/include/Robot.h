@@ -5,8 +5,9 @@
 #pragma once
 
 #include <frc/TimedRobot.h>
-#include <ctre/Phoenix/motorcontrol/can/TalonFX.h>
 #include <frc/Joystick.h>
+#include <frc/DigitalInput.h>
+#include <ctre/Phoenix/motorcontrol/can/WPI_VictorSPX.h>
 #include "frc/smartdashboard/SmartDashboard.h"
 
 class Robot : public frc::TimedRobot {
@@ -31,17 +32,15 @@ class Robot : public frc::TimedRobot {
 
   private:
     frc::Joystick m_joystickRight{0};
-  frc::Joystick m_joystickLeft{1};
+    frc::Joystick m_joystickLeft{1};
 
-  ctre::phoenix::motorcontrol::can::TalonFX m_MotorLeft{3};
-  ctre::phoenix::motorcontrol::can::TalonFX m_MotorRight{1};
+    frc::DigitalInput m_infraSensor{0};
 
-  double m_percent;
-  double m_coeff_droit;
-  double m_coeff_gauche;
+    ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motor775{1};
+
+  int m_state;
   double m_coeff;
-  double m_moteur;
-  double m_ecart;
+  double m_timer;
   
 
 };

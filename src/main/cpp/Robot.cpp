@@ -3,8 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "Robot.h"
-#include <ctre/Phoenix/motorcontrol/can/TalonFX.h>
-#include <frc/Joystick.h>
+#include <time.h>
 
 void Robot::RobotInit() {}
 void Robot::RobotPeriodic() {
@@ -16,85 +15,70 @@ void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
 
-    m_MotorLeft.ConfigFactoryDefault(); 
-    m_MotorRight.ConfigFactoryDefault();
+    m_motor775.ConfigFactoryDefault(); 
 
+    m_motor775.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake); 
 
-    m_MotorLeft.ConfigSupplyCurrentLimit(ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(true, 40, 40, 0)); 
-    m_MotorRight.ConfigSupplyCurrentLimit(ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(true, 40, 40, 0));
+    m_motor775.EnableVoltageCompensation(true);
+    m_motor775.ConfigVoltageCompSaturation(12); 
 
-    m_MotorRight.SetInverted(true);
-    m_MotorLeft.SetInverted(false);
+    m_motor775.ConfigClosedloopRamp(0.5);
 
-
-    m_MotorLeft.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake); 
-    m_MotorRight.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
-
-    m_MotorLeft.EnableVoltageCompensation(true);
-    m_MotorRight.EnableVoltageCompensation(true);
-
-
-    m_MotorRight.ConfigVoltageCompSaturation(12); 
-    m_MotorLeft.ConfigVoltageCompSaturation(12);
-
-    m_MotorLeft.ConfigClosedloopRamp(0.5);
-    m_MotorRight.ConfigClosedloopRamp(0.5);
-
-
-    // m_MotorLeft.Follow(m_MotorRight); 
-    //frc::SmartDashboard::PutNumber("coeff droit",0.1);
-    //frc::SmartDashboard::PutNumber("coeff gauche",0.1);
-    frc::SmartDashboard::PutNumber("coeff",0.1);
-    frc::SmartDashboard::PutNumber("Percent",0.0);
-    frc::SmartDashboard::PutNumber("speed",0.0);
-    frc::SmartDashboard::PutNumber("Pas",0.01);
-    frc::SmartDashboard::PutNumber("Ecart",0.0);
-    m_coeff=0.6;
-    
-
-    
+    m_state = 0;
 
 }
 void Robot::TeleopPeriodic() {
-
   
-  m_percent=m_joystickRight.GetY();
-  frc::SmartDashboard::PutNumber("Percent",-m_percent);
-  frc::SmartDashboard::PutNumber("speed",m_MotorLeft.GetSensorCollection().GetIntegratedSensorVelocity());
-  m_ecart=frc::SmartDashboard::GetNumber("Ecart",0.0);
+frc::SmartDashboard::PutBoolean("Sensor", m_infraSensor.Get());
+frc::SmartDashboard::PutNumber("Coeff",m_coeff);
 
+switch (m_state) {
+  default: //
 
-  //m_coeff= (m_joystickRight.GetRawAxis(3) +1 )/2;
+    if (m_joystickRight.GetRawButton(1))
+    {
+      m_coeff=0.2;
+      frc::SmartDashboard::PutBoolean("Trigger",true);
 
- if (m_joystickRight.GetRawButtonPressed(4))
- {
-  m_coeff+=frc::SmartDashboard::GetNumber("Pas",0.01);
- }
+      if (not m_infraSensor.Get())
+      {
+        m_state = 1;
+      }
+    }
 
- else if (m_joystickRight.GetRawButtonPressed(3))
- {
-  m_coeff-=frc::SmartDashboard::GetNumber("Pas",0.01);
- }
+    else 
+    {
+      m_coeff=0.0;
+      frc::SmartDashboard::PutBoolean("Trigger",false);
+    }
 
- if (m_joystickRight.GetRawButton(1)){
-    //m_coeff_droit=frc::SmartDashboard::GetNumber("coeff droit",0.1);
-    //m_coeff_gauche=frc::SmartDashboard::GetNumber("coeff gauche",0.1);
-    m_moteur=m_coeff;
- }
+  break;
 
- else{
-  m_coeff_droit=0.0;
-  m_coeff_gauche=0.0;
-  m_moteur=0.0;
- }
-  
-  
-  frc::SmartDashboard::PutNumber("coeff",m_coeff);
-  m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_moteur+(m_ecart/2));
-  m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_moteur-(m_ecart/2));
-  
+  case 1 :
+  m_timer = 400;
+  m_state ++;
 
+  break;
 
+  case 2://freinage
+    m_timer -=1; 
+    if (m_timer<=0)
+    {
+      m_coeff=0.0;
+      m_state ++;
+    }
+  break;
+
+  case 3:
+    if (m_joystickRight.GetRawButton(1))
+    {
+      m_coeff=1.0;
+      m_state ++;
+    }
+  break;
+}
+
+m_motor775.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_coeff);
 
 }
 
