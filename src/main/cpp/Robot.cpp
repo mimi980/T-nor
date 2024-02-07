@@ -6,9 +6,7 @@
 #include <time.h>
 
 void Robot::RobotInit() {}
-void Robot::RobotPeriodic() {
-
-}
+void Robot::RobotPeriodic() {}
 
 void Robot::AutonomousInit() {}
 void Robot::AutonomousPeriodic() {}
@@ -33,7 +31,7 @@ frc::SmartDashboard::PutBoolean("Sensor", m_infraSensor.Get());
 frc::SmartDashboard::PutNumber("Coeff",m_coeff);
 
 switch (m_state) {
-  default: //
+  case 0:
 
     if (m_joystickRight.GetRawButton(1))
     {
@@ -54,13 +52,13 @@ switch (m_state) {
 
   break;
 
-  case 1 :
-  m_timer = 400;
+  case 1 ://initialisation timmer
+  m_timer = 25;
   m_state ++;
 
   break;
 
-  case 2://freinage
+  case 2://freinage, la note avance encore un peu après avoir été captée
     m_timer -=1; 
     if (m_timer<=0)
     {
@@ -69,11 +67,18 @@ switch (m_state) {
     }
   break;
 
-  case 3:
+  case 3://shoot
     if (m_joystickRight.GetRawButton(1))
     {
       m_coeff=1.0;
+      m_timer=25;
       m_state ++;
+    }
+
+  case 4 ://delai pour que la note ait le temps de sortir de l'intake
+    if (m_timer<=0)
+    {
+      m_state=0;
     }
   break;
 }
