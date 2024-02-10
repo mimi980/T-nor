@@ -26,57 +26,68 @@ void Robot::TeleopInit() {
 
 }
 void Robot::TeleopPeriodic() {
-  
+
 frc::SmartDashboard::PutBoolean("Sensor", m_infraSensor.Get());
 frc::SmartDashboard::PutNumber("Coeff",m_coeff);
 
 switch (m_state) {
-  case 0:
+  case 0 : //motor_off
+
+    m_coeff = 0;
 
     if (m_joystickRight.GetRawButton(1))
     {
-      m_coeff=0.2;
-      frc::SmartDashboard::PutBoolean("Trigger",true);
+      m_state ++;
+    }
+  break;
 
-      if (not m_infraSensor.Get())
+  case 1 ://motor_on
+
+    m_coeff = -0.3;
+
+    if (!m_joystickRight.GetRawButton(1))
+    {
+      m_state =0;
+    }
+
+    if (!m_infraSensor.Get())
+    {
+      m_state ++;
+      m_timer = 4;
+    }
+
+  break;
+
+  case 2://detected_stop
+
+    m_timer --;
+
+    if (m_timer<=0)
+    {
+      m_coeff=0.0;
+
+      if (!m_joystickRight.GetRawButton(1))
       {
-        m_state = 1;
+        m_state ++;
       }
     }
-
-    else 
-    {
-      m_coeff=0.0;
-      frc::SmartDashboard::PutBoolean("Trigger",false);
-    }
+   
 
   break;
 
-  case 1 ://initialisation timmer
-  m_timer = 25;
-  m_state ++;
-
-  break;
-
-  case 2://freinage, la note avance encore un peu après avoir été captée
-    m_timer -=1; 
-    if (m_timer<=0)
-    {
-      m_coeff=0.0;
-      m_state ++;
-    }
-  break;
-
-  case 3://shoot
+  case 3://wait_for_pressed
+  
     if (m_joystickRight.GetRawButton(1))
     {
-      m_coeff=1.0;
-      m_timer=25;
       m_state ++;
     }
+  break;
 
-  case 4 ://delai pour que la note ait le temps de sortir de l'intake
-    if (m_timer<=0)
+  case 4 ://motor_on_delay
+
+    m_coeff = -0.6;
+
+    if (!m_joystickRight.GetRawButton(1))
     {
       m_state=0;
     }
