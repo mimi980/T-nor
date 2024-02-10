@@ -30,7 +30,20 @@ class Robot : public frc::TimedRobot {
   void SimulationInit() override;
   void SimulationPeriodic() override;
 
-  private:
+  enum class State 
+  { 
+    off,
+    take,
+    detected_forward,
+    not_detected_backward,
+    detected_stop,
+    wait,
+    stop,
+    shoot
+  };
+
+  State m_state;
+
     frc::Joystick m_joystickRight{0};
     frc::Joystick m_joystickLeft{1};
 
@@ -38,7 +51,6 @@ class Robot : public frc::TimedRobot {
 
     ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motor775{1};
 
-  int m_state;
   double m_coeff;
   double m_timer;
   
