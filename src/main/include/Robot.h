@@ -34,8 +34,7 @@ class Robot : public frc::TimedRobot {
 
   ctre::phoenix::motorcontrol::can::TalonFX m_MotorRight{1};
   ctre::phoenix::motorcontrol::can::TalonFX m_MotorLeft{2};
-
-  rev::CANSparkMax m_miniNeo{3, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
+  ctre::phoenix::motorcontrol::can::TalonFX m_miniNeo{3};
   frc::Joystick m_Jostick{0};
 
   double m_speedShoot;
