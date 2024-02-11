@@ -41,4 +41,14 @@ class Robot : public frc::TimedRobot {
   double m_speedAspiration;
   double m_speedCatch;
   double m_encoder;
+  int m_count;
+
+  enum State{
+    Aspiration,
+    Acceleration,
+    Shoot,
+    End
+  };
+
+  State m_state;
 };
