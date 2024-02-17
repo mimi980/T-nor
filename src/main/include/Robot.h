@@ -1,13 +1,6 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
-#pragma once
-
 #include <frc/TimedRobot.h>
+#include <ctre/Phoenix/motorcontrol/can/TalonFX.h>
 #include <frc/Joystick.h>
-#include <frc/DigitalInput.h>
-#include <ctre/Phoenix/motorcontrol/can/WPI_VictorSPX.h>
 #include "frc/smartdashboard/SmartDashboard.h"
 
 class Robot : public frc::TimedRobot {
@@ -30,29 +23,11 @@ class Robot : public frc::TimedRobot {
   void SimulationInit() override;
   void SimulationPeriodic() override;
 
-  enum class State 
-  { 
-    off,
-    take,
-    detected_forward,
-    not_detected_backward,
-    detected_stop,
-    wait,
-    stop,
-    shoot
-  };
+  private:
+  frc::Joystick m_joystickRight{0};
+  frc::Joystick m_joystickLeft{1};
 
-  State m_state;
-
-    frc::Joystick m_joystickRight{0};
-    frc::Joystick m_joystickLeft{1};
-
-    frc::DigitalInput m_infraSensor{0};
-
-    ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_motor775{1};
+  ctre::phoenix::motorcontrol::can::TalonFX m_Motor{1};
 
   double m_coeff;
-  double m_timer;
-  
-
 };

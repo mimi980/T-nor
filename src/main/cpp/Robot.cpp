@@ -13,99 +13,17 @@ void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
 
-    m_motor775.ConfigFactoryDefault(); 
-
-    m_motor775.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake); 
-
-    m_motor775.EnableVoltageCompensation(true);
-    m_motor775.ConfigVoltageCompSaturation(12); 
-
-    m_motor775.ConfigClosedloopRamp(0.5);
-
-    m_state = State::off;
+  m_Motor.ConfigFactoryDefault();
+  m_Motor.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
+  m_Motor.EnableVoltageCompensation(true);
+  m_Motor.ConfigVoltageCompSaturation(12);
+  m_Motor.ConfigClosedloopRamp(0.5);
 
 }
 void Robot::TeleopPeriodic() {
 
-frc::SmartDashboard::PutBoolean("Sensor", m_infraSensor.Get());
-frc::SmartDashboard::PutNumber("Coeff",m_coeff);
-
-switch (m_state) {
-  case State::off : //motor_off
-
-    m_coeff = 0;
-
-    if (m_joystickRight.GetRawButton(1))
-    {
-      m_state = State::take;
-    }
-  break;
-
-  case State::take ://motor_on
-
-    m_coeff = -0.3;
-
-    if (!m_joystickRight.GetRawButton(1))
-    {
-      m_state = State::off;
-    }
-
-    if (!m_infraSensor.Get())
-    {
-      m_state = State::detected_forward;
-    }
-
-  break;
-
-  case State::detected_forward:
-    if (m_infraSensor.Get())
-    {
-      m_state = State::not_detected_backward;
-    }
-
-  break;
-
-  case State::not_detected_backward:
-
-        m_coeff = 0.1;
-
-        if (!m_infraSensor.Get())
-        {
-          m_state = State::detected_stop;
-        }
-
-  break;
-
-  case State::detected_stop:
-
-    m_coeff = 0.0;
-    if (!m_joystickRight.GetRawButton(1))
-    {
-      m_state = State::wait;
-    }
-
-  break;
-
-  case State::wait://wait_for_pressed
-  
-    if (m_joystickRight.GetRawButton(1))
-    {
-      m_state = State::shoot;
-    }
-  break;
-
-  case State::shoot ://motor_on_delay
-
-    m_coeff = -0.6;
-
-    if (!m_joystickRight.GetRawButton(1))
-    {
-      m_state=State::off;
-    }
-  break;
-}
-
-m_motor775.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_coeff);
+m_coeff = m_joystickRight.GetRawAxis(0)*0.8;
+m_Motor.Set(ctre::phoenix::motorcontrol::TalonFXControlMode::PercentOutput,m_coeff);
 
 }
 
