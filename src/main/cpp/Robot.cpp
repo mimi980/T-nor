@@ -19,11 +19,15 @@ void Robot::TeleopInit() {
   m_Motor.ConfigVoltageCompSaturation(12);
   m_Motor.ConfigClosedloopRamp(0.5);
 
+  frc::SmartDashboard::PutNumber("Coeff",0.0);
+
 }
 void Robot::TeleopPeriodic() {
 
 m_coeff = m_joystickRight.GetRawAxis(0)*0.8;
 m_Motor.Set(ctre::phoenix::motorcontrol::TalonFXControlMode::PercentOutput,m_coeff);
+
+frc::SmartDashboard::PutNumber("Coeff", m_coeff);
 
 }
 
