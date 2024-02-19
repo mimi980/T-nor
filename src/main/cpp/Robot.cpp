@@ -21,8 +21,8 @@ void Robot::TeleopInit() {
     m_MotorRight.ConfigSupplyCurrentLimit(ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(true, 40, 40, 0));
     m_miniNeo.ConfigSupplyCurrentLimit(ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(true, 40, 40, 0));
 
-    m_MotorRight.SetInverted(false);
-    m_MotorLeft.SetInverted(false);
+    m_MotorRight.SetInverted(true);
+    m_MotorLeft.SetInverted(true);
     m_miniNeo.SetInverted(false);
 
 
@@ -41,7 +41,6 @@ void Robot::TeleopInit() {
     m_miniNeo.ConfigClosedloopRamp(0.1);
 
 
-
     m_MotorRight.ConfigVoltageCompSaturation(12); 
     m_MotorLeft.ConfigVoltageCompSaturation(12);
     m_miniNeo.ConfigVoltageCompSaturation(12);
@@ -49,8 +48,8 @@ void Robot::TeleopInit() {
 
     
 
-    frc::SmartDashboard::PutNumber("speedShooter",0.2);
-    frc::SmartDashboard::PutNumber("speedAspiration",-0.3);
+    frc::SmartDashboard::PutNumber("speedShooter",0.4);
+    frc::SmartDashboard::PutNumber("speedAspiration",-0.2);
     frc::SmartDashboard::PutNumber("speedCatch",0.25);
 
     m_count = 0;
@@ -60,81 +59,81 @@ void Robot::TeleopInit() {
 void Robot::TeleopPeriodic() {
   m_encoder=m_MotorRight.GetSensorCollection().GetIntegratedSensorVelocity();
 
-  m_speedShoot=frc::SmartDashboard::GetNumber("speedShooter",0.2);
-  m_speedAspiration=frc::SmartDashboard::GetNumber("speedAspiration",-0.3);
+  m_speedShoot=frc::SmartDashboard::GetNumber("speedShooter",0.4);
+  m_speedAspiration=frc::SmartDashboard::GetNumber("speedAspiration",-0.2);
   m_speedCatch=frc::SmartDashboard::GetNumber("speedCatch",0.25);
   frc::SmartDashboard::PutNumber("vitesse",m_encoder);
 
 
 
 
-//  if (m_Jostick.GetRawButton(1)) //shoot
-//     {
-//       m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedShoot);
-//       m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedShoot);
-//       if (m_Jostick.GetRawButton(2))
-//       {
-//         m_miniNeo.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedCatch);
-//       }
-//     }
-//   else if (m_Jostick.GetRawButton(3)) //aspiration
-//   {
-//     m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedAspiration);
-//     m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedAspiration);
-//     m_miniNeo.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedAspiration);
-//   }
-//   else
-//   {
-
-//     m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,0.0);
-//     m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,0.0);
-//     m_miniNeo.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,0.0);
-//   }
-  
-  if (m_Jostick.GetRawButtonPressed(1))
-  {
-    m_state=State::Aspiration;
-    m_count=0;
-  }
-    m_count++;
-    switch (m_state)
+ if (m_Jostick.GetRawButton(1)) //shoot
     {
-    case State::Aspiration:
-      m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedAspiration);
-      m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedAspiration);
-      m_miniNeo.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedAspiration);
-      if (m_count>15)
+      m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedShoot);
+      m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedShoot);
+      if (m_Jostick.GetRawButton(2))
       {
-        m_count=0;
-        m_miniNeo.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,0.0);
-        m_state=State::Acceleration;
+        m_miniNeo.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedCatch);
       }
-      break;
-    case State::Acceleration:
-     m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedShoot);
-     m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedShoot);  
-      if (m_count>30)
-      {
-        m_count=0;
-        m_state=State::Shoot;
-      }
-      break;
-    case State::Shoot:
-      m_miniNeo.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedCatch);
-      if(m_count>10)
-      {
-        m_count=0;
-        m_state=State::End;
-      }
-      break;
-    case State::End:
-      m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,0.0);
-      m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,0.0);
-      m_miniNeo.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,0.0);
-    
-    default:
-      break;
     }
+  else if (m_Jostick.GetRawButton(3)) //aspiration
+  {
+    m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedAspiration);
+    m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedAspiration);
+    m_miniNeo.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedAspiration);
+  }
+  else
+  {
+
+    m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,0.0);
+    m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,0.0);
+    m_miniNeo.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,0.0);
+  }
+  
+  // if (m_Jostick.GetRawButtonPressed(1))
+  // {
+  //   m_state=State::Aspiration;
+  //   m_count=0;
+  // }
+  //   m_count++;
+  //   switch (m_state)
+  //   {
+  //   case State::Aspiration:
+  //     m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedAspiration);
+  //     m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedAspiration);
+  //     m_miniNeo.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedAspiration);
+  //     if (m_count>15)
+  //     {
+  //       m_count=0;
+  //       m_miniNeo.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,0.0);
+  //       m_state=State::Acceleration;
+  //     }
+  //     break;
+  //   case State::Acceleration:
+  //    m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedShoot);
+  //    m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedShoot);  
+  //     if (m_count>30)
+  //     {
+  //       m_count=0;
+  //       m_state=State::Shoot;
+  //     }
+  //     break;
+  //   case State::Shoot:
+  //     m_miniNeo.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedCatch);
+  //     if(m_count>10)
+  //     {
+  //       m_count=0;
+  //       m_state=State::End;
+  //     }
+  //     break;
+  //   case State::End:
+  //     m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,0.0);
+  //     m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,0.0);
+  //     m_miniNeo.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,0.0);
+    
+  //   default:
+  //     break;
+  //   }
     
 
 
