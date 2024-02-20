@@ -3,7 +3,7 @@
 #include <frc2/command/SubsystemBase.h>
 #include <frc/Encoder.h>
 #include <frc/Doublesolenoid.h>
-#include <ctre/Phoenix/motorcontrol/can/TalonFX.h>
+#include "rev/CANSparkMax.h"
 #include <frc/PowerDistribution.h>
 #include <lib/NRollingAverage.h>
 #include <lib/rate_limiter.h>
@@ -15,13 +15,13 @@
 #include "Constants.h"
 
 #define VOLTAGE_REF 12.0    // tension de référence
-#define MOTOR_WF_RPM 6380.0 // Free Speed théorique du moteur à la tension de reference (12V)
-#define MOTOR_TS_NM 4.69    // Stall Torque théorique du moteur à la tension de reference (12V)
+#define MOTOR_WF_RPM 5874.0 // Free Speed théorique du moteur à la tension de reference (12V)
+#define MOTOR_TS_NM 3.35    // Stall Torque théorique du moteur à la tension de reference (12V)
 
-#define REDUC_V1 12.6
-#define REDUC_V2 8.0
+#define REDUC_V1 9.88
+#define REDUC_V2 5.98
 
-#define TRUST_GEARBOX_OUT_ENCODER 0.0
+#define TRUST_GEARBOX_OUT_ENCODER 1.0
 #define TURNING_TOLERANCE 0.05
 
 #define UP_SHIFTING_POINT_JOYSTICK_V 0.8                              // Valeur minimum du joystick V pour passer en vitesse 2
@@ -40,7 +40,7 @@
 #define RESIST_TORQUE_NM 1.1553 // Valeur obtenue par test
 #define MAXSWITCHTIMELOCK 0.5   // temps max pour le switch de vitesse
 
-#define AXLETRACK 0.5098 // distance entre les roues
+#define AXLETRACK 0.5722 // distance entre les roues
 #define HALF_TRACKWIDTH (AXLETRACK / 2.0)
 
 #define TICK_DT 0.02             // durée d'un tick en seconde
@@ -121,15 +121,17 @@ public:
   double m_AL3;
 
 
+  frc::Encoder m_EncoderRight{ID_ENCODER_DRIVE_TRAIN_RIGHT_A, ID_ENCODER_DRIVE_TRAIN_RIGHT_B, true};
+  frc::Encoder m_EncoderLeft{ID_ENCODER_DRIVE_TRAIN_LEFT_A, ID_ENCODER_DRIVE_TRAIN_LEFT_B, false};
+
 
 private:
-  ctre::phoenix::motorcontrol::can::TalonFX m_MotorRight1{ID_MOTOR_DRIVE_TRAIN_RIGHT};
-  ctre::phoenix::motorcontrol::can::TalonFX m_MotorRight2{ID_MOTOR_DRIVE_TRAIN_RIGHT_2};
-  ctre::phoenix::motorcontrol::can::TalonFX m_MotorRight3{ID_MOTOR_DRIVE_TRAIN_RIGHT_3};
+  rev::CANSparkMax m_MotorRight1{ID_MOTOR_DRIVE_TRAIN_RIGHT,rev::CANSparkLowLevel::MotorType::kBrushless};
+  rev::CANSparkMax m_MotorRight2{ID_MOTOR_DRIVE_TRAIN_RIGHT_2,rev::CANSparkLowLevel::MotorType::kBrushless};
+  rev::CANSparkMax m_MotorLeft1{ID_MOTOR_DRIVE_TRAIN_LEFT,rev::CANSparkLowLevel::MotorType::kBrushless};
+  rev::CANSparkMax m_MotorLeft2{ID_MOTOR_DRIVE_TRAIN_LEFT_2,rev::CANSparkLowLevel::MotorType::kBrushless};
 
-  ctre::phoenix::motorcontrol::can::TalonFX m_MotorLeft1{ID_MOTOR_DRIVE_TRAIN_LEFT};
-  ctre::phoenix::motorcontrol::can::TalonFX m_MotorLeft2{ID_MOTOR_DRIVE_TRAIN_LEFT_2};
-  ctre::phoenix::motorcontrol::can::TalonFX m_MotorLeft3{ID_MOTOR_DRIVE_TRAIN_LEFT_3};
 
-  frc::DoubleSolenoid m_BallShifterSolenoidLeft{frc::PneumaticsModuleType::REVPH, ID_SOLENOID_SHIFTER_A, ID_SOLENOID_SHIFTER_B};
+
+  frc::DoubleSolenoid m_BallShifterSolenoid{frc::PneumaticsModuleType::REVPH, ID_SOLENOID_SHIFTER_A, ID_SOLENOID_SHIFTER_B};
 };
