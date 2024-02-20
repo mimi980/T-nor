@@ -32,8 +32,8 @@
 #define ID_MOTOR_CONVEYOR 13
 
 // #########################    ID Solenoid    #########################
-#define ID_SOLENOID_SHIFTER_A 15
-#define ID_SOLENOID_SHIFTER_B 14
+#define ID_SOLENOID_SHIFTER_A 8
+#define ID_SOLENOID_SHIFTER_B 9
 #define ID_SOLENOID_INTAKE_A 3
 #define ID_SOLENOID_INTAKE_B 2
 
