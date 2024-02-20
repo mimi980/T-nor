@@ -16,11 +16,11 @@
 
 // #########################    ID Motor    #########################
 
-#define ID_MOTOR_DRIVE_TRAIN_RIGHT 1
-#define ID_MOTOR_DRIVE_TRAIN_RIGHT_2 2
-#define ID_MOTOR_DRIVE_TRAIN_RIGHT_3 3
-#define ID_MOTOR_DRIVE_TRAIN_LEFT 4
-#define ID_MOTOR_DRIVE_TRAIN_LEFT_2 5
+#define ID_MOTOR_DRIVE_TRAIN_RIGHT 2
+#define ID_MOTOR_DRIVE_TRAIN_RIGHT_2 1
+#define ID_MOTOR_DRIVE_TRAIN_RIGHT_3 5
+#define ID_MOTOR_DRIVE_TRAIN_LEFT 3
+#define ID_MOTOR_DRIVE_TRAIN_LEFT_2 4
 #define ID_MOTOR_DRIVE_TRAIN_LEFT_3 6
 
 #define ID_MOTOR_TURRET 7
@@ -32,8 +32,8 @@
 #define ID_MOTOR_CONVEYOR 13
 
 // #########################    ID Solenoid    #########################
-#define ID_SOLENOID_SHIFTER_A 0
-#define ID_SOLENOID_SHIFTER_B 1
+#define ID_SOLENOID_SHIFTER_A 15
+#define ID_SOLENOID_SHIFTER_B 14
 #define ID_SOLENOID_INTAKE_A 3
 #define ID_SOLENOID_INTAKE_B 2
 

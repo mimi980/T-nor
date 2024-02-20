@@ -17,6 +17,8 @@ void Robot::TeleopInit() {
   }
 void Robot::TeleopPeriodic() {
   m_drivetrain.Drive(-m_joystickLeft.GetY(),m_joystickRight.GetZ(),m_joystickRight.GetRawButton(1));
+  // m_drivetrain.Set(-m_joystickLeft.GetY());
+
 }
 
 void Robot::DisabledInit() {
