@@ -131,5 +131,5 @@ private:
   rev::CANSparkMax m_MotorLeft1{ID_MOTOR_DRIVE_TRAIN_LEFT,rev::CANSparkLowLevel::MotorType::kBrushless};
   rev::CANSparkMax m_MotorLeft2{ID_MOTOR_DRIVE_TRAIN_LEFT_2,rev::CANSparkLowLevel::MotorType::kBrushless};
 
-  frc::DoubleSolenoid m_BallShifterSolenoid{frc::PneumaticsModuleType::REVPH, ID_SOLENOID_SHIFTER_A, ID_SOLENOID_SHIFTER_B};
+  frc::DoubleSolenoid m_BallShifterSolenoid{frc::PneumaticsModuleType::CTREPCM, ID_SOLENOID_SHIFTER_A, ID_SOLENOID_SHIFTER_B};
 };
