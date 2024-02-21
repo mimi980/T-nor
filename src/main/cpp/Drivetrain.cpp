@@ -178,8 +178,8 @@ void Drivetrain::Drive(double joystick_V, double joystick_W,bool button_Past) //
     // Il faut donc les convertir en RPM ( * (60/TICK_DT) ).
     // Les m_SuperMotorLeftRpm et m_SuperMotorRightRpm sont les valeurs avant réduction, il faut appliquer le facteur de réduction de boite enclenché
     // pour obtenir une valeur RPM "sortie de boite" (m_CurrentGearboxReductionFactor)
-    m_GearboxRightOutAdjustedRpm = (m_GearboxRightOutAveragedRpt.get() * (60 / TICK_DT) * TRUST_GEARBOX_OUT_ENCODER + (m_SuperMotorRightAveragedRpm.get() / m_CurrentGearboxRatio) * (1 - TRUST_GEARBOX_OUT_ENCODER));
-    m_GearboxLeftOutAdjustedRpm = (m_GearboxLeftOutAveragedRpt.get() * (60 / TICK_DT) * TRUST_GEARBOX_OUT_ENCODER + (m_SuperMotorLeftAveragedRpm.get() / m_CurrentGearboxRatio) * (1 - TRUST_GEARBOX_OUT_ENCODER));
+    m_GearboxRightOutAdjustedRpm = (m_GearboxRightOutAveragedRpt.get() * (60 / TICK_DT) * TRUST_GEARBOX_OUT_ENCODER );
+    m_GearboxLeftOutAdjustedRpm = (m_GearboxLeftOutAveragedRpt.get() * (60 / TICK_DT) * TRUST_GEARBOX_OUT_ENCODER);
 
     m_GearboxesOutAdjustedRpm.set((m_GearboxRightOutAdjustedRpm + m_GearboxLeftOutAdjustedRpm) / 2.0);
     m_GearboxesOutAveragedAccelerationRpm2.add(m_GearboxesOutAdjustedRpm.m_delta);
