@@ -64,10 +64,15 @@ Drivetrain::Drivetrain() : m_GearboxLeftOutAveragedRpt(AVERAGE_SAMPLES_NUMBER),
 
 
     m_JoystickPrelimited_V.Reset(0.0, 0.0, 2.0); // reset des rate limiters
-    m_JoystickLimited_V.Reset(0.0, 0.0, 0.04);   // 5
+    m_JoystickLimited_V.Reset(0.0, 0.0, 0.035);   // 0.04
 
     m_JoystickPrelimited_W.Reset(0.0, 0.0, 2.0);
-    m_JoystickLimited_W.Reset(0.0, 0.0, 0.05); // 5
+    m_JoystickLimited_W.Reset(0.0, 0.0, 0.04); // 0.05
+
+    m_EncoderLeft.SetDistancePerPulse(1.0/2048.0);
+    m_EncoderRight.SetDistancePerPulse(1.0/2048.0);
+
+    
 
     ActiveBallShifterV1();
     m_State = State::lowGear;
