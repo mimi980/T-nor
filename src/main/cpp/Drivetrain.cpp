@@ -37,7 +37,6 @@ Drivetrain::Drivetrain() : m_GearboxLeftOutAveragedRpt(AVERAGE_SAMPLES_NUMBER),
 
     m_MotorRight1.SetSmartCurrentLimit(40);
     m_MotorRight2.SetSmartCurrentLimit(40);
-    
 
     m_MotorLeft1.SetInverted(false); // inversion des moteurs
     m_MotorLeft2.SetInverted(false);
@@ -51,7 +50,6 @@ Drivetrain::Drivetrain() : m_GearboxLeftOutAveragedRpt(AVERAGE_SAMPLES_NUMBER),
     m_MotorRight1.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
     m_MotorRight2.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 
-
     m_MotorLeft1.EnableVoltageCompensation(DRIVETRAIN_VOLTAGE_COMPENSATION);
     m_MotorLeft2.EnableVoltageCompensation(DRIVETRAIN_VOLTAGE_COMPENSATION);
 
@@ -62,17 +60,14 @@ Drivetrain::Drivetrain() : m_GearboxLeftOutAveragedRpt(AVERAGE_SAMPLES_NUMBER),
 
     m_MotorRight2.Follow(m_MotorRight1);
 
-
     m_JoystickPrelimited_V.Reset(0.0, 0.0, 2.0); // reset des rate limiters
-    m_JoystickLimited_V.Reset(0.0, 0.0, 0.035);   // 0.04
+    m_JoystickLimited_V.Reset(0.0, 0.0, 0.035);  // 0.04
 
     m_JoystickPrelimited_W.Reset(0.0, 0.0, 2.0);
     m_JoystickLimited_W.Reset(0.0, 0.0, 0.04); // 0.05
 
-    m_EncoderLeft.SetDistancePerPulse(1.0/2048.0);
-    m_EncoderRight.SetDistancePerPulse(1.0/2048.0);
-
-    
+    m_EncoderLeft.SetDistancePerPulse(1.0 / 2048.0);
+    m_EncoderRight.SetDistancePerPulse(1.0 / 2048.0);
 
     ActiveBallShifterV1();
     m_State = State::lowGear;
@@ -102,7 +97,7 @@ void Drivetrain::ActiveBallShifterV1() // active ball shifter V1
 void Drivetrain::ActiveBallShifterV2() // active ball shifter V2
 {
     m_BallShifterSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
-    std::cout<<"V2222"<<std::endl;
+    std::cout << "V2222" << std::endl;
 }
 
 double Drivetrain::Calcul_De_Notre_Brave_JM(double forward, double turn, bool wheelSide) // calcule la vitesse des roues
@@ -125,28 +120,29 @@ double Drivetrain::Calcul_De_Notre_Brave_JM(double forward, double turn, bool wh
 }
 
 bool Drivetrain::isUpshiftingAllowed() // mode up, détermine si on peut passer en V2
-{   
-        if ((m_GearShiftingTimeLock == 0.0)  and (m_GearboxLeftOutAdjustedRpm / m_GearboxRightOutAdjustedRpm < (1 + TURNING_TOLERANCE)) and ((1 - TURNING_TOLERANCE) < m_GearboxLeftOutAdjustedRpm / m_GearboxRightOutAdjustedRpm))
-        {
-            if (std::abs(m_GearboxesOutAdjustedRpm.m_current) > UP_SHIFTING_POINT_GEARBOXES_OUT_RPM and
-                std::abs(m_GearboxesOutAveragedAccelerationRpm2.get()) > UP_SHIFTING_POINT_GEARBOXES_OUT_RPM2 and
-                std::abs(m_JoystickRaw_V.m_current) > UP_SHIFTING_POINT_JOYSTICK_V and
-                std::abs(m_JoystickRaw_V.m_delta) >= UP_SHIFTING_POINT_JOYSTICK_V_VARIATION)
-                return true;
-            else
-                return false;
-        }
+{
+    if ((m_GearShiftingTimeLock == 0.0) and (m_GearboxLeftOutAdjustedRpm / m_GearboxRightOutAdjustedRpm < (1 + TURNING_TOLERANCE)) and ((1 - TURNING_TOLERANCE) < m_GearboxLeftOutAdjustedRpm / m_GearboxRightOutAdjustedRpm))
+    {
+        if (std::abs(m_GearboxesOutAdjustedRpm.m_current) > UP_SHIFTING_POINT_GEARBOXES_OUT_RPM and
+            std::abs(m_GearboxesOutAveragedAccelerationRpm2.get()) > UP_SHIFTING_POINT_GEARBOXES_OUT_RPM2 and
+            std::abs(m_JoystickRaw_V.m_current) > UP_SHIFTING_POINT_JOYSTICK_V and
+            std::abs(m_JoystickRaw_V.m_delta) >= UP_SHIFTING_POINT_JOYSTICK_V_VARIATION)
+            return true;
+        else
+            return false;
+    }
 }
 
 bool Drivetrain::isKickdownShiftingAllowed() // mode kickdown, détermine si on peut passer en V1
 {
-        if (std::abs(m_GearboxesOutAdjustedRpm.m_current) < KICKDOWN_SHIFTING_POINT_GEARBOXES_OUT_RPM 
-            /*std::abs(m_GearboxesOutAveragedAccelerationRpm2.get()) < 0.0 and
-            std::abs(m_JoystickRaw_V.m_current) > KICKDOWN_SHIFTING_POINT_JOYSTICK_V and
-            std::abs(m_JoystickRaw_V.m_delta) >= KICKDOWN_SHIFTING_POINT_JOYSTICK_V_VARIATION)*/)
-            return true;
-        else
-            return false;
+    if (std::abs(m_GearboxesOutAdjustedRpm.m_current) < KICKDOWN_SHIFTING_POINT_GEARBOXES_OUT_RPM
+        /*std::abs(m_GearboxesOutAveragedAccelerationRpm2.get()) < 0.0 and
+        std::abs(m_JoystickRaw_V.m_current) > KICKDOWN_SHIFTING_POINT_JOYSTICK_V and
+        std::abs(m_JoystickRaw_V.m_delta) >= KICKDOWN_SHIFTING_POINT_JOYSTICK_V_VARIATION)*/
+    )
+        return true;
+    else
+        return false;
 }
 
 void Drivetrain::ShiftGearUp() // passage de la vitesse en V2
@@ -161,12 +157,12 @@ void Drivetrain::ShiftGearDown() // passage de la vitesse en V1
     ActiveBallShifterV1();
 }
 
-void Drivetrain::Drive(double joystick_V, double joystick_W,bool button_Past) //
+void Drivetrain::Drive(double joystick_V, double joystick_W, bool button_Past) //
 {
-    m_AL1 =m_MotorLeft1.GetOutputCurrent();
-    m_AL2 =m_MotorLeft2.GetOutputCurrent();
-    m_AR1 =m_MotorRight1.GetOutputCurrent();
-    m_AR2=m_MotorRight2.GetOutputCurrent();
+    m_AL1 = m_MotorLeft1.GetOutputCurrent();
+    m_AL2 = m_MotorLeft2.GetOutputCurrent();
+    m_AR1 = m_MotorRight1.GetOutputCurrent();
+    m_AR2 = m_MotorRight2.GetOutputCurrent();
 
     frc::SmartDashboard::PutNumber("joyV", joystick_V);
     frc::SmartDashboard::PutNumber("joyW", joystick_W);
@@ -176,14 +172,13 @@ void Drivetrain::Drive(double joystick_V, double joystick_W,bool button_Past) //
     m_GearboxLeftOutRawRpt.set(m_EncoderLeft.GetDistance());
     m_GearboxLeftOutAveragedRpt.add(m_GearboxLeftOutRawRpt.m_delta);
 
-
     // Vitesses des boites en RPM construitent en combinant les valeurs encodeurs moteurs et through bore
     // TRUST_GEARBOX_OUT_ENCODER représente le coeff de confiance qu'on a dans les encodeurs de sortie de boite et (1-TRUST_GEARBOX_OUT_ENCODER) représente la confiance des encodeurs moteurs
     // m_SuperMotorLeftRpm et m_SuperMotorRightRpm sont déjà exprimé en RPM et m_GearboxRightOutRpt et m_GearboxLeftOutRpt sont en tours/tick (RPT),
     // Il faut donc les convertir en RPM ( * (60/TICK_DT) ).
     // Les m_SuperMotorLeftRpm et m_SuperMotorRightRpm sont les valeurs avant réduction, il faut appliquer le facteur de réduction de boite enclenché
     // pour obtenir une valeur RPM "sortie de boite" (m_CurrentGearboxReductionFactor)
-    m_GearboxRightOutAdjustedRpm = (m_GearboxRightOutAveragedRpt.get() * (60 / TICK_DT) * TRUST_GEARBOX_OUT_ENCODER );
+    m_GearboxRightOutAdjustedRpm = (m_GearboxRightOutAveragedRpt.get() * (60 / TICK_DT) * TRUST_GEARBOX_OUT_ENCODER);
     m_GearboxLeftOutAdjustedRpm = (m_GearboxLeftOutAveragedRpt.get() * (60 / TICK_DT) * TRUST_GEARBOX_OUT_ENCODER);
 
     m_GearboxesOutAdjustedRpm.set((m_GearboxRightOutAdjustedRpm + m_GearboxLeftOutAdjustedRpm) / 2.0);
@@ -207,8 +202,8 @@ void Drivetrain::Drive(double joystick_V, double joystick_W,bool button_Past) //
     {
     case State::lowGear:
     {
-        m_sigma = NLERP(0.7, 0.3, NABS(joystick_V)); //0401
-        if (isUpshiftingAllowed()and button_Past==false)
+        m_sigma = NLERP(0.7, 0.3, NABS(joystick_V)); // 0401
+        if (isUpshiftingAllowed() and button_Past == false)
         {
             m_CurrentGearboxRatio = REDUC_V2;
             ShiftGearUp();
@@ -220,10 +215,10 @@ void Drivetrain::Drive(double joystick_V, double joystick_W,bool button_Past) //
 
     case State::highGear:
     {
-        m_sigma = NLERP(0.7, 0.5, NABS(joystick_V)); //0401
+        m_sigma = NLERP(0.7, 0.5, NABS(joystick_V)); // 0401
         // m_MotorLeft1.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, Calcul_De_Notre_Brave_JM(m_rateLimiter_V_Slow.m_current, m_rateLimiter_W_Slow.m_current, 0));
         // m_MotorRight1.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, Calcul_De_Notre_Brave_JM(m_rateLimiter_V_Slow.m_current, m_rateLimiter_W_Slow.m_current, 1));
-        if ( isKickdownShiftingAllowed() or button_Past==true )
+        if (isKickdownShiftingAllowed() or button_Past == true)
         {
             m_CurrentGearboxRatio = REDUC_V1;
             ShiftGearDown();
@@ -232,7 +227,7 @@ void Drivetrain::Drive(double joystick_V, double joystick_W,bool button_Past) //
         }
     }
     }
-    std::cout<<button_Past<<std::endl;  
+    std::cout << button_Past << std::endl;
     if (button_Past)
     {
         ActiveBallShifterV2();
@@ -241,14 +236,14 @@ void Drivetrain::Drive(double joystick_V, double joystick_W,bool button_Past) //
     m_MotorRight1.Set(Calcul_De_Notre_Brave_JM(m_JoystickLimited_V.m_current, m_JoystickLimited_W.m_current, 1));
     m_logCSV.write();
 
-    frc::SmartDashboard::PutNumber("m_JoystickPrelimited_V",    m_JoystickPrelimited_V.m_current);
-    frc::SmartDashboard::PutNumber("m_JoystickLimited_V",       m_JoystickLimited_V.m_current);
-    frc::SmartDashboard::PutNumber("m_JoystickPrelimited_W",    m_JoystickPrelimited_W.m_current);
-    frc::SmartDashboard::PutNumber("m_JoystickLimited_W",       m_JoystickLimited_W.m_current);
+    frc::SmartDashboard::PutNumber("m_JoystickPrelimited_V", m_JoystickPrelimited_V.m_current);
+    frc::SmartDashboard::PutNumber("m_JoystickLimited_V", m_JoystickLimited_V.m_current);
+    frc::SmartDashboard::PutNumber("m_JoystickPrelimited_W", m_JoystickPrelimited_W.m_current);
+    frc::SmartDashboard::PutNumber("m_JoystickLimited_W", m_JoystickLimited_W.m_current);
     frc::SmartDashboard::PutNumber("m_JoystickRaw_V", m_JoystickRaw_V.m_current);
     frc::SmartDashboard::PutNumber("m_JoystickRaw_W", m_JoystickRaw_W.m_current);
     frc::SmartDashboard::PutString("m_State", m_State == State::lowGear ? "lowGear" : "highGear");
-    frc::SmartDashboard::PutNumber("m_State", (double) m_State);
+    frc::SmartDashboard::PutNumber("m_State", (double)m_State);
     frc::SmartDashboard::PutNumber("m_GearShiftingTimeLock", m_GearShiftingTimeLock);
     frc::SmartDashboard::PutNumber("m_CurrentGearboxRatio", m_CurrentGearboxRatio);
 
@@ -257,7 +252,7 @@ void Drivetrain::Drive(double joystick_V, double joystick_W,bool button_Past) //
     frc::SmartDashboard::PutNumber("m_GearboxesOutAccelerationRpm2", m_GearboxesOutAveragedAccelerationRpm2.get());
     frc::SmartDashboard::PutNumber("m_JoystickRaw_V", m_JoystickRaw_V.m_current);
     frc::SmartDashboard::PutNumber("m_JoystickRaw_V_Acceleration", m_JoystickRaw_V.m_delta);
-    frc::SmartDashboard::PutNumber("Gearboxes_Ration", m_GearboxLeftOutAdjustedRpm/m_GearboxRightOutAdjustedRpm);
+    frc::SmartDashboard::PutNumber("Gearboxes_Ration", m_GearboxLeftOutAdjustedRpm / m_GearboxRightOutAdjustedRpm);
     frc::SmartDashboard::PutNumber("GetEncoderMotorRight", m_SuperMotorRightRawRpm);
     frc::SmartDashboard::PutNumber("GetEncoderMotorLeft", m_SuperMotorLeftRawRpm);
     frc::SmartDashboard::PutNumber("m_GearboxLeftOutAdjustedRpm", m_GearboxLeftOutAdjustedRpm);
@@ -274,7 +269,7 @@ void Drivetrain::Drive(double joystick_V, double joystick_W,bool button_Past) //
 void Drivetrain::DriveAuto(double speed, double rotation)
 {
     // std::cout << "on passe en frive auto" << std::endl;
-    m_MotorLeft1.Set( speed + rotation);
+    m_MotorLeft1.Set(speed + rotation);
     m_MotorRight1.Set(speed - rotation);
 }
 
