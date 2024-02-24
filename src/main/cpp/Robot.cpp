@@ -5,17 +5,17 @@
 #include "Robot.h"
 
 void Robot::RobotInit() {}
-void Robot::RobotPeriodic() {
-    frc2::CommandScheduler::GetInstance().Run();
-
+void Robot::RobotPeriodic()
+{
+  frc2::CommandScheduler::GetInstance().Run();
 }
 
-void Robot::AutonomousInit() {
+void Robot::AutonomousInit()
+{
   m_gyro.Reset();
   m_gyro.Calibrate();
   m_drivetrain.m_EncoderLeft.Reset();
   m_drivetrain.m_EncoderRight.Reset();
-
 
   // ######## NLMOTOR_CHARACTERIZATION ########
   // NLCHARACTERIZATION_TABLE characterization_table(4);
@@ -40,7 +40,7 @@ void Robot::AutonomousInit() {
   m_follower.initialize(&m_TrajectoryPack);
   m_state = Robot::STATE::PATH_FOLLOWING;
 }
-void Robot::AutonomousPeriodic() 
+void Robot::AutonomousPeriodic()
 {
   NLRAMSETEOUTPUT output;
   NLFOLLOWER_TANK_OUTPUT *pout = nullptr;
@@ -67,25 +67,25 @@ void Robot::AutonomousPeriodic()
     m_follower.updateTarget(&m_TrajectoryPack, 0.02f);
     pout = m_follower.compute();
     m_drivetrain.DriveAuto(m_CrtzR.getVoltage(pout->m_rightVelocity, pout->m_rightAcceleration), m_CrtzL.getVoltage(pout->m_leftVelocity, pout->m_leftAcceleration));
-      std::cout<<"pathFollowing"<<std::endl;
+    std::cout << "pathFollowing" << std::endl;
     break;
 
   case Robot::STATE::PATH_END:
-    std::cout<<"pathEND"<<std::endl;
+    std::cout << "pathEND" << std::endl;
     break;
   default:
     NErrorIf(1, NERROR_UNAUTHORIZED_CASE);
     break;
   }
-  
 }
 
 void Robot::TeleopInit() {}
-void Robot::TeleopPeriodic() {
-  std::cout<<m_gyro.GetAngle()<<std::endl;
-  std::cout<<m_drivetrain.m_EncoderLeft.GetDistance()<<std::endl;
-  std::cout<<m_drivetrain.m_EncoderRight.GetDistance()<<std::endl;
-  m_drivetrain.Drive(-m_joystickLeft.GetY(),m_joystickRight.GetZ(),m_joystickRight.GetRawButton(1));
+void Robot::TeleopPeriodic()
+{
+  std::cout << m_gyro.GetAngle() << std::endl;
+  std::cout << m_drivetrain.m_EncoderLeft.GetDistance() << std::endl;
+  std::cout << m_drivetrain.m_EncoderRight.GetDistance() << std::endl;
+  m_drivetrain.Drive(-m_joystickLeft.GetY(), m_joystickRight.GetZ(), m_joystickRight.GetRawButton(1), m_joystickLeft.GetRawButton(1));
 }
 
 void Robot::DisabledInit() {}
@@ -98,7 +98,8 @@ void Robot::SimulationInit() {}
 void Robot::SimulationPeriodic() {}
 
 #ifndef RUNNING_FRC_TESTS
-int main() {
+int main()
+{
   return frc::StartRobot<Robot>();
 }
 #endif
