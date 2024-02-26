@@ -11,6 +11,7 @@
 #include "frc/smartdashboard/SmartDashboard.h"
 #include "Pid.h"
 #include "frc/Encoder.h"
+#include <frc/DigitalInput.h>
 #include "NLCsv.h"
 #include "RblUtils.h"
 
