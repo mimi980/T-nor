@@ -63,7 +63,7 @@ private:
 
   enum State
   {
-    Aspiration,
+    Catch,
     Acceleration,
     Shoot,
     End

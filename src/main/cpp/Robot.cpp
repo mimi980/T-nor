@@ -91,6 +91,7 @@ void Robot::TeleopPeriodic()
   frc::SmartDashboard::PutNumber("HighspeedShooter", m_speedShootHigh);
   m_speedAspiration = frc::SmartDashboard::GetNumber("speedAspiration", -0.2);
   m_speedCatch = frc::SmartDashboard::GetNumber("speedCatch", 0.6);
+  frc::SmartDashboard::PutBoolean("Sensor", m_infraSensor.Get());
 
   if (m_Jostick_Right.GetRawButton(1)) // shoot
   {
@@ -110,6 +111,10 @@ void Robot::TeleopPeriodic()
   else if (m_Jostick_Right.GetRawButton(4))
   {
     m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedCatch);
+    if (m_infraSensor.Get())
+    {
+      m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.0);
+    }
   }
   else
   {
@@ -121,48 +126,46 @@ void Robot::TeleopPeriodic()
 
   // if (m_Jostick_Right.GetRawButtonPressed(1))
   // {
-  //   m_state=State::Aspiration;
-  //   m_count=0;
+  //   m_state = State::Catch;
+  //   m_count = 0;
   // }
-  //   m_count++;
-  //   switch (m_state)
+  // m_count++;
+  // switch (m_state)
+  // {
+  // case State::Catch:
+  //   m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedAspiration);
+  //   if (m_infraSensor.Get())
   //   {
-  //   case State::Aspiration:
-  //     m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedAspiration);
-  //     m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedAspiration);
-  //     m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedAspiration);
-  //     if (m_count>20)
-  //     {
-  //       m_count=0;
-  //       m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,0.0);
-  //       m_state=State::Acceleration;
-  //     }
-  //     break;
-  //   case State::Acceleration:
-  //    m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedShoot);
-  //    m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedShoot);
-  //     if (m_count>140)
-  //     {
-  //       m_count=0;
-  //       m_state=State::Shoot;
-  //     }
-  //     break;
-  //   case State::Shoot:
-  //     m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,m_speedCatch);
-  //     if(m_count>10)
-  //     {
-  //       m_count=0;
-  //       m_state=State::End;
-  //     }
-  //     break;
-  //   case State::End:
-  //     m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,0.0);
-  //     m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,0.0);
-  //     m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput,0.0);
-
-  //   default:
-  //     break;
+  //     m_count = 0;
+  //     m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.0);
+  //     m_state = State::Acceleration;
   //   }
+  //   break;
+  // case State::Acceleration:
+  //   m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedShoot);
+  //   m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedShoot);
+  //   if (m_count > 140)
+  //   {
+  //     m_count = 0;
+  //     m_state = State::Shoot;
+  //   }
+  //   break;
+  // case State::Shoot:
+  //   m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedCatch);
+  //   if (m_count > 10)
+  //   {
+  //     m_count = 0;
+  //     m_state = State::End;
+  //   }
+  //   break;
+  // case State::End:
+  //   m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.0);
+  //   m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.0);
+  //   m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.0);
+
+  // default:
+  //   break;
+  // }
 }
 
 void Robot::DisabledInit()
