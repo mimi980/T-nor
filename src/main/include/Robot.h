@@ -49,6 +49,8 @@ private:
   frc::Joystick m_Jostick_Left{0};
   frc::Joystick m_Jostick_Right{1};
 
+  frc::DigitalInput m_infraSensor{0};
+
   double m_position;
   double m_speed;
   double m_current;
