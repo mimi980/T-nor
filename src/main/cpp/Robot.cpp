@@ -45,6 +45,7 @@ void Robot::TeleopInit()
   frc::SmartDashboard::PutNumber("speedShooter", 0.65);
   frc::SmartDashboard::PutNumber("speedAspiration", -0.2);
   frc::SmartDashboard::PutNumber("speedCatch", 0.6);
+  frc::SmartDashboard::PutNumber("coef", 0.04);
 
   m_count = 0;
   m_state = State::End;
@@ -81,14 +82,20 @@ void Robot::TeleopPeriodic()
 
   ////////////////////////////////////////////////////////////////////////
 
+  m_coeff = frc::SmartDashboard::GetNumber("coef", 0.04);
+
+  m_speedShootHigh = (m_speedShoot * 1.5 - (0.5 * m_speedCatch * 0.26)) / 1.5 - m_coeff;
+  // m_speedShootHigh = m_speedShoot + 0.06;
+
   m_speedShoot = frc::SmartDashboard::GetNumber("speedShooter", 0.65);
+  frc::SmartDashboard::PutNumber("HighspeedShooter", m_speedShootHigh);
   m_speedAspiration = frc::SmartDashboard::GetNumber("speedAspiration", -0.2);
   m_speedCatch = frc::SmartDashboard::GetNumber("speedCatch", 0.6);
 
   if (m_Jostick_Right.GetRawButton(1)) // shoot
   {
     m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedShoot);
-    m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedShoot);
+    m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedShootHigh);
     if (m_Jostick_Right.GetRawButton(2))
     {
       m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedCatch);

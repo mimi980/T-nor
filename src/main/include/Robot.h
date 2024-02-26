@@ -14,8 +14,9 @@
 #include "NLCsv.h"
 #include "RblUtils.h"
 
-class Robot : public frc::TimedRobot {
- public:
+class Robot : public frc::TimedRobot
+{
+public:
   void RobotInit() override;
   void RobotPeriodic() override;
 
@@ -34,16 +35,15 @@ class Robot : public frc::TimedRobot {
   void SimulationInit() override;
   void SimulationPeriodic() override;
 
-  private:
-
+private:
   ctre::phoenix::motorcontrol::can::TalonFX m_MotorRight{1};
   ctre::phoenix::motorcontrol::can::TalonFX m_MotorLeft{2};
   ctre::phoenix::motorcontrol::can::TalonFX m_FeederMotor{3};
 
   rev::CANSparkMax m_Pivot{4, rev::CANSparkMaxLowLevel::MotorType::kBrushless};
 
-  Pid m_pid {0.0,0.0,0.0,0.0};
-  frc::Encoder m_encoder{0,1};
+  Pid m_pid{0.0, 0.0, 0.0, 0.0};
+  frc::Encoder m_encoder{0, 1};
 
   frc::Joystick m_Jostick_Left{0};
   frc::Joystick m_Jostick_Right{1};
@@ -51,12 +51,15 @@ class Robot : public frc::TimedRobot {
   double m_position;
   double m_speed;
   double m_current;
+  double m_speedShootHigh;
   double m_speedShoot;
   double m_speedAspiration;
   double m_speedCatch;
+  double m_coeff;
   int m_count;
 
-  enum State{
+  enum State
+  {
     Aspiration,
     Acceleration,
     Shoot,
