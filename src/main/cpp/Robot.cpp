@@ -95,7 +95,7 @@ void Robot::TeleopPeriodic()
   if (m_Jostick_Right.GetRawButton(1)) // shoot
   {
     m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedShoot);
-    m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedShootHigh);
+    m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedShoot);
     if (m_Jostick_Right.GetRawButton(2))
     {
       m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedCatch);
@@ -106,6 +106,10 @@ void Robot::TeleopPeriodic()
     m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedAspiration);
     m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedAspiration);
     m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedAspiration);
+  }
+  else if (m_Jostick_Right.GetRawButton(4))
+  {
+    m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedCatch);
   }
   else
   {
