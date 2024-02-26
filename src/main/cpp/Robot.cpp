@@ -102,29 +102,58 @@ void Robot::TeleopPeriodic()
       m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedCatch);
     }
   }
-  else if (m_Jostick_Right.GetRawButton(3)) // aspiration
+  // else if (m_Jostick_Right.GetRawButton(4))
+  // {
+  //   m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedCatch);
+  //   if (!m_infraSensor.Get())
+  //   {
+  //     m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.0);
+  //   }
+  // }
+  else if (m_Jostick_Right.GetRawButtonPressed(3))
   {
-    m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedAspiration);
-    m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedAspiration);
-    m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedAspiration);
+    m_state = State::Catch;
+    m_count = 0;
   }
-  else if (m_Jostick_Right.GetRawButton(4))
-  {
-    m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedCatch);
-    if (m_infraSensor.Get())
-    {
-      m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.0);
-    }
-  }
+
   else
   {
 
     m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.0);
     m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.0);
-    m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.0);
   }
 
-  // if (m_Jostick_Right.GetRawButtonPressed(1))
+  m_count++;
+  switch (m_state)
+  {
+  case State::Catch:
+    m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedCatch);
+    if (!m_infraSensor.Get())
+    {
+      m_count = 0;
+      m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, -0.4);
+      m_state = State::Recul;
+    }
+    break;
+  case State::Recul:
+    m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, -0.2);
+    if (m_infraSensor.Get())
+    {
+      m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.0);
+      m_state = State::End;
+    }
+    break;
+  case State::End:
+    break;
+  default:
+    break;
+  }
+  if (m_Jostick_Right.GetRawButtonPressed(4))
+  {
+    m_state = State::End;
+  }
+
+  // if (m_Jostick_Right.GetRawButtonPressed(3))
   // {
   //   m_state = State::Catch;
   //   m_count = 0;
@@ -133,36 +162,23 @@ void Robot::TeleopPeriodic()
   // switch (m_state)
   // {
   // case State::Catch:
-  //   m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedAspiration);
+  //   m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedCatch);
+  //   if (!m_infraSensor.Get())
+  //   {
+  //     m_count = 0;
+  //     m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, -0.2);
+  //     m_state = State::Recul;
+  //   }
+  //   break;
+  // case State::Recul:
+  //   m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, -0.2);
   //   if (m_infraSensor.Get())
   //   {
-  //     m_count = 0;
   //     m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.0);
-  //     m_state = State::Acceleration;
-  //   }
-  //   break;
-  // case State::Acceleration:
-  //   m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedShoot);
-  //   m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedShoot);
-  //   if (m_count > 140)
-  //   {
-  //     m_count = 0;
-  //     m_state = State::Shoot;
-  //   }
-  //   break;
-  // case State::Shoot:
-  //   m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedCatch);
-  //   if (m_count > 10)
-  //   {
-  //     m_count = 0;
-  //     m_state = State::End;
   //   }
   //   break;
   // case State::End:
-  //   m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.0);
-  //   m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.0);
-  //   m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.0);
-
+  //   break;
   // default:
   //   break;
   // }

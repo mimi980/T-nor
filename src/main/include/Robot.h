@@ -49,7 +49,7 @@ private:
   frc::Joystick m_Jostick_Left{0};
   frc::Joystick m_Jostick_Right{1};
 
-  frc::DigitalInput m_infraSensor{0};
+  frc::DigitalInput m_infraSensor{2};
 
   double m_position;
   double m_speed;
@@ -64,7 +64,9 @@ private:
   enum State
   {
     Catch,
-    Acceleration,
+    Recul,
+    Loaded,
+    PreShoot,
     Shoot,
     End
   };
