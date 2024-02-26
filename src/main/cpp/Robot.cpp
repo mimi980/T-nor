@@ -35,13 +35,14 @@ void Robot::AutonomousInit()
   m_CrtzR.m_forwardIntercept = 0.4218986448873328f; // = m_intercept[0]
   m_CrtzR.m_backwardIntercept = -0.49001485320659466f;
 
-  m_TrajectoryPack.load("/home/lvuser/auto/jmm.trk");
+  m_TrajectoryPack.load("/home/lvuser/auto/tout_droit.trk");
 
   m_follower.initialize(&m_TrajectoryPack);
   m_state = Robot::STATE::PATH_FOLLOWING;
 }
 void Robot::AutonomousPeriodic()
 {
+  std::cout << m_gyro.GetAngle() << std::endl;
   NLRAMSETEOUTPUT output;
   NLFOLLOWER_TANK_OUTPUT *pout = nullptr;
 
