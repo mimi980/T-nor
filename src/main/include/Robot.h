@@ -16,10 +16,10 @@
 #include "NLCsv.h"
 #include "RblUtils.h"
 
-#define SPEED_SHOOTER 0.65
-#define SPEED_ASPIRATION -0.2
+#define SPEED_SHOOTER 0.5
+#define SPEED_ASPIRATION -0.5
 #define SPEED_CATCH 0.6
-#define GOALS 5000
+#define GOALS 6370 * 0.9 * SPEED_SHOOTER * 1.5
 
 class Robot : public frc::TimedRobot
 {
@@ -66,6 +66,7 @@ private:
     Loaded,
     PreShoot,
     Shoot,
+    Shooting,
     End
   };
 

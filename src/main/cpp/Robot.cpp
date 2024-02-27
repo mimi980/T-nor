@@ -65,7 +65,7 @@ void Robot::TeleopInit()
 }
 void Robot::TeleopPeriodic()
 {
-  m_EncoderShooter = ((m_MotorLeft.GetSensorCollection().GetIntegratedSensorVelocity() * 600.0 / 2048.0) + (m_MotorRight.GetSensorCollection().GetIntegratedSensorVelocity() * 600.0 / 2048.0)) / 2.0;
+  m_EncoderShooter = (((m_MotorLeft.GetSensorCollection().GetIntegratedSensorVelocity() * 600.0 / 2048.0) + (m_MotorRight.GetSensorCollection().GetIntegratedSensorVelocity() * 600.0 / 2048.0)) / 2.0) * 1.5;
   m_speedAspiration = frc::SmartDashboard::GetNumber("speedAspiration", SPEED_ASPIRATION);
   m_speedCatch = frc::SmartDashboard::GetNumber("speedCatch", SPEED_CATCH);
   m_speedShoot = frc::SmartDashboard::GetNumber("speedShooter", SPEED_SHOOTER);
@@ -107,7 +107,7 @@ void Robot::TeleopPeriodic()
     }
     break;
   case State::PreShoot:
-    m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedShoot);
+    m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedShoot + 0.1);
     m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedShoot);
     if (m_EncoderShooter > m_goals)
     {
@@ -115,11 +115,21 @@ void Robot::TeleopPeriodic()
     }
     break;
   case State::Shoot:
-    m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedShoot);
+    m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedShoot + 0.1);
     m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedShoot);
     m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedCatch);
 
-    if (m_infraSensor.Get())
+    if (!m_infraSensor.Get())
+    {
+      m_state = State::Shooting;
+      m_count = 0;
+    }
+    break;
+  case State::Shooting:
+    m_MotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedShoot + 0.1);
+    m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedShoot);
+    m_FeederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, m_speedCatch);
+    if (m_infraSensor.Get() && m_count > 30)
     {
       m_state = State::End;
     }
