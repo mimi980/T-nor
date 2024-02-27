@@ -11,9 +11,9 @@
 #include <units/length.h>
 #include "RblUtils.h"
 
-#define CAMERA_HEIGHT 0.78
-#define TARGET_HEIGHT 1.37
-#define CAMERA_PITCH 0
+#define CAMERA_HEIGHT 0.265
+#define TARGET_HEIGHT 1.44
+#define CAMERA_PITCH 5.0
 
 class Camera : public frc2::SubsystemBase
 {
@@ -23,10 +23,12 @@ public:
     int getAprilId();
     bool isAprilTagMode();
     double GetDistance();
+    double GetHorizontalError();
     // Components (e.g. motor controllers and sensors) should generally be
     // declared private and exposed only through public methods.
 
     photon::PhotonCamera m_camera{"IRcam"};
+    frc::LinearFilter<double> m_horizontalErrorMovingAverage = frc::LinearFilter<double>::MovingAverage(3);
     // units::meter_t range = photon::PhotonUtils::CalculateDistanceToTarget(
     //     CAMERA_HEIGHT, TARGET_HEIGHT, CAMERA_PITCH,
     //     units::radian_t{m_camera.GetLatestResult().GetBestTarget().GetPitch()});

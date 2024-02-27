@@ -7,6 +7,11 @@
 #include <frc/TimedRobot.h>
 #include "Camera.h"
 #include <iostream>
+#include "rev/CANSparkMax.h"
+#include "Pid.h"
+#include "frc/Encoder.h"
+#include "frc/Joystick.h"
+#include "frc/smartdashboard/SmartDashboard.h"
 
 class Robot : public frc::TimedRobot
 {
@@ -29,6 +34,22 @@ public:
   void SimulationInit() override;
   void SimulationPeriodic() override;
 
+  int Signe(double a);
+
 private:
   Camera camera;
+  rev::CANSparkMax m_motorLeft{1, rev::CANSparkMax::MotorType::kBrushless};
+  rev::CANSparkMax m_motorLeft2{2, rev::CANSparkMax::MotorType::kBrushless};
+  rev::CANSparkMax m_motorRight{3, rev::CANSparkMax::MotorType::kBrushless};
+  rev::CANSparkMax m_motorRight2{4, rev::CANSparkMax::MotorType::kBrushless};
+
+  frc::Encoder m_encoderRight{0, 1};
+  frc::Encoder m_encoderLeft{2, 3};
+
+  Pid m_pid{0.0, 0.0, 0.0, 0.0};
+  double m_error;
+  double m_speed;
+  double m_setpoint;
+
+  frc::Joystick m_joystick{0};
 };

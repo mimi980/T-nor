@@ -28,7 +28,19 @@ bool Camera::isAprilTagMode()
 
 double Camera::GetDistance()
 {
-    double targetPitch = m_camera.GetLatestResult().GetBestTarget().GetPitch();
+    double targetPitch = NABS(m_camera.GetLatestResult().GetBestTarget().GetPitch());
     std::cout << targetPitch << std::endl;
     return (TARGET_HEIGHT - CAMERA_HEIGHT) / units::math::tan(units::radian_t(NDEGtoRAD(targetPitch + CAMERA_PITCH)));
+}
+
+double Camera::GetHorizontalError()
+{
+    if (m_camera.GetLatestResult().HasTargets())
+    {
+        return m_horizontalErrorMovingAverage.Calculate(m_camera.GetLatestResult().GetBestTarget().GetYaw());
+    }
+    else
+    {
+        return 0.0;
+    }
 }
