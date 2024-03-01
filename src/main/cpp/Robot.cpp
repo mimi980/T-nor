@@ -15,7 +15,7 @@ void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit()
 {
-  m_drivetrain.m_logCSV.open("/home/lvuser/log/", true);
+  m_drivetrain.m_logCSV.open("/home/lvuser/logs/", true);
 }
 void Robot::TeleopPeriodic()
 {
