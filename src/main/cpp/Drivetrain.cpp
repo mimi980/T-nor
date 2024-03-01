@@ -133,7 +133,7 @@ double Drivetrain::Calcul_De_Notre_Brave_JM(double forward, double turn, bool wh
 
 bool Drivetrain::isUpshiftingAllowed() // mode up, détermine si on peut passer en V2
 {
-    if ((m_GearShiftingTimeLock == 0.0) and (m_GearboxLeftOutAdjustedRpm / m_GearboxRightOutAdjustedRpm < (1 + TURNING_TOLERANCE)) and ((1 - TURNING_TOLERANCE) < m_GearboxLeftOutAdjustedRpm / m_GearboxRightOutAdjustedRpm))
+    if ((m_GearShiftingTimeLock == 0.0) /*and (m_GearboxLeftOutAdjustedRpm / m_GearboxRightOutAdjustedRpm < (1 + TURNING_TOLERANCE)) and ((1 - TURNING_TOLERANCE) < m_GearboxLeftOutAdjustedRpm / m_GearboxRightOutAdjustedRpm)*/)
     {
         if (std::abs(m_GearboxesOutAdjustedRpm.m_current) > UP_SHIFTING_POINT_GEARBOXES_OUT_RPM and
             std::abs(m_GearboxesOutAveragedAccelerationRpm2.get()) > UP_SHIFTING_POINT_GEARBOXES_OUT_RPM2 and
@@ -214,7 +214,7 @@ void Drivetrain::Drive(double joystick_V, double joystick_W, bool button_Past, b
     {
     case State::lowGear:
     {
-        m_sigma = NLERP(0.7, 0.3, NABS(joystick_V)); // 0401
+        m_sigma = NLERP(0.9, 0.7, NABS(joystick_V)); // 0401
         if (isUpshiftingAllowed() and button_Past == false)
         {
             m_CurrentGearboxRatio = REDUC_V2;
@@ -227,7 +227,7 @@ void Drivetrain::Drive(double joystick_V, double joystick_W, bool button_Past, b
 
     case State::highGear:
     {
-        m_sigma = NLERP(0.7, 0.5, NABS(joystick_V)); // 0401
+        m_sigma = NLERP(0.8, 0.6, NABS(joystick_V)); // 0401
         // m_MotorLeft1.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, Calcul_De_Notre_Brave_JM(m_rateLimiter_V_Slow.m_current, m_rateLimiter_W_Slow.m_current, 0));
         // m_MotorRight1.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, Calcul_De_Notre_Brave_JM(m_rateLimiter_V_Slow.m_current, m_rateLimiter_W_Slow.m_current, 1));
         if (isKickdownShiftingAllowed() or button_Past == true)
@@ -281,6 +281,7 @@ void Drivetrain::Drive(double joystick_V, double joystick_W, bool button_Past, b
     frc::SmartDashboard::PutNumber("COASTDOWN_SHIFTING_POINT_GEARBOXES_OUT_RPM", COASTDOWN_SHIFTING_POINT_GEARBOXES_OUT_RPM);
     frc::SmartDashboard::PutNumber("m_GearboxesOutAveragedAccelerationRpm2", m_GearboxesOutAveragedAccelerationRpm2.get());
     frc::SmartDashboard::PutNumber("m_GearboxesOutAdjustedRpm.m_delta", m_GearboxesOutAdjustedRpm.m_delta);
+    frc::SmartDashboard::PutNumber("m_sigma", m_sigma);
 }
 
 void Drivetrain::DriveAuto(double speed, double rotation)
