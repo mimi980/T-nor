@@ -11,6 +11,7 @@
 #include <iostream>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "lib/RblUtils.h"
+#include "lib/utils.h"
 
 #define MOTOR_WF_RPM 5874.0 // Free Speed théorique du moteur à la tension de reference (12V)
 #define MOTOR_TS_NM 3.35    // Stall Torque théorique du moteur à la tension de reference (12V)

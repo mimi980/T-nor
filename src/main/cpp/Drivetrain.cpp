@@ -1,6 +1,4 @@
 #include "Drivetrain.h"
-#include "lib/Dynamic.h"
-#include "lib/utils.h"
 
 Drivetrain::Drivetrain() : m_GearboxLeftOutAveragedRpt(AVERAGE_SAMPLES_NUMBER),
                            m_GearboxRightOutAveragedRpt(AVERAGE_SAMPLES_NUMBER),
