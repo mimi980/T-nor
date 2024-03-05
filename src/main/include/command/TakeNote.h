@@ -24,6 +24,15 @@ public:
   bool IsFinished() override;
 
 private:
+  enum class State
+  {
+    Catch,
+    Recul,
+    Loaded
+  };
+
+  State m_state;
+
   Feeder *m_pFeeder;
   Intake *m_pIntake;
 };

@@ -12,8 +12,7 @@ class Shooter : public frc2::SubsystemBase
 {
 public:
   Shooter();
-  void Periodic() override;
-  void ActivateShooter(double speed);
+  void SetShooter(double speed);
 
 private:
   ctre::phoenix::motorcontrol::can::TalonFX m_shooterMotorRight{ID_MOTOR_SHOOTER_RIGHT};

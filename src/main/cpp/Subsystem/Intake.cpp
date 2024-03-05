@@ -6,5 +6,7 @@
 
 Intake::Intake() = default;
 
-// This method will be called once per scheduler run
-void Intake::Periodic() {}
+void Intake::SetIntake(double speed)
+{
+    m_intakeMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, speed);
+}

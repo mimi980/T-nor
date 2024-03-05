@@ -29,4 +29,9 @@ Shooter::Shooter()
 };
 
 // This method will be called once per scheduler run
-void Shooter::Periodic() {}
+
+void Shooter::SetShooter(double speed)
+{
+    m_shooterMotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, speed);
+    m_shooterMotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, speed);
+}

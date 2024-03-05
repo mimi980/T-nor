@@ -5,16 +5,15 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
+#include <ctre/Phoenix/motorcontrol/can/TalonSRX.h>
+#include "Constants.h"
 
 class Intake : public frc2::SubsystemBase
 {
 public:
   Intake();
-
-  /**
-   * Will be called periodically whenever the CommandScheduler runs.
-   */
-  void Periodic() override;
+  void SetIntake(double speed);
 
 private:
+  ctre::phoenix::motorcontrol::can::TalonSRX m_intakeMotor{ID_MOTOR_INTAKE};
 };

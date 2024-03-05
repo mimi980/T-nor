@@ -155,8 +155,6 @@ void Drivetrain::Drive(double joystick_V, double joystick_W, bool brakeButton) /
     m_GearboxesOutAdjustedRpm.set((m_GearboxRightOutAdjustedRpm + m_GearboxLeftOutAdjustedRpm) / 2.0);
     m_GearboxesOutAveragedAccelerationRpm2.add(m_GearboxesOutAdjustedRpm.m_delta);
 
-    joystick_V = utils::Deadband(joystick_V, 0.05);
-    joystick_W = utils::Deadband(joystick_W, 0.05);
     m_JoystickRaw_V.set(joystick_V);
     m_JoystickLimited_V.Update(m_JoystickPrelimited_V.Update(joystick_V));
 

@@ -1,23 +1,9 @@
 #pragma once
 
-#include <cmath>
-
 namespace utils
 {
-    inline double Deadband(double value, double deadband = 0.1)
+    inline bool epsilonEquals(double a, double b, double epsilon)
     {
-        if (std::abs(value) < deadband)
-        {
-            return 0;
-        }
-
-        if (value >= 0)
-        {
-            return (value - deadband) / (1.0 - deadband);
-        }
-        else
-        {
-            return (value + deadband) / (1.0 - deadband);
-        }
+        return ((a - epsilon <= b) and (a + epsilon >= b));
     }
-} // namespace utils
+}

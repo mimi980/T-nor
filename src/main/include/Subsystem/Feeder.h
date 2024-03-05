@@ -6,15 +6,17 @@
 
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/Phoenix/motorcontrol/can/TalonFX.h>
+#include <frc/DigitalInput.h>
 #include "Constants.h"
 
 class Feeder : public frc2::SubsystemBase
 {
 public:
   Feeder();
-  void Periodic() override;
-  void ActivateFeeder(double speed);
+  void SetFeeder(double speed);
+  bool GetFeederInfraSensorValue();
 
 private:
   ctre::phoenix::motorcontrol::can::TalonFX m_feederMotor{ID_MOTOR_FEEDER};
+  frc::DigitalInput m_feederInfraSensor{ID_SENSOR_INFRA_FEEDER};
 };

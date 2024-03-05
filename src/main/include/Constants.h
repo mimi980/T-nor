@@ -15,6 +15,7 @@
 #define ID_MOTOR_SHOOTER_RIGHT 6
 #define ID_MOTOR_SHOOTER_LEFT 7
 #define ID_MOTOR_INTAKE 8
+#define ID_MOTOR_PLANETARY 9
 
 // #########################    ID Solenoid    #########################
 #define ID_SOLENOID_SHIFTER_A 1
@@ -26,6 +27,10 @@
 #define ID_ENCODER_DRIVE_TRAIN_RIGHT_B 1
 #define ID_ENCODER_DRIVE_TRAIN_LEFT_A 2
 #define ID_ENCODER_DRIVE_TRAIN_LEFT_B 3
+
+// #########################    ID Sensor    #########################
+
+#define ID_SENSOR_INFRA_FEEDER 0
 
 // #########################    PID Value    #########################
 
@@ -72,18 +77,11 @@
 #define ELEVATOR_DISTANCE_PER_PULSE ((1.0 / 7045.0) * 0.96)                    // en mètre
 #define ARM_DISTANCE_PER_PULSE ((1.0 / 2048.0 * 2.0 * 3.14159265358979323846)) // en radian
 
-// #########################   ID SUBSYSTEM   #########################
+// #########################   SPEED  #########################
 
-#define ID_SUBSYSTEM_DRIVE_TRAIN 1
-#define ID_SUBSYSTEM_TURRET 2
-#define ID_SUBSYSTEM_ELEVATOR 3
-#define ID_SUBSYSTEM_ARM 4
-#define ID_SUBSYSTEM_INTAKE 5
-
-#define TURRET true
-#define CAMERA_MAX_ERROR_DIFFERENCE 20
-#define CAMERA_WIDTH 320
-#define CAMERA_HEIGHT 240
-#define CAMERA_TARGET_HIGH_PITCH 220 // TODO real value
-#define CAMERA_TARGET_LOW_PITCH 180  // TODO real value
-#define CAMERA_HIGH_LOW_DELIMITER 0
+#define SHOOTER_SPEED 0.5
+#define INTAKE_SPEED 0.5
+#define STOP_INTAKE_SPEED 0.0
+#define CATCH_FEEDER_SPEED 0.5
+#define EJECT_FEEDER_SPEED 0.5
+#define STOP_FEEDER_SPEED 0.0

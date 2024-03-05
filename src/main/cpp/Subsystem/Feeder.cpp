@@ -7,9 +7,13 @@
 Feeder::Feeder() = default;
 
 // This method will be called once per scheduler run
-void Feeder::Periodic() {}
 
-void Feeder::ActivateFeeder(double speed)
+void Feeder::SetFeeder(double speed)
 {
     m_feederMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, speed);
+}
+
+bool Feeder::GetFeederInfraSensorValue()
+{
+    return m_feederInfraSensor.Get();
 }
