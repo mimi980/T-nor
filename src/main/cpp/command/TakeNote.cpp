@@ -1,21 +1,16 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 #include "command/TakeNote.h"
 
-TakeNote::TakeNote(Feeder *pFeeder, Intake *pIntake) : m_pFeeder(pFeeder), m_pIntake(pIntake)
+TakeNote::TakeNote(Feeder *pFeeder, Intake *pIntake, Planetary *pPlanetary) : m_pFeeder(pFeeder), m_pIntake(pIntake), m_pPlanetary(pPlanetary)
 {
-  AddRequirements({m_pFeeder, m_pIntake});
+  AddRequirements({m_pFeeder, m_pIntake, m_pPlanetary});
 }
 
-// Called when the command is initially scheduled.
 void TakeNote::Initialize()
 {
   m_state = State::Catch;
+  m_pPlanetary->SetSetpoint(0.0);
 }
 
-// Called repeatedly when this Command is scheduled to run
 void TakeNote::Execute()
 {
   switch (m_state)
@@ -40,19 +35,18 @@ void TakeNote::Execute()
     break;
   case State::Loaded:
     m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
+    m_pFeeder->IsNoteLoaded = true;
     break;
   default:
     break;
   }
 }
 
-// Called once the command ends or is interrupted.
 void TakeNote::End(bool interrupted)
 {
   m_state = State::Loaded;
 }
 
-// Returns true when the command should end.
 bool TakeNote::IsFinished()
 {
   return false;

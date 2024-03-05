@@ -6,13 +6,19 @@
 
 Planetary::Planetary()
 {
-    // Initialize your motor controllers here
     m_planetaryMotor.RestoreFactoryDefaults();
     m_planetaryMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
-    m_planetaryMotor.SetInverted(false);
-    m_planetaryMotor.SetOpenLoopRampRate(0.5);
-    m_planetaryMotor.SetSmartCurrentLimit(40);
-    m_planetaryMotor.EnableVoltageCompensation(12);
+    m_planetaryMotor.SetInverted(PLANETARY_MOTOR_INVERTED);
+    m_planetaryMotor.SetClosedLoopRampRate(PLANETARY_RAMP);
+    m_planetaryMotor.SetSmartCurrentLimit(PLANETARY_CURRENT_LIMIT);
+    m_planetaryMotor.EnableVoltageCompensation(PLANETARY_VOLTAGE_COMPENSATION);
+
+    m_planetaryEncoder.Reset();
+    m_planetaryEncoder.SetDistancePerPulse(PLANETARY_DISTANCE_PER_PULSE);
+
+    m_planetaryPid.Reset();
+    m_planetaryPid.SetGains(PLANETARY_PID_P, PLANETARY_PID_I, PLANETARY_PID_D);
+    m_planetaryPid.SetSetpoint(0.0);
 };
 
 void Planetary::SetPlanetary(double speed)
@@ -23,4 +29,14 @@ void Planetary::SetPlanetary(double speed)
 void Planetary::SetSetpoint(double setpoint)
 {
     m_planetaryPid.SetSetpoint(setpoint);
+}
+
+double Planetary::GetEncoder()
+{
+    return m_planetaryEncoder.GetDistance();
+}
+
+void Planetary::Periodic()
+{
+    SetPlanetary(m_planetaryPid.Calculate(GetEncoder()));
 }

@@ -4,7 +4,15 @@
 
 #include "subsystem/Feeder.h"
 
-Feeder::Feeder() = default;
+Feeder::Feeder()
+{
+    m_feederMotor.ConfigFactoryDefault();
+    m_feederMotor.SetInverted(FEEDER_MOTOR_INVERTED);
+    m_feederMotor.EnableVoltageCompensation(true);
+    m_feederMotor.ConfigVoltageCompSaturation(FEEDER_VOLTAGE_COMPENSATION);
+    m_feederMotor.ConfigSupplyCurrentLimit(ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(true, FEEDER_CURRENT_LIMIT, FEEDER_CURRENT_LIMIT, 0));
+    m_feederMotor.ConfigClosedloopRamp(FEEDER_RAMP);
+};
 
 // This method will be called once per scheduler run
 

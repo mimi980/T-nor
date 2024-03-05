@@ -13,6 +13,7 @@ class Shooter : public frc2::SubsystemBase
 public:
   Shooter();
   void SetShooter(double speed);
+  double GetShooterVelocity();
 
 private:
   ctre::phoenix::motorcontrol::can::TalonFX m_shooterMotorRight{ID_MOTOR_SHOOTER_RIGHT};

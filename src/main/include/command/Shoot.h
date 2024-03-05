@@ -6,15 +6,16 @@
 
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystem/Intake.h"
+#include "subsystem/Shooter.h"
 #include "subsystem/Feeder.h"
 #include "subsystem/Planetary.h"
+#include "subsystem/Camera.h"
 
-class TakeNote
-    : public frc2::CommandHelper<frc2::Command, TakeNote>
+class Shoot
+    : public frc2::CommandHelper<frc2::Command, Shoot>
 {
 public:
-  TakeNote(Feeder *pFeeder, Intake *pIntake, Planetary *pPlanetary);
+  Shoot(Shooter *pShooter, Feeder *pFeeder, Planetary *pPlanetary, Camera *pCamera);
 
   void Initialize() override;
 
@@ -25,16 +26,21 @@ public:
   bool IsFinished() override;
 
 private:
+  int m_count;
+
   enum class State
   {
-    Catch,
-    Recul,
-    Loaded
+    Loaded,
+    PreShoot,
+    Shoot,
+    Shooting,
+    End
   };
 
   State m_state;
 
+  Shooter *m_pShooter;
   Feeder *m_pFeeder;
-  Intake *m_pIntake;
   Planetary *m_pPlanetary;
+  Camera *m_pCamera;
 };
