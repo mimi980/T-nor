@@ -8,14 +8,13 @@
 #include <ctre/Phoenix/motorcontrol/can/TalonFX.h>
 #include "Constants.h"
 
-class Shooter : public frc2::SubsystemBase
+class Feeder : public frc2::SubsystemBase
 {
 public:
-  Shooter();
+  Feeder();
   void Periodic() override;
-  void ActivateShooter(double speed);
+  void ActivateFeeder(double speed);
 
 private:
-  ctre::phoenix::motorcontrol::can::TalonFX m_shooterMotorRight{ID_MOTOR_SHOOTER_RIGHT};
-  ctre::phoenix::motorcontrol::can::TalonFX m_shooterMotorLeft{ID_MOTOR_SHOOTER_LEFT};
+  ctre::phoenix::motorcontrol::can::TalonFX m_feederMotor{ID_MOTOR_FEEDER};
 };

@@ -11,6 +11,11 @@
 #define ID_MOTOR_DRIVE_TRAIN_LEFT 3
 #define ID_MOTOR_DRIVE_TRAIN_LEFT_2 4
 
+#define ID_MOTOR_FEEDER 5
+#define ID_MOTOR_SHOOTER_RIGHT 6
+#define ID_MOTOR_SHOOTER_LEFT 7
+#define ID_MOTOR_INTAKE 8
+
 // #########################    ID Solenoid    #########################
 #define ID_SOLENOID_SHIFTER_A 1
 #define ID_SOLENOID_SHIFTER_B 0

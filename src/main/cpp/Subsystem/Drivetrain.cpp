@@ -1,4 +1,4 @@
-#include "Subsystem/Drivetrain.h"
+#include "subsystem/Drivetrain.h"
 
 Drivetrain::Drivetrain() : m_GearboxLeftOutAveragedRpt(AVERAGE_SAMPLES_NUMBER),
                            m_GearboxRightOutAveragedRpt(AVERAGE_SAMPLES_NUMBER),
