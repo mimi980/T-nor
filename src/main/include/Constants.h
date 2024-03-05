@@ -96,4 +96,5 @@
 #define STOP_FEEDER_SPEED 0.0
 // #########################   DRIVETRAIN SETTINGS  #########################
 
-#define DRIVE_WHEEL_TRACK_WIDTH_INCHES
+#define DRIVE_WHEEL_TRACK_WIDTH_INCHES 22.441
+#define TRACK_SCRUB_FACTOR 1.0469745223

@@ -3,7 +3,7 @@
 // Assurez-vous que les classes Pose2d, Rotation2d, Twist2d et DriveSignal sont définies quelque part dans votre projet C++.
 // #include "Pose2d.h"
 // #include "Rotation2d.h"
-// #include "Twist2d.h"
+#include "geometry/Twist2d.h"
 // #include "DriveSignal.h"
 #include "Constants.h"
 
@@ -14,7 +14,7 @@ public:
 
     static Twist2d forwardKinematics(double left_wheel_delta, double right_wheel_delta)
     {
-        double delta_rotation = (right_wheel_delta - left_wheel_delta) / (Constants::kDriveWheelTrackWidthInches * Constants::kTrackScrubFactor);
+        double delta_rotation = (right_wheel_delta - left_wheel_delta) / (DRIVE_WHEEL_TRACK_WIDTH_INCHES * TRACK_SCRUB_FACTOR);
         return forwardKinematics(left_wheel_delta, right_wheel_delta, delta_rotation);
     }
 
@@ -42,7 +42,7 @@ public:
         {
             return DriveSignal(velocity.dx, velocity.dx);
         }
-        double delta_v = Constants::kDriveWheelTrackWidthInches * velocity.dtheta / (2 * Constants::kTrackScrubFactor);
+        double delta_v = DRIVE_WHEEL_TRACK_WIDTH_INCHES * velocity.dtheta / (2 * TRACK_SCRUB_FACTOR);
         return DriveSignal(velocity.dx - delta_v, velocity.dx + delta_v);
     }
 };
