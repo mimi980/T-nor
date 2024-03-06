@@ -8,12 +8,14 @@ Shoot::Shoot(Shooter *pShooter, Feeder *pFeeder, Planetary *pPlanetary, Camera *
 void Shoot::Initialize()
 {
   m_count = 0;
+  m_pShooter->IsShoot = true;
 }
 
 void Shoot::Execute()
 {
   shooter_speed = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetDistance())][2];
   planteray_angle = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetDistance())][1];
+  m_pPlanetary->SetSetpoint(planteray_angle);
   m_count++;
   switch (m_state)
   {
@@ -61,6 +63,7 @@ void Shoot::Execute()
 void Shoot::End(bool interrupted)
 {
   m_pFeeder->IsNoteLoaded = false;
+  m_pShooter->IsShoot = false;
 }
 
 bool Shoot::IsFinished()

@@ -21,16 +21,31 @@ Planetary::Planetary()
     m_planetaryPid.SetSetpoint(0.0);
 };
 
+/**
+ * @brief Sets the speed of the planetary motor.
+ *
+ * @param speed The speed to set for the planetary motor.
+ */
 void Planetary::SetPlanetary(double speed)
 {
     m_planetaryMotor.Set(speed);
 }
 
+/**
+ * @brief Sets the setpoint for the Planetary subsystem.
+ *
+ * @param setpoint The desired setpoint value.
+ */
 void Planetary::SetSetpoint(double setpoint)
 {
     m_planetaryPid.SetSetpoint(setpoint);
 }
 
+/**
+ * Returns the current encoder value of the Planetary subsystem.
+ *
+ * @return The current encoder value.
+ */
 double Planetary::GetEncoder()
 {
     return m_planetaryEncoder.GetDistance();

@@ -28,17 +28,33 @@ Shooter::Shooter()
     m_shooterMotorRight.SetInverted(true);
 };
 
+/**
+ * Sets the speed of the shooter motors.
+ *
+ * @param speed The speed to set the shooter motors to.
+ */
 void Shooter::SetShooter(double speed)
 {
     m_shooterMotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, speed);
     m_shooterMotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, speed);
 }
 
+/**
+ * Returns the velocity of the shooter.
+ *
+ * @return The velocity of the shooter in units per second.
+ */
 double Shooter::GetShooterVelocity()
 {
     return (((m_shooterMotorLeft.GetSensorCollection().GetIntegratedSensorVelocity() * 600.0 / 2048.0) + (m_shooterMotorRight.GetSensorCollection().GetIntegratedSensorVelocity() * 600.0 / 2048.0)) / 2.0) * 1.5;
 }
 
+/**
+ * Finds the index of the nearest element in the shooter data table to the given target value.
+ *
+ * @param target The target value to find the nearest element to.
+ * @return The index of the nearest element in the shooter data table.
+ */
 int Shooter::getNearestElementId(double target)
 {
     // dichotmoie recherche
