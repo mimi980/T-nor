@@ -8,6 +8,8 @@
 
 // Assurez-vous que Util.h est inclus et défini quelque part dans votre projet
 #include "lib/utils.h"
+#include "lib/RblUtils.h"
+
 
 class Twist2d
 {
@@ -43,7 +45,7 @@ public:
     {
         std::ostringstream oss;
         oss << std::fixed << std::setprecision(3);
-        oss << "(" << dx << "," << dy << "," << dtheta * 180.0 / M_PI << " deg)";
+        oss << "(" << dx << "," << dy << "," << dtheta * 180.0 / NF64_PI << " deg)";
         return oss.str();
     }
 

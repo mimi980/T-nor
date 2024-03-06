@@ -5,7 +5,7 @@
 #pragma once
 #include <frc/Joystick.h>
 #include <frc2/command/Command.h>
-#include <frc2/JoystickButton.h>
+#include <frc2/command/button/JoystickButton.h>
 #include "subsystem/Drivetrain.h"
 #include "subsystem/Shooter.h"
 #include "subsystem/Feeder.h"

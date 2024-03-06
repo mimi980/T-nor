@@ -30,6 +30,12 @@ void PreShoot::Execute()
     m_pShooter->SetShooter(0.3);
     m_pPlanetary->SetSetpoint(0);
   }
+  if (!m_pShooter->IsPreShoot)
+  {
+    m_pShooter->SetShooter(0);
+    m_pPlanetary->SetSetpoint(0);
+  }
+  
 }
 
 // Called once the command ends or is interrupted.

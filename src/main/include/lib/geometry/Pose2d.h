@@ -61,7 +61,7 @@ public:
         double half_dtheta = 0.5 * dtheta;
         double cos_minus_one = transform.rotation_.cos() - 1.0;
         double halftheta_by_tan_of_halfdtheta;
-        if (std::abs(cos_minus_one) < Util::kEpsilon)
+        if (std::abs(cos_minus_one) < utils::kEpsilon)
         {
             halftheta_by_tan_of_halfdtheta = 1.0 - 1.0 / 12.0 * dtheta * dtheta;
         }
@@ -82,11 +82,6 @@ public:
 
     Translation2d getTranslation() const { return translation_; }
     Rotation2d getRotation() const { return rotation_; }
-
-private:
-    static constexpr double kEps = 1E-9;
-
-    const Pose2d Pose2d::kIdentity = Pose2d();
 
     Pose2d inverse() const
     {
@@ -121,7 +116,7 @@ private:
         if (!rotation_.isParallel(other.rotation_))
             return false;
         Twist2d twist = Pose2d::log(inverse().transformBy(other));
-        return Util::epsilonEquals(twist.dy, 0.0) && Util::epsilonEquals(twist.dtheta, 0.0);
+        return utils::epsilonEquals(twist.dy, 0.0) && utils::epsilonEquals(twist.dtheta, 0.0);
     }
 
     bool epsilonEquals(const Pose2d &other, double epsilon) const
@@ -150,7 +145,7 @@ private:
 
     bool equals(const Pose2d &other) const
     {
-        return epsilonEquals(other, Util::kEpsilon);
+        return epsilonEquals(other, utils::kEpsilon);
     }
 
     Pose2d mirror() const
@@ -175,6 +170,9 @@ private:
         }
         return a_t.translateBy(a_r.toTranslation().scale(t));
     }
+
+        static constexpr double kEps = 1E-9;
+
 };
 
 #endif // POSE2D_H

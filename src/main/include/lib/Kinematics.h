@@ -1,10 +1,10 @@
 #include <cmath> // Pour std::abs et d'autres fonctions mathématiques
 
 // Assurez-vous que les classes Pose2d, Rotation2d, Twist2d et DriveSignal sont définies quelque part dans votre projet C++.
-// #include "Pose2d.h"
-// #include "Rotation2d.h"
+#include "geometry/Pose2d.h"
+#include "geometry/Rotation2d.h"
 #include "geometry/Twist2d.h"
-// #include "DriveSignal.h"
+#include "DriveSignal.h"
 #include "Constants.h"
 
 class Kinematics
