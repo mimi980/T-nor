@@ -38,3 +38,44 @@ double Shooter::GetShooterVelocity()
 {
     return (((m_shooterMotorLeft.GetSensorCollection().GetIntegratedSensorVelocity() * 600.0 / 2048.0) + (m_shooterMotorRight.GetSensorCollection().GetIntegratedSensorVelocity() * 600.0 / 2048.0)) / 2.0) * 1.5;
 }
+
+int Shooter::getNearestElementId(double target)
+{
+    // dichotmoie recherche
+    int left = 0;
+    int right = SHOOTER_TABLE_SIZE - 1;
+    int mid;
+    while (left < right)
+    {
+        mid = (left + right) / 2;
+        if (shooterDataTable[mid][0] < target)
+        {
+            left = mid + 1;
+        }
+        else
+        {
+            right = mid;
+        }
+    }
+
+    if (left == 0)
+    {
+        return 0;
+    }
+    else if (left == SHOOTER_TABLE_SIZE - 1)
+    {
+        return SHOOTER_TABLE_SIZE - 1;
+    }
+    else if (NABS(shooterDataTable[left - 1][0] - target) < NABS(target - shooterDataTable[left][0]) && NABS(shooterDataTable[left - 1][0] - target) < NABS(target - shooterDataTable[left + 1][0]))
+    {
+        return left - 1;
+    }
+    else if (NABS(shooterDataTable[left][0] - target) < NABS(target - shooterDataTable[left + 1][0]) && NABS(shooterDataTable[left][0] - target) < NABS(target - shooterDataTable[left + 1][0]))
+    {
+        return left;
+    }
+    else
+    {
+        return left + 1;
+    }
+}

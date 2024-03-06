@@ -98,3 +98,10 @@
 
 #define DRIVE_WHEEL_TRACK_WIDTH_INCHES 22.441
 #define TRACK_SCRUB_FACTOR 1.0469745223
+
+// #########################    CAMERA SETTINGS   ###################################
+
+#define CAMERA_PITCH 1.0
+#define CAMERA_HEIGHT 1.0
+#define TARGET_HEIGHT 1.0
+#define SHOOTER_TABLE_SIZE 7

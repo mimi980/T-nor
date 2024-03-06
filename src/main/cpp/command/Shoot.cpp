@@ -12,6 +12,8 @@ void Shoot::Initialize()
 
 void Shoot::Execute()
 {
+  shooter_speed = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetDistance())][2];
+  planteray_angle = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetDistance())][1];
   m_count++;
   switch (m_state)
   {
@@ -23,7 +25,7 @@ void Shoot::Execute()
     }
     break;
   case State::PreShoot:
-    m_pShooter->SetShooter(SHOOTER_SPEED);
+    m_pShooter->SetShooter(shooter_speed);
     if (m_pShooter->GetShooterVelocity() > GOALS_SHOOTER_SPEED)
     {
       m_state = State::Shoot;
@@ -31,7 +33,7 @@ void Shoot::Execute()
     break;
   case State::Shoot:
     m_pFeeder->SetFeeder(CATCH_FEEDER_SPEED);
-    m_pShooter->SetShooter(SHOOTER_SPEED);
+    m_pShooter->SetShooter(shooter_speed);
     if (!m_pFeeder->GetFeederInfraSensorValue())
     {
       m_state = State::Shooting;
@@ -40,7 +42,7 @@ void Shoot::Execute()
     break;
   case State::Shooting:
     m_pFeeder->SetFeeder(CATCH_FEEDER_SPEED);
-    m_pShooter->SetShooter(SHOOTER_SPEED);
+    m_pShooter->SetShooter(shooter_speed);
     if (m_pFeeder->GetFeederInfraSensorValue() && m_count > 30)
     {
       m_state = State::End;

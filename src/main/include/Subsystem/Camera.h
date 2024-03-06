@@ -5,17 +5,26 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
+#include "photon/PhotonCamera.h"
+#include "photon/PhotonUtils.h"
+#include "frc/filter/MedianFilter.h"
+#include "lib/RblUtils.h"
+#include "Constants.h"
 
 class Camera : public frc2::SubsystemBase
 {
 public:
   Camera();
-
-  /**
-   * Will be called periodically whenever the CommandScheduler runs.
-   */
-
-private:
+  int getAprilId();
+  bool isAprilTagMode();
+  double GetDistance();
+  double GetAngle();
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
+
+  photon::PhotonCamera m_camera{"IRcam"};
+  frc::MedianFilter<double> m_verticalMedian = frc::MedianFilter<double>(3);
+  // units::meter_t range = photon::PhotonUtils::CalculateDistanceToTarget(
+  //     CAMERA_HEIGHT, TARGET_HEIGHT, CAMERA_PITCH,
+  //     units::radian_t{m_camera.GetLatestResult().GetBestTarget().GetPitch()});
 };

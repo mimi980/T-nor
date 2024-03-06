@@ -6,6 +6,7 @@
 
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
+#include <frc/filter/MedianFilter.h>
 #include "subsystem/Shooter.h"
 #include "subsystem/Feeder.h"
 #include "subsystem/Planetary.h"
@@ -27,6 +28,8 @@ public:
 
 private:
   int m_count;
+  double shooter_speed;
+  double planteray_angle;
 
   enum class State
   {

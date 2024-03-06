@@ -7,3 +7,33 @@
 Camera::Camera() = default;
 
 // This method will be called once per scheduler run
+
+int Camera::getAprilId()
+{
+
+    if (m_camera.HasTargets())
+    {
+        return m_camera.GetLatestResult().GetBestTarget().GetFiducialId();
+    }
+    else
+    {
+        return 0;
+    }
+}
+bool Camera::isAprilTagMode()
+{
+    return !m_camera.GetDriverMode() && (m_camera.GetPipelineIndex() == 0);
+}
+
+double Camera::GetDistance()
+{
+    double targetPitch = m_camera.GetLatestResult().GetBestTarget().GetPitch();
+    return (TARGET_HEIGHT - CAMERA_HEIGHT) / units::math::tan(units::radian_t(NDEGtoRAD(targetPitch + CAMERA_PITCH)));
+}
+
+double Camera::GetAngle()
+{
+    double targetYaw = m_camera.GetLatestResult().GetBestTarget().GetYaw();
+    m_verticalMedian.Calculate(targetYaw);
+    return m_verticalMedian.LastValue();
+}
