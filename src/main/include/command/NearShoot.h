@@ -6,6 +6,9 @@
 
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
+#include "subsystem/Shooter.h"
+#include "subsystem/Planetary.h"
+#include "subsystem/Feeder.h"
 
 /**
  * An example command.
@@ -15,9 +18,10 @@
  * Command will *not* work!
  */
 class NearShoot
-    : public frc2::CommandHelper<frc2::Command, NearShoot> {
- public:
-  NearShoot();
+    : public frc2::CommandHelper<frc2::Command, NearShoot>
+{
+public:
+  NearShoot(Shooter *pShooter, Planetary *pPlanetary, Feeder *pFeeder);
 
   void Initialize() override;
 
@@ -26,4 +30,9 @@ class NearShoot
   void End(bool interrupted) override;
 
   bool IsFinished() override;
+
+private:
+  Shooter *m_pShooter;
+  Planetary *m_pPlanetary;
+  Feeder *m_pFeeder;
 };
