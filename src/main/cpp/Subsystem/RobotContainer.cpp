@@ -1,3 +1,5 @@
+
+
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
@@ -16,9 +18,5 @@ RobotContainer::RobotContainer()
 void RobotContainer::ConfigureButtonBindings()
 {
     frc2::JoystickButton m_buttonPreShoot = frc2::JoystickButton(&m_joystickRight, 2);
-    m_buttonPreShoot.WhileTrue(PreShoot(&m_shooter, &m_planetary, &m_camera));
-
-    frc2::RunCommand::();
-    // frc2::JoystickButton m_buttonShoot = frc2::JoystickButton(&m_joystickRight, 1);
-    // m_buttonShoot.WhenPressed(Shoot(&m_shooter, &m_feeder, &m_planetary, &m_camera));
+    m_buttonPreShoot.WhileTrue(PreShoot(&m_shooter, &m_planetary, &m_camera).ToPtr());
 }
