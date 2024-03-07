@@ -6,6 +6,10 @@
 #include <frc/Joystick.h>
 #include <frc2/command/Command.h>
 #include <frc2/command/button/JoystickButton.h>
+#include <frc2/command/InstantCommand.h>
+#include <frc2/command/SequentialCommandGroup.h>
+#include <frc2/command/ParallelCommandGroup.h>
+#include <frc2/command/RunCommand.h>
 #include "subsystem/Drivetrain.h"
 #include "subsystem/Shooter.h"
 #include "subsystem/Feeder.h"
@@ -23,7 +27,6 @@ public:
   RobotContainer();
   void ConfigureButtonBindings();
 
-private:
   frc::Joystick m_joystickRight{0};
   frc::Joystick m_joystickLeft{1};
 
@@ -33,4 +36,6 @@ private:
   Planetary m_planetary;
   Camera m_camera;
   Intake m_intake;
+
+private:
 };

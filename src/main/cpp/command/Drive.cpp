@@ -4,8 +4,11 @@
 
 #include "command/Drive.h"
 
-Drive::Drive() {
+Drive::Drive(std::function<double()> forward, std::function<double()> turn, Drivetrain *pDrivetrain)
+    : m_Forward(forward), m_Turn(turn), m_pDrivetrain(pDrivetrain)
+{
   // Use addRequirements() here to declare subsystem dependencies.
+  AddRequirements({pDrivetrain});
 }
 
 // Called when the command is initially scheduled.
@@ -18,6 +21,7 @@ void Drive::Execute() {}
 void Drive::End(bool interrupted) {}
 
 // Returns true when the command should end.
-bool Drive::IsFinished() {
+bool Drive::IsFinished()
+{
   return false;
 }
