@@ -3,7 +3,10 @@
 
 #include <cmath>
 #include <limits>
+#include <sstream> // Pour std::stringstream
 #include <lib/RblUtils.h>
+#include <lib/utils.h>
+
 
 class Rotation2d {
 public:

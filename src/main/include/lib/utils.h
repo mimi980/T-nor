@@ -3,6 +3,7 @@
 namespace utils
 {
     static const double kEpsilon = 1e-9;
+    
     inline bool epsilonEquals(double a, double b) {
         return epsilonEquals(a, b, kEpsilon);
     }
