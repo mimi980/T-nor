@@ -23,6 +23,8 @@
 #include "command/Drive.h"
 #include "command/PreShoot.h"
 #include "command/Shoot.h"
+#include "command/TakeNote.h"
+#include "command/SpitNote.h"
 
 class RobotContainer
 {

@@ -6,15 +6,21 @@
 
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystem/Intake.h"
 #include "subsystem/Feeder.h"
-#include "subsystem/Planetary.h"
+#include "subsystem/Intake.h"
 
-class TakeNote
-    : public frc2::CommandHelper<frc2::Command, TakeNote>
+/**
+ * An example command.
+ *
+ * <p>Note that this extends CommandHelper, rather extending Command
+ * directly; this is crucially important, or else the decorator functions in
+ * Command will *not* work!
+ */
+class SpitNote
+    : public frc2::CommandHelper<frc2::Command, SpitNote>
 {
 public:
-  TakeNote(Feeder *pFeeder, Intake *pIntake, Planetary *pPlanetary);
+  SpitNote(Feeder *feeder, Intake *intake);
 
   void Initialize() override;
 
@@ -25,17 +31,7 @@ public:
   bool IsFinished() override;
 
 private:
-  enum class State
-  {
-    Catch,
-    Recul,
-    Loaded,
-    End
-  };
-
-  State m_state;
-
-  Feeder *m_pFeeder;
-  Intake *m_pIntake;
-  Planetary *m_pPlanetary;
+  Feeder *m_feeder;
+  Intake *m_intake;
+  int m_count;
 };

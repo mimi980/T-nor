@@ -28,7 +28,14 @@ bool Camera::isAprilTagMode()
 double Camera::GetDistance()
 {
     double targetPitch = m_camera.GetLatestResult().GetBestTarget().GetPitch();
-    return (TARGET_HEIGHT - CAMERA_HEIGHT) / units::math::tan(units::radian_t(NDEGtoRAD(targetPitch + CAMERA_PITCH)));
+    if (m_camera.HasTargets())
+    {
+        return (TARGET_HEIGHT - CAMERA_HEIGHT) / units::math::tan(units::radian_t(NDEGtoRAD(targetPitch + CAMERA_PITCH)));
+    }
+    else
+    {
+        return 0.0;
+    }
 }
 
 double Camera::GetAngle()

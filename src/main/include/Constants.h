@@ -89,10 +89,11 @@
 #define GOALS_SHOOTER_SPEED 5000
 
 #define INTAKE_SPEED 0.5
+#define SPIT_INTAKE_SPEED -INTAKE_SPEED
 #define STOP_INTAKE_SPEED 0.0
 
 #define CATCH_FEEDER_SPEED 0.5
-#define EJECT_FEEDER_SPEED 0.5
+#define SPIT_FEEDER_SPEED -CATCH_FEEDER_SPEED
 #define STOP_FEEDER_SPEED 0.0
 // #########################   DRIVETRAIN SETTINGS  #########################
 

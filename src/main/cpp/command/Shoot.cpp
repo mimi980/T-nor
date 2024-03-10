@@ -8,7 +8,16 @@ Shoot::Shoot(Shooter *pShooter, Feeder *pFeeder, Planetary *pPlanetary, Camera *
 void Shoot::Initialize()
 {
   m_count = 0;
-  m_pShooter->IsShoot = true;
+  m_pShooter->IsShoot ? m_pShooter->IsShoot = false : m_pShooter->IsShoot = true;
+  m_pShooter->IsPreShoot = false;
+  if (!m_pShooter->IsShoot)
+  {
+    m_state = State::End;
+  }
+  else
+  {
+    m_state = State::Loaded;
+  }
 }
 
 void Shoot::Execute()
@@ -45,6 +54,7 @@ void Shoot::Execute()
   case State::Shooting:
     m_pFeeder->SetFeeder(CATCH_FEEDER_SPEED);
     m_pShooter->SetShooter(shooter_speed);
+    m_pShooter->IsShoot = false;
     if (m_pFeeder->GetFeederInfraSensorValue() && m_count > 30)
     {
       m_state = State::End;
@@ -59,11 +69,9 @@ void Shoot::Execute()
     break;
   }
 }
-
 void Shoot::End(bool interrupted)
 {
   m_pFeeder->IsNoteLoaded = false;
-  m_pShooter->IsShoot = false;
 }
 
 bool Shoot::IsFinished()

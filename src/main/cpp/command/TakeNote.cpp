@@ -7,8 +7,17 @@ TakeNote::TakeNote(Feeder *pFeeder, Intake *pIntake, Planetary *pPlanetary) : m_
 
 void TakeNote::Initialize()
 {
-  m_state = State::Catch;
+  m_pIntake->IsIntaked ? m_pIntake->IsIntaked = false : m_pIntake->IsIntaked = true;
+  if (!m_pIntake->IsIntaked)
+  {
+    m_state = State::End;
+  }
+  else
+  {
+    m_state = State::Catch;
+  }
   m_pPlanetary->SetSetpoint(0.0);
+  IsFinished();
 }
 
 void TakeNote::Execute()
@@ -21,12 +30,12 @@ void TakeNote::Execute()
     if (!m_pFeeder->GetFeederInfraSensorValue())
     {
       m_pIntake->SetIntake(STOP_INTAKE_SPEED);
-      m_pFeeder->SetFeeder(EJECT_FEEDER_SPEED);
+      m_pFeeder->SetFeeder(SPIT_FEEDER_SPEED);
       m_state = State::Recul;
     }
     break;
   case State::Recul:
-    m_pFeeder->SetFeeder(EJECT_FEEDER_SPEED);
+    m_pFeeder->SetFeeder(SPIT_FEEDER_SPEED);
     if (m_pFeeder->GetFeederInfraSensorValue())
     {
       m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
@@ -37,6 +46,11 @@ void TakeNote::Execute()
     m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
     m_pFeeder->IsNoteLoaded = true;
     break;
+  case State::End:
+    m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
+    m_pIntake->SetIntake(STOP_INTAKE_SPEED);
+    m_pFeeder->IsNoteLoaded = false;
+    break;
   default:
     break;
   }
@@ -44,10 +58,18 @@ void TakeNote::Execute()
 
 void TakeNote::End(bool interrupted)
 {
-  m_state = State::Loaded;
 }
 
 bool TakeNote::IsFinished()
 {
-  return false;
+  if (m_pFeeder->IsNoteLoaded)
+  {
+    m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
+    m_pIntake->SetIntake(STOP_INTAKE_SPEED);
+    return true;
+  }
+  else
+  {
+    return false;
+  }
 }
