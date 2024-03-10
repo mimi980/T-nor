@@ -97,7 +97,7 @@ void Drivetrain::ActiveBallShifterV1() // active ball shifter V1
 void Drivetrain::ActiveBallShifterV2() // active ball shifter V2
 {
     m_BallShifterSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
-    std::cout << "V2222" << std::endl;
+    // std::cout << "V2222" << std::endl;
 }
 
 void Drivetrain::ChangeBallShifter() // change ball shifter
@@ -239,7 +239,7 @@ void Drivetrain::Drive(double joystick_V, double joystick_W, bool button_Past, b
         }
     }
     }
-    std::cout << button_Past << std::endl;
+    // std::cout << button_Past << std::endl;
     if (button_Past)
     {
         ActiveBallShifterV1();
@@ -249,8 +249,8 @@ void Drivetrain::Drive(double joystick_V, double joystick_W, bool button_Past, b
         ActiveBallShifterV2();
     }
 
-    m_MotorLeft1.Set(Calcul_De_Notre_Brave_JM(m_JoystickLimited_V.m_current, m_JoystickLimited_W.m_current, 0));
-    m_MotorRight1.Set(Calcul_De_Notre_Brave_JM(m_JoystickLimited_V.m_current, m_JoystickLimited_W.m_current, 1));
+    m_MotorLeft1.Set(NCLAMP(-0.6, Calcul_De_Notre_Brave_JM(m_JoystickLimited_V.m_current, m_JoystickLimited_W.m_current, 0), 0.6));
+    m_MotorRight1.Set(NCLAMP(-0.6, Calcul_De_Notre_Brave_JM(m_JoystickLimited_V.m_current, m_JoystickLimited_W.m_current, 1), 0.6));
     m_logCSV.write();
 
     frc::SmartDashboard::PutNumber("m_JoystickPrelimited_V", m_JoystickPrelimited_V.m_current);
