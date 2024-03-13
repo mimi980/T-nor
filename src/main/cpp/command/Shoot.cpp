@@ -37,7 +37,7 @@ void Shoot::Execute()
     break;
   case State::PreShoot:
     m_pShooter->SetShooter(shooter_speed);
-    if (m_pShooter->GetShooterVelocity() > GOALS_SHOOTER_SPEED)
+    if (NABS(m_pShooter->GetShooterVelocity()) > 3000)
     {
       m_state = State::Shoot;
     }

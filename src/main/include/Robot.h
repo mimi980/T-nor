@@ -30,7 +30,6 @@ public:
   void SimulationInit() override;
   void SimulationPeriodic() override;
 
-  Drivetrain m_drivetrain;
   RobotContainer m_robotContainer;
   frc::Joystick m_joystickLeft{0};
   frc::Joystick m_joystickRight{1};

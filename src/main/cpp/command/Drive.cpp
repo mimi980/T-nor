@@ -15,7 +15,12 @@ Drive::Drive(std::function<double()> forward, std::function<double()> turn, Driv
 void Drive::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void Drive::Execute() {}
+void Drive::Execute()
+{
+  double forward = m_Forward();
+  double turn = m_Turn();
+  m_pDrivetrain->Drive(forward, turn, false);
+}
 
 // Called once the command ends or is interrupted.
 void Drive::End(bool interrupted) {}

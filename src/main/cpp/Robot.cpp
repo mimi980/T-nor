@@ -18,7 +18,15 @@ void Robot::TeleopInit()
 }
 void Robot::TeleopPeriodic()
 {
-  // m_drivetrain.Drive(-m_joystickLeft.GetY(), m_joystickRight.GetZ(), m_joystickRight.GetRawButton(1));
+  if (m_robotContainer.m_joystickLeft.GetRawButtonPressed(1))
+  {
+    m_robotContainer.m_intake.IsIntaked ? m_robotContainer.m_intake.IsIntaked = false : m_robotContainer.m_intake.IsIntaked = true;
+  }
+  if (m_robotContainer.m_joystickRight.GetRawButtonPressed(2))
+  {
+    m_robotContainer.m_shooter.IsPreShoot ? m_robotContainer.m_shooter.IsPreShoot = false : m_robotContainer.m_shooter.IsPreShoot = true;
+  }
+  std::cout << m_robotContainer.m_intake.IsIntaked << std::endl;
 }
 
 void Robot::DisabledInit()

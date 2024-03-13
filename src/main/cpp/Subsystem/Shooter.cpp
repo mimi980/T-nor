@@ -24,8 +24,8 @@ Shooter::Shooter()
     m_shooterMotorLeft.ConfigVoltageCompSaturation(SHOOTER_VOLTAGE_COMPENSATION);
     m_shooterMotorRight.ConfigVoltageCompSaturation(SHOOTER_VOLTAGE_COMPENSATION);
 
-    m_shooterMotorLeft.SetInverted(false);
-    m_shooterMotorRight.SetInverted(true);
+    m_shooterMotorLeft.SetInverted(SHOOTER_MOTOR_LEFT_INVERTED);
+    m_shooterMotorRight.SetInverted(SHOOTER_MOTOR_RIGHT_INVERTED);
 
     IsPreShoot = false;
 };

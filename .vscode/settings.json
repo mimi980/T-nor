@@ -92,5 +92,6 @@
     "valarray": "cpp",
     "variant": "cpp",
     "charconv": "cpp"
-  }
+  },
+  "wpilib.autoStartRioLog": false
 }

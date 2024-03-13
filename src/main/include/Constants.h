@@ -27,8 +27,8 @@
 
 // #########################    ID Encoder    #########################
 
-#define ID_ENCODER_DRIVE_TRAIN_RIGHT_A 4
-#define ID_ENCODER_DRIVE_TRAIN_RIGHT_B 5
+#define ID_ENCODER_DRIVE_TRAIN_RIGHT_A 0
+#define ID_ENCODER_DRIVE_TRAIN_RIGHT_B 1
 #define ID_ENCODER_DRIVE_TRAIN_LEFT_A 2
 #define ID_ENCODER_DRIVE_TRAIN_LEFT_B 3
 
@@ -37,7 +37,7 @@
 
 // #########################    ID Sensor    #########################
 
-#define ID_SENSOR_INFRA_FEEDER 0
+#define ID_SENSOR_INFRA_FEEDER 4
 
 // #########################    PID Value    #########################
 
@@ -49,8 +49,8 @@
 // #########################    VoltageCompensation    #########################
 
 #define DRIVETRAIN_VOLTAGE_COMPENSATION 10.0
-#define INTAKE_VOLTAGE_COMPENSATION 10.0
-#define FEEDER_VOLTAGE_COMPENSATION 10.0
+#define INTAKE_VOLTAGE_COMPENSATION 12.0
+#define FEEDER_VOLTAGE_COMPENSATION 12.0
 #define PLANETARY_VOLTAGE_COMPENSATION 10.0
 #define SHOOTER_VOLTAGE_COMPENSATION 10.0
 
@@ -68,16 +68,17 @@
 #define INTAKE_RAMP 0.0
 #define FEEDER_RAMP 0.0
 #define PLANETARY_RAMP 0.0
-#define SHOOTER_RAMP 0.5
+#define SHOOTER_RAMP 0.1
 
 // #########################    SetInvertedMotor    #########################
 
-#define DRIVETRAIN_MOTOR_LEFT_INVERTED true
+#define DRIVETRAIN_MOTOR_LEFT_INVERTED false
 #define DRIVETRAIN_MOTOR_RIGHT_INVERTED true
-#define INTAKE_MOTOR_INVERTED false
+#define INTAKE_MOTOR_INVERTED_RIGHT false
+#define INTAKE_MOTOR_INVERTED_LEFT true
 #define FEEDER_MOTOR_INVERTED false
 #define PLANETARY_MOTOR_INVERTED false
-#define SHOOTER_MOTOR_LEFT_INVERTED false
+#define SHOOTER_MOTOR_LEFT_INVERTED true
 #define SHOOTER_MOTOR_RIGHT_INVERTED true
 
 // #########################    SetDistancePerPulse    #########################
@@ -90,11 +91,11 @@
 #define STOP_SHOOTER_SPEED 0.0
 #define GOALS_SHOOTER_SPEED 5000
 
-#define INTAKE_SPEED 0.5
+#define INTAKE_SPEED 1.0
 #define SPIT_INTAKE_SPEED -INTAKE_SPEED
 #define STOP_INTAKE_SPEED 0.0
 
-#define CATCH_FEEDER_SPEED 0.5
+#define CATCH_FEEDER_SPEED 1.0
 #define SPIT_FEEDER_SPEED -CATCH_FEEDER_SPEED
 #define STOP_FEEDER_SPEED 0.0
 // #########################   DRIVETRAIN SETTINGS  #########################
