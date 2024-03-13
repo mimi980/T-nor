@@ -16,5 +16,6 @@ public:
   bool IsIntaked;
 
 private:
-  ctre::phoenix::motorcontrol::can::TalonSRX m_intakeMotor{ID_MOTOR_INTAKE};
+  ctre::phoenix::motorcontrol::can::TalonSRX m_intakeMotorRight{ID_MOTOR_INTAKE_RIGHT};
+  ctre::phoenix::motorcontrol::can::TalonSRX m_intakeMotorLeft{ID_MOTOR_INTAKE_LEFT};
 };

@@ -7,6 +7,7 @@
 #include <frc/TimedRobot.h>
 #include "Subsystem/Drivetrain.h"
 #include "frc/Joystick.h"
+#include "RobotContainer.h"
 
 class Robot : public frc::TimedRobot
 {
@@ -30,6 +31,7 @@ public:
   void SimulationPeriodic() override;
 
   Drivetrain m_drivetrain;
+  RobotContainer m_robotContainer;
   frc::Joystick m_joystickLeft{0};
   frc::Joystick m_joystickRight{1};
 };

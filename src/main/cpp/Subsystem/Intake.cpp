@@ -6,13 +6,13 @@
 
 Intake::Intake()
 {
-    m_intakeMotor.ConfigFactoryDefault();
-    m_intakeMotor.SetInverted(INTAKE_MOTOR_INVERTED);
-    m_intakeMotor.EnableVoltageCompensation(true);
-    m_intakeMotor.ConfigVoltageCompSaturation(INTAKE_VOLTAGE_COMPENSATION);
+    m_intakeMotorRight.ConfigFactoryDefault();
+    m_intakeMotorRight.SetInverted(INTAKE_MOTOR_INVERTED);
+    m_intakeMotorRight.EnableVoltageCompensation(true);
+    m_intakeMotorRight.ConfigVoltageCompSaturation(INTAKE_VOLTAGE_COMPENSATION);
 };
 
 void Intake::SetIntake(double speed)
 {
-    m_intakeMotor.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, speed);
+    m_intakeMotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, speed);
 }

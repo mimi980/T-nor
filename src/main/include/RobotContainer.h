@@ -13,18 +13,18 @@
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/Commands.h>
 #include <frc2/command/RunCommand.h>
-#include "subsystem/Drivetrain.h"
-#include "subsystem/Shooter.h"
-#include "subsystem/Feeder.h"
-#include "subsystem/Planetary.h"
-#include "subsystem/Camera.h"
-#include "subsystem/Intake.h"
+// #include "subsystem/Drivetrain.h"
+// #include "subsystem/Shooter.h"
+// #include "subsystem/Feeder.h"
+// #include "subsystem/Planetary.h"
+// #include "subsystem/Camera.h"
+// #include "subsystem/Intake.h"
 
-#include "command/Drive.h"
-#include "command/PreShoot.h"
-#include "command/Shoot.h"
-#include "command/TakeNote.h"
-#include "command/SpitNote.h"
+// #include "command/Drive.h"
+// #include "command/PreShoot.h"
+// #include "command/Shoot.h"
+// #include "command/TakeNote.h"
+// #include "command/SpitNote.h"
 
 class RobotContainer
 {
@@ -35,12 +35,12 @@ public:
   frc::Joystick m_joystickRight{0};
   frc::Joystick m_joystickLeft{1};
 
-  Drivetrain m_drivetrain;
-  Shooter m_shooter;
-  Feeder m_feeder;
-  Planetary m_planetary;
-  Camera m_camera;
-  Intake m_intake;
+  // Drivetrain m_drivetrain;
+  // Shooter m_shooter;
+  // Feeder m_feeder;
+  // Planetary m_planetary;
+  // Camera m_camera;
+  // Intake m_intake;
 
 private:
 };
