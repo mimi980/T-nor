@@ -43,14 +43,14 @@ public:
   void SimulationPeriodic() override;
 
 private:
-  ctre::phoenix::motorcontrol::can::TalonFX m_MotorRight{1};
-  ctre::phoenix::motorcontrol::can::TalonFX m_MotorLeft{2};
+  ctre::phoenix::motorcontrol::can::TalonFX m_MotorRight{2};
+  ctre::phoenix::motorcontrol::can::TalonFX m_MotorLeft{1};
   ctre::phoenix::motorcontrol::can::TalonFX m_FeederMotor{3};
 
   frc::Joystick m_Jostick_Left{0};
   frc::Joystick m_Jostick_Right{1};
 
-  frc::DigitalInput m_infraSensor{2};
+  frc::DigitalInput m_infraSensor{0};
 
   double m_speedShoot;
   double m_speedAspiration;
@@ -67,6 +67,7 @@ private:
     PreShoot,
     Shoot,
     Shooting,
+    Spit,
     End
   };
 
