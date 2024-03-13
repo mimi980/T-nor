@@ -10,11 +10,11 @@ RobotContainer::RobotContainer()
 {
     ConfigureButtonBindings();
 
-    // m_drivetrain.SetDefaultCommand(Drive([=]
-    //                                      { return m_joystickRight.GetY(); },
-    //                                      [=]
-    //                                      { return m_joystickLeft.GetY(); },
-    //                                      &m_drivetrain));
+    m_drivetrain.SetDefaultCommand(Drive([=]
+                                         { return m_joystickRight.GetY(); },
+                                         [=]
+                                         { return m_joystickLeft.GetY(); },
+                                         &m_drivetrain));
 }
 
 void RobotContainer::ConfigureButtonBindings()
