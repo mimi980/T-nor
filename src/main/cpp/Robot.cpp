@@ -18,15 +18,16 @@ void Robot::TeleopInit()
   m_Gros.SetInverted(true);
   m_Gros.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
   frc::SmartDashboard::PutNumber("kp", 0.1);
-  frc::SmartDashboard::PutNumber("ki", 0.1);
-  frc::SmartDashboard::PutNumber("kd", 0.1);
-  m_Encoder.SetDistancePerPulse(0.1);
+  frc::SmartDashboard::PutNumber("ki", 0.0);
+  frc::SmartDashboard::PutNumber("kd", 0.0);
+  m_Encoder.Reset();
+  m_Encoder.SetDistancePerPulse(1.0 / 2048.0 * 360.0);
 }
 void Robot::TeleopPeriodic()
 {
-  m_pid.SetGains(frc::SmartDashboard::GetNumber("kp", 0.1), frc::SmartDashboard::GetNumber("ki", 0.1), frc::SmartDashboard::GetNumber("kd", 0.1));
+  m_pid.SetGains(frc::SmartDashboard::GetNumber("kp", 0.1), frc::SmartDashboard::GetNumber("ki", 0.0), frc::SmartDashboard::GetNumber("kd", 0.0));
   m_mesure = m_Encoder.GetDistance();
-  m_setpoint = m_Joystick.GetY();
+  m_setpoint = m_Joystick.GetY() * 360.0;
   m_pid.SetSetpoint(m_setpoint);
   m_output = m_pid.Calculate(m_mesure);
   frc::SmartDashboard::PutNumber("setpoint", m_setpoint);

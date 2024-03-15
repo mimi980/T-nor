@@ -36,7 +36,7 @@ private:
   Pid m_pid{0.0, 0.1, 0.1, 0.1}; // m_setpoint, m_kp, m_ki, m_kd
   frc::Joystick m_Joystick{0};
   rev::CANSparkMax m_Gros{10, rev::CANSparkMax::CANSparkLowLevel::MotorType::kBrushless};
-  frc::Encoder m_Encoder{0, 1};
+  frc::Encoder m_Encoder{6, 7};
   double m_setpoint;
   double m_output;
   double m_mesure;
