@@ -8,16 +8,17 @@ Shoot::Shoot(Shooter *pShooter, Feeder *pFeeder, Planetary *pPlanetary, Camera *
 void Shoot::Initialize()
 {
   m_count = 0;
-  m_pShooter->IsShoot ? m_pShooter->IsShoot = false : m_pShooter->IsShoot = true;
+  // m_pShooter->IsShoot ? m_pShooter->IsShoot = false : m_pShooter->IsShoot = true;
   m_pShooter->IsPreShoot = false;
-  if (!m_pShooter->IsShoot)
-  {
-    m_state = State::End;
-  }
-  else
-  {
-    m_state = State::Loaded;
-  }
+  // if (!m_pShooter->IsShoot)
+  // {
+  //   m_state = State::End;
+  // }
+  // else
+  // {
+  //   m_state = State::Loaded;
+  // }
+  m_state = State::Loaded;
 }
 
 void Shoot::Execute()
@@ -61,6 +62,7 @@ void Shoot::Execute()
     }
     break;
   case State::End:
+    m_pPlanetary->SetSetpoint(0.0);
     m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
     m_pShooter->SetShooter(STOP_SHOOTER_SPEED);
     break;

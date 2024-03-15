@@ -28,12 +28,12 @@ void PreShoot::Execute()
   else
   {
     m_pShooter->SetShooter(0.3);
-    m_pPlanetary->SetSetpoint(0);
+    m_pPlanetary->SetSetpoint(20.0);
   }
   if (!m_pShooter->IsPreShoot)
   {
-    m_pShooter->SetShooter(0);
-    m_pPlanetary->SetSetpoint(0);
+    m_pShooter->SetShooter(0.0);
+    m_pPlanetary->SetSetpoint(0.0);
   }
   std::cout << m_pShooter->IsPreShoot << std::endl;
 }

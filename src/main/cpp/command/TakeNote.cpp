@@ -15,7 +15,7 @@ void TakeNote::Initialize()
   {
     m_state = State::Catch;
   }
-  m_pPlanetary->SetSetpoint(0.0);
+  m_pPlanetary->SetSetpoint(17.0);
 }
 
 void TakeNote::Execute()
@@ -60,6 +60,7 @@ void TakeNote::End(bool interrupted)
 {
   m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
   m_pIntake->SetIntake(STOP_INTAKE_SPEED);
+  m_pPlanetary->SetSetpoint(0.0);
 }
 
 bool TakeNote::IsFinished()

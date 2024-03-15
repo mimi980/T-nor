@@ -18,7 +18,7 @@
 #define ID_MOTOR_SHOOTER_DOWN 8
 #define ID_MOTOR_SHOOTER_HIGH 9
 
-#define ID_MOTOR_PLANETARY 11
+#define ID_MOTOR_PLANETARY 10
 
 // #########################    ID Solenoid    #########################
 #define ID_SOLENOID_SHIFTER_A 0
@@ -32,7 +32,7 @@
 #define ID_ENCODER_DRIVE_TRAIN_LEFT_B 3
 
 #define ID_ENCODER_PLANETARY_A 6
-#define ID_ENCODER_PLANETARY_B 8
+#define ID_ENCODER_PLANETARY_B 7
 
 // #########################    ID Sensor    #########################
 
@@ -81,7 +81,7 @@
 
 // #########################    SetDistancePerPulse    #########################
 
-#define PLANETARY_DISTANCE_PER_PULSE 1.0 / 2048.0
+#define PLANETARY_DISTANCE_PER_PULSE ((1.0 / 2048.0) / 4.5) * 360.0
 
 // #########################   SPEED  #########################
 
