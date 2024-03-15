@@ -10,16 +10,30 @@ void Robot::RobotPeriodic() {}
 void Robot::AutonomousInit() {}
 void Robot::AutonomousPeriodic() {}
 
-void Robot::TeleopInit() {
+void Robot::TeleopInit()
+{
   m_Gros.RestoreFactoryDefaults();
   m_Gros.SetSmartCurrentLimit(40);
   m_Gros.EnableVoltageCompensation(12);
   m_Gros.SetInverted(true);
   m_Gros.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+  frc::SmartDashboard::PutNumber("kp", 0.1);
+  frc::SmartDashboard::PutNumber("ki", 0.1);
+  frc::SmartDashboard::PutNumber("kd", 0.1);
+  m_Encoder.SetDistancePerPulse(0.1);
 }
-void Robot::TeleopPeriodic() 
+void Robot::TeleopPeriodic()
 {
-  m_Gros.Set(m_Joystick.GetY());
+  m_pid.SetGains(frc::SmartDashboard::GetNumber("kp", 0.1), frc::SmartDashboard::GetNumber("ki", 0.1), frc::SmartDashboard::GetNumber("kd", 0.1));
+  m_mesure = m_Encoder.GetDistance();
+  m_setpoint = m_Joystick.GetY();
+  m_pid.SetSetpoint(m_setpoint);
+  m_output = m_pid.Calculate(m_mesure);
+  frc::SmartDashboard::PutNumber("setpoint", m_setpoint);
+  frc::SmartDashboard::PutNumber("output", m_output);
+  frc::SmartDashboard::PutNumber("mesure", m_mesure);
+  frc::SmartDashboard::PutNumber("error", m_pid.m_error);
+  // m_Gros.Set(std::clamp(m_output, -0.4, 0.4));
 }
 
 void Robot::DisabledInit() {}
@@ -32,7 +46,8 @@ void Robot::SimulationInit() {}
 void Robot::SimulationPeriodic() {}
 
 #ifndef RUNNING_FRC_TESTS
-int main() {
+int main()
+{
   return frc::StartRobot<Robot>();
 }
 #endif

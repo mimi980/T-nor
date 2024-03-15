@@ -7,9 +7,13 @@
 #include <frc/TimedRobot.h>
 #include <frc/Joystick.h>
 #include "rev/CANSparkMax.h"
+#include <frc/smartdashboard/SmartDashboard.h>
+#include "Pid.h"
+#include <frc/Encoder.h>
 
-class Robot : public frc::TimedRobot {
- public:
+class Robot : public frc::TimedRobot
+{
+public:
   void RobotInit() override;
   void RobotPeriodic() override;
 
@@ -28,8 +32,12 @@ class Robot : public frc::TimedRobot {
   void SimulationInit() override;
   void SimulationPeriodic() override;
 
-  private:
+private:
+  Pid m_pid{0.0, 0.1, 0.1, 0.1}; // m_setpoint, m_kp, m_ki, m_kd
   frc::Joystick m_Joystick{0};
-  rev::CANSparkMax m_Gros{6,rev::CANSparkMax::CANSparkLowLevel::MotorType::kBrushless};
-
+  rev::CANSparkMax m_Gros{10, rev::CANSparkMax::CANSparkLowLevel::MotorType::kBrushless};
+  frc::Encoder m_Encoder{0, 1};
+  double m_setpoint;
+  double m_output;
+  double m_mesure;
 };
