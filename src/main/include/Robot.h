@@ -31,6 +31,4 @@ public:
   void SimulationPeriodic() override;
 
   RobotContainer m_robotContainer;
-  frc::Joystick m_joystickLeft{0};
-  frc::Joystick m_joystickRight{1};
 };

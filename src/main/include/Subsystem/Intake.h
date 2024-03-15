@@ -5,7 +5,7 @@
 #pragma once
 
 #include <frc2/command/SubsystemBase.h>
-#include <ctre/Phoenix/motorcontrol/can/TalonSRX.h>
+#include <ctre/Phoenix/motorcontrol/can/TalonFX.h>
 #include "Constants.h"
 
 class Intake : public frc2::SubsystemBase
@@ -16,6 +16,5 @@ public:
   bool IsIntaked = false;
 
 private:
-  ctre::phoenix::motorcontrol::can::TalonSRX m_intakeMotorRight{ID_MOTOR_INTAKE_RIGHT};
-  ctre::phoenix::motorcontrol::can::TalonSRX m_intakeMotorLeft{ID_MOTOR_INTAKE_LEFT};
+  ctre::phoenix::motorcontrol::can::TalonFX m_intakeMotorRight{ID_MOTOR_INTAKE};
 };
