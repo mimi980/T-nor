@@ -41,9 +41,9 @@
 // #########################    PID Value    #########################
 
 // Turret
-#define PLANETARY_PID_P 0.0
+#define PLANETARY_PID_P 0.05
 #define PLANETARY_PID_I 0.0
-#define PLANETARY_PID_D 0.0
+#define PLANETARY_PID_D 0.04
 
 // #########################    VoltageCompensation    #########################
 
