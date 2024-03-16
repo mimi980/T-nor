@@ -30,7 +30,7 @@ double Camera::GetDistance()
     double targetPitch = m_camera.GetLatestResult().GetBestTarget().GetPitch();
     if (m_camera.HasTargets())
     {
-        return (TARGET_HEIGHT - CAMERA_HEIGHT) / units::math::tan(units::radian_t(NDEGtoRAD(targetPitch + CAMERA_PITCH)));
+        return (targetPitch);
     }
     else
     {

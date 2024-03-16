@@ -36,7 +36,7 @@
 
 // #########################    ID Sensor    #########################
 
-#define ID_SENSOR_INFRA_FEEDER 4
+#define ID_SENSOR_INFRA_FEEDER 5
 
 // #########################    PID Value    #########################
 
@@ -94,7 +94,7 @@
 #define STOP_INTAKE_SPEED 0.0
 
 #define CATCH_FEEDER_SPEED 1.0
-#define SPIT_FEEDER_SPEED -CATCH_FEEDER_SPEED
+#define SPIT_FEEDER_SPEED -0.5
 #define STOP_FEEDER_SPEED 0.0
 // #########################   DRIVETRAIN SETTINGS  #########################
 

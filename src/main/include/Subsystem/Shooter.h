@@ -19,13 +19,13 @@ public:
   int getNearestElementId(double target);
   static constexpr double shooterDataTable[SHOOTER_TABLE_SIZE][3] = {
       // pitch, angle, vitesse
-      {-17.4, 33, 0.7},
-      {-13.8, 36, 0.67},
-      {-11.3, 30, 0.6},
-      {-4.31, 24, 0.58},
-      {7.6, 15, 0.52},
-      {10, 8, 0.55},
-      {18.6, 8, 0.6},
+      {-17.4, 42, 0.5},
+      {-13.8, 35, 0.5},
+      {-11.3, 29, 0.5},
+      {14.7, 23, 0.55},
+      {12.1, 18.5, 0.65},
+      {9.79, 14.5, 0.8},
+      {8.3, 13, 0.85},
   };
   bool IsShoot;
   bool IsPreShoot;

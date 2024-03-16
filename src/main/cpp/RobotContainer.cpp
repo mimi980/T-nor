@@ -22,10 +22,10 @@ void RobotContainer::ConfigureButtonBindings()
     frc2::JoystickButton m_buttonPreShoot = frc2::JoystickButton(&m_joystickRight, 2);
     m_buttonPreShoot.OnTrue(PreShoot(&m_shooter, &m_planetary, &m_camera).ToPtr());
 
-    // frc2::JoystickButton m_buttonShoot = frc2::JoystickButton(&m_joystickRight, 1);
-    // m_buttonShoot.OnTrue(Shoot(&m_shooter, &m_feeder, &m_planetary, &m_camera).ToPtr());
+    frc2::JoystickButton m_buttonShoot = frc2::JoystickButton(&m_joystickRight, 1);
+    m_buttonShoot.OnTrue(Shoot(&m_shooter, &m_feeder, &m_planetary, &m_camera).ToPtr());
 
-    frc2::JoystickButton m_buttonNearShoot = frc2::JoystickButton(&m_joystickRight, 1);
+    frc2::JoystickButton m_buttonNearShoot = frc2::JoystickButton(&m_joystickRight, 4);
     m_buttonNearShoot.OnTrue(NearShoot(&m_shooter, &m_planetary, &m_feeder).ToPtr());
 
     frc2::JoystickButton m_buttonIntake = frc2::JoystickButton(&m_joystickLeft, 1);
