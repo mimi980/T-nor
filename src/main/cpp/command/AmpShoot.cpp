@@ -2,17 +2,16 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "command/NearShoot.h"
+#include "command/AmpShoot.h"
 
-NearShoot::NearShoot(Shooter *pShooter, Planetary *pPlanetary, Feeder *pFeeder)
+AmpShoot::AmpShoot(Shooter *pShooter, Planetary *pPlanetary, Feeder *pFeeder)
     : m_pShooter(pShooter), m_pPlanetary(pPlanetary), m_pFeeder(pFeeder)
 {
-  // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({pShooter, pPlanetary, pFeeder});
 }
 
 // Called when the command is initially scheduled.
-void NearShoot::Initialize()
+void AmpShoot::Initialize()
 {
   m_count = 0;
   m_pShooter->IsPreShoot = false;
@@ -20,10 +19,10 @@ void NearShoot::Initialize()
 }
 
 // Called repeatedly when this Command is scheduled to run
-void NearShoot::Execute()
+void AmpShoot::Execute()
 {
-  m_pPlanetary->SetSetpoint(NEAR_ANGLE);
-  m_goal = NEAR_SPEED_SHOOT * 6379 * 0.90 * (10.0 / 12.0);
+  m_pPlanetary->SetSetpoint(AMP_ANGLE);
+  m_goal = AMP_SHOOTER_SPEED * 6379 * 0.90 * (10.0 / 12.0);
   m_count++;
   switch (m_state)
   {
@@ -35,7 +34,7 @@ void NearShoot::Execute()
     }
     break;
   case State::PreShoot:
-    m_pShooter->SetShooter(NEAR_SPEED_SHOOT); // 0.5
+    m_pShooter->SetShooter(AMP_SHOOTER_SPEED); // 0.5
     if (NABS(m_pShooter->GetShooterVelocity()) > m_goal && m_pPlanetary->m_planetaryPid.AtSetpoint())
     {
       m_state = State::Shoot;
@@ -43,7 +42,7 @@ void NearShoot::Execute()
     break;
   case State::Shoot:
     m_pFeeder->SetFeeder(CATCH_FEEDER_SPEED);
-    m_pShooter->SetShooter(NEAR_SPEED_SHOOT); // 0.5
+    m_pShooter->SetShooter(AMP_SHOOTER_SPEED); // 0.5
     if (!m_pFeeder->GetFeederInfraSensorValue())
     {
       m_state = State::Shooting;
@@ -52,7 +51,7 @@ void NearShoot::Execute()
     break;
   case State::Shooting:
     m_pFeeder->SetFeeder(CATCH_FEEDER_SPEED);
-    m_pShooter->SetShooter(NEAR_SPEED_SHOOT);
+    m_pShooter->SetShooter(AMP_SHOOTER_SPEED);
     m_pShooter->IsShoot = false;
     if (m_pFeeder->GetFeederInfraSensorValue() && m_count > 30)
     {
@@ -71,13 +70,13 @@ void NearShoot::Execute()
 }
 
 // Called once the command ends or is interrupted.
-void NearShoot::End(bool interrupted)
+void AmpShoot::End(bool interrupted)
 {
   m_pFeeder->IsNoteLoaded = false;
 }
 
 // Returns true when the command should end.
-bool NearShoot::IsFinished()
+bool AmpShoot::IsFinished()
 {
   return false;
 }

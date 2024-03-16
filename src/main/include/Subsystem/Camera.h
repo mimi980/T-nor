@@ -17,11 +17,14 @@ public:
   Camera();
   int getAprilId();
   bool isAprilTagMode();
-  double GetDistance();
   double GetAngle();
+
+  void Periodic();
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
-
+  double Air;
+  double lastAir;
+  double diffAir;
   photon::PhotonCamera m_camera{"IRcam"};
   frc::MedianFilter<double> m_verticalMedian = frc::MedianFilter<double>(5);
   // units::meter_t range = photon::PhotonUtils::CalculateDistanceToTarget(

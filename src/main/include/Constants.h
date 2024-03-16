@@ -44,6 +44,7 @@
 #define PLANETARY_PID_P 0.05
 #define PLANETARY_PID_I 0.0
 #define PLANETARY_PID_D 0.04
+#define PLANETARY_PID_TOLERANCE 1.0
 
 // #########################    VoltageCompensation    #########################
 
@@ -87,7 +88,8 @@
 
 #define SHOOTER_SPEED 0.5
 #define STOP_SHOOTER_SPEED 0.0
-#define GOALS_SHOOTER_SPEED 5000
+#define AMP_SHOOTER_SPEED 0.15
+#define NEAR_SPEED_SHOOT 0.5
 
 #define INTAKE_SPEED 1.0
 #define SPIT_INTAKE_SPEED -INTAKE_SPEED
@@ -96,6 +98,9 @@
 #define CATCH_FEEDER_SPEED 1.0
 #define SPIT_FEEDER_SPEED -0.5
 #define STOP_FEEDER_SPEED 0.0
+
+#define AMP_ANGLE 100
+#define NEAR_ANGLE 38
 // #########################   DRIVETRAIN SETTINGS  #########################
 
 #define DRIVE_WHEEL_TRACK_WIDTH_INCHES 22.441
@@ -109,4 +114,3 @@
 #define SHOOTER_TABLE_SIZE 7
 
 // ##################################################################################
-#define AMP_ANGLE 100

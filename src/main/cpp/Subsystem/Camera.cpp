@@ -25,9 +25,12 @@ bool Camera::isAprilTagMode()
     return !m_camera.GetDriverMode() && (m_camera.GetPipelineIndex() == 0);
 }
 
-double Camera::GetDistance()
+double Camera::GetAngle()
 {
-    double targetPitch = m_camera.GetLatestResult().GetBestTarget().GetPitch();
+    // prevoir l'augmenation du pitch avec la distance
+
+    m_camera.GetLatestResult().GetBestTarget().GetArea();
+    double targetPitch = m_camera.GetLatestResult().GetBestTarget().GetPitch() + 0.01 * diffAir;
     if (m_camera.HasTargets())
     {
         m_verticalMedian.Calculate(targetPitch);
@@ -39,9 +42,12 @@ double Camera::GetDistance()
     return m_verticalMedian.LastValue();
 }
 
-double Camera::GetAngle()
+void Camera::Periodic()
 {
-    double targetYaw = m_camera.GetLatestResult().GetBestTarget().GetYaw();
-    m_verticalMedian.Calculate(targetYaw);
-    return m_verticalMedian.LastValue();
+    if (m_camera.HasTargets())
+    {
+        Air = m_camera.GetLatestResult().GetBestTarget().GetArea();
+    }
+    diffAir = Air - lastAir;
+    lastAir = Air;
 }
