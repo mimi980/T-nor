@@ -35,4 +35,19 @@ private:
   Shooter *m_pShooter;
   Planetary *m_pPlanetary;
   Feeder *m_pFeeder;
+
+  int m_count;
+  double shooter_speed;
+  double planteray_angle;
+
+  enum class State
+  {
+    Loaded,
+    PreShoot,
+    Shoot,
+    Shooting,
+    End
+  };
+
+  State m_state;
 };
