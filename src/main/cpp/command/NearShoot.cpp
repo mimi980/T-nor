@@ -31,7 +31,8 @@ void NearShoot::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void NearShoot::Execute()
 {
-  m_pPlanetary->SetSetpoint(80.0);
+  m_pPlanetary->SetSetpoint(AMP_ANGLE);
+  m_goal = 0.15 * 6379 * 0.90 * (10.0 / 12.0);
   m_count++;
   switch (m_state)
   {
@@ -43,15 +44,15 @@ void NearShoot::Execute()
     }
     break;
   case State::PreShoot:
-    m_pShooter->SetShooter(0.2); // 0.5
-    if (NABS(m_pShooter->GetShooterVelocity()) > 2000)
+    m_pShooter->SetShooter(0.15); // 0.5
+    if (NABS(m_pShooter->GetShooterVelocity()) > m_goal && m_pPlanetary->GetEncoder() < AMP_ANGLE + 1.0 && m_pPlanetary->GetEncoder() > AMP_ANGLE - 1.0)
     {
       m_state = State::Shoot;
     }
     break;
   case State::Shoot:
     m_pFeeder->SetFeeder(CATCH_FEEDER_SPEED);
-    m_pShooter->SetShooter(0.2); // 0.5
+    m_pShooter->SetShooter(0.15); // 0.5
     if (!m_pFeeder->GetFeederInfraSensorValue())
     {
       m_state = State::Shooting;
@@ -60,7 +61,7 @@ void NearShoot::Execute()
     break;
   case State::Shooting:
     m_pFeeder->SetFeeder(CATCH_FEEDER_SPEED);
-    m_pShooter->SetShooter(0.2);
+    m_pShooter->SetShooter(0.15);
     m_pShooter->IsShoot = false;
     if (m_pFeeder->GetFeederInfraSensorValue() && m_count > 30)
     {

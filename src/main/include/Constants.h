@@ -107,3 +107,6 @@
 #define CAMERA_HEIGHT 1.0
 #define TARGET_HEIGHT 1.0
 #define SHOOTER_TABLE_SIZE 7
+
+// ##################################################################################
+#define AMP_ANGLE 100

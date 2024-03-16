@@ -30,6 +30,7 @@ private:
   int m_count;
   double shooter_speed;
   double planteray_angle;
+  double m_goal;
 
   enum class State
   {

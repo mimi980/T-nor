@@ -26,6 +26,7 @@ void Shoot::Execute()
   shooter_speed = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetDistance())][2];
   planteray_angle = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetDistance())][1];
   m_pPlanetary->SetSetpoint(planteray_angle);
+  m_goal = shooter_speed * 6379 * 0.90 * (10.0 / 12.0);
   m_count++;
   switch (m_state)
   {
@@ -38,7 +39,7 @@ void Shoot::Execute()
     break;
   case State::PreShoot:
     m_pShooter->SetShooter(shooter_speed);
-    if (NABS(m_pShooter->GetShooterVelocity()) > 3000)
+    if (NABS(m_pShooter->GetShooterVelocity()) > m_goal)
     {
       m_state = State::Shoot;
     }
