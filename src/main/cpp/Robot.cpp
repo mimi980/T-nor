@@ -15,9 +15,13 @@ void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit()
 {
+  frc::SmartDashboard::SmartDashboard::PutNumber("Shooter Speed", 0.0);
+  frc::SmartDashboard::SmartDashboard::PutNumber("m_setpoint", 0.0);
 }
 void Robot::TeleopPeriodic()
 {
+  m_robotContainer.m_planetary.m_planetaryPid.m_setpoint = frc::SmartDashboard::SmartDashboard::GetNumber("m_setpoint", 0.0);
+  m_robotContainer.m_shooter.shooter_speed = frc::SmartDashboard::SmartDashboard::GetNumber("Shooter Speed", 0.0);
   if (m_robotContainer.m_joystickLeft.GetRawButtonPressed(1))
   {
     m_robotContainer.m_intake.IsIntaked ? m_robotContainer.m_intake.IsIntaked = false : m_robotContainer.m_intake.IsIntaked = true;

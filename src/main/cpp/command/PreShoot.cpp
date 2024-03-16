@@ -12,7 +12,7 @@ PreShoot::PreShoot(Shooter *pShooter, Planetary *pPlanetary, Camera *pCamera) : 
 // Called when the command is initially scheduled.
 void PreShoot::Initialize()
 {
-  // m_pShooter->IsPreShoot ? m_pShooter->IsPreShoot = false : m_pShooter->IsPreShoot = true;
+  m_pShooter->IsPreShoot ? m_pShooter->IsPreShoot = false : m_pShooter->IsPreShoot = true;
 }
 
 // Called repeatedly when this Command is scheduled to run

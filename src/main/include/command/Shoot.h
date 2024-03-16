@@ -28,8 +28,9 @@ public:
 
 private:
   int m_count;
-  double shooter_speed;
   double planteray_angle;
+  double shooter_speed;
+  double m_goal;
 
   enum class State
   {

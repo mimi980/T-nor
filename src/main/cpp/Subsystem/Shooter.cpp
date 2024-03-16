@@ -48,7 +48,7 @@ void Shooter::SetShooter(double speed)
  */
 double Shooter::GetShooterVelocity()
 {
-    return (((m_shooterMotorLeft.GetSensorCollection().GetIntegratedSensorVelocity() * 600.0 / 2048.0) + (m_shooterMotorRight.GetSensorCollection().GetIntegratedSensorVelocity() * 600.0 / 2048.0)) / 2.0) * 1.5;
+    return (((m_shooterMotorLeft.GetSensorCollection().GetIntegratedSensorVelocity() * 600.0 / 2048.0) + (m_shooterMotorRight.GetSensorCollection().GetIntegratedSensorVelocity() * 600.0 / 2048.0)) / 2.0);
 }
 
 /**
