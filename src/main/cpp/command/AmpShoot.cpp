@@ -59,7 +59,7 @@ void AmpShoot::Execute()
     }
     break;
   case State::End:
-    m_pPlanetary->SetSetpoint(0.0);
+    m_pPlanetary->SetSetpoint(REST_ANGLE);
     m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
     m_pShooter->SetShooter(STOP_SHOOTER_SPEED);
     break;

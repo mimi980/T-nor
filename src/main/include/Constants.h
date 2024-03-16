@@ -101,6 +101,8 @@
 
 #define AMP_ANGLE 100
 #define NEAR_ANGLE 38
+#define TAKE_ANGLE 17
+#define REST_ANGLE 0.0
 // #########################   DRIVETRAIN SETTINGS  #########################
 
 #define DRIVE_WHEEL_TRACK_WIDTH_INCHES 22.441

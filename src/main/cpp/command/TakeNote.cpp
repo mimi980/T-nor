@@ -15,7 +15,7 @@ void TakeNote::Initialize()
   {
     m_state = State::Catch;
   }
-  m_pPlanetary->SetSetpoint(17.0);
+  m_pPlanetary->SetSetpoint(TAKE_ANGLE);
 }
 
 void TakeNote::Execute()
@@ -25,7 +25,6 @@ void TakeNote::Execute()
   case State::Catch:
     m_pFeeder->SetFeeder(CATCH_FEEDER_SPEED);
     m_pIntake->SetIntake(INTAKE_SPEED);
-    std::cout << m_pFeeder->GetFeederInfraSensorValue() << std::endl;
     if (!m_pFeeder->GetFeederInfraSensorValue())
     {
       m_pIntake->SetIntake(STOP_INTAKE_SPEED);
@@ -60,7 +59,7 @@ void TakeNote::End(bool interrupted)
 {
   m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
   m_pIntake->SetIntake(STOP_INTAKE_SPEED);
-  m_pPlanetary->SetSetpoint(0.0);
+  m_pPlanetary->SetSetpoint(REST_ANGLE);
 }
 
 bool TakeNote::IsFinished()
