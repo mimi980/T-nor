@@ -59,7 +59,6 @@ double Shooter::GetShooterVelocity()
  */
 int Shooter::getNearestElementId(double target)
 {
-    // dichotmoie recherche
     int left = 0;
     int right = SHOOTER_TABLE_SIZE - 1;
     int mid;
@@ -76,24 +75,5 @@ int Shooter::getNearestElementId(double target)
         }
     }
 
-    if (left == 0)
-    {
-        return 0;
-    }
-    else if (left == SHOOTER_TABLE_SIZE - 1)
-    {
-        return SHOOTER_TABLE_SIZE - 1;
-    }
-    else if (NABS(shooterDataTable[left - 1][0] - target) < NABS(target - shooterDataTable[left][0]) && NABS(shooterDataTable[left - 1][0] - target) < NABS(target - shooterDataTable[left + 1][0]))
-    {
-        return left - 1;
-    }
-    else if (NABS(shooterDataTable[left][0] - target) < NABS(target - shooterDataTable[left + 1][0]) && NABS(shooterDataTable[left][0] - target) < NABS(target - shooterDataTable[left + 1][0]))
-    {
-        return left;
-    }
-    else
-    {
-        return left + 1;
-    }
+    return left;
 }

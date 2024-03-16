@@ -26,7 +26,7 @@ void Robot::TeleopPeriodic()
   {
     m_robotContainer.m_shooter.IsPreShoot ? m_robotContainer.m_shooter.IsPreShoot = false : m_robotContainer.m_shooter.IsPreShoot = true;
   }
-  std::cout << m_robotContainer.m_feeder.GetFeederInfraSensorValue() << std::endl;
+  std::cout << m_robotContainer.m_camera.GetDistance() << std::endl;
 }
 
 void Robot::DisabledInit()

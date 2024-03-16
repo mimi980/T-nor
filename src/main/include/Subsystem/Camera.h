@@ -23,7 +23,7 @@ public:
   // declared private and exposed only through public methods.
 
   photon::PhotonCamera m_camera{"IRcam"};
-  frc::MedianFilter<double> m_verticalMedian = frc::MedianFilter<double>(3);
+  frc::MedianFilter<double> m_verticalMedian = frc::MedianFilter<double>(5);
   // units::meter_t range = photon::PhotonUtils::CalculateDistanceToTarget(
   //     CAMERA_HEIGHT, TARGET_HEIGHT, CAMERA_PITCH,
   //     units::radian_t{m_camera.GetLatestResult().GetBestTarget().GetPitch()});

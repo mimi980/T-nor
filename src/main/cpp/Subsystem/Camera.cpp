@@ -30,12 +30,13 @@ double Camera::GetDistance()
     double targetPitch = m_camera.GetLatestResult().GetBestTarget().GetPitch();
     if (m_camera.HasTargets())
     {
-        return (targetPitch);
+        m_verticalMedian.Calculate(targetPitch);
     }
     else
     {
-        return 0.0;
+        m_verticalMedian.Calculate(m_verticalMedian.LastValue());
     }
+    return m_verticalMedian.LastValue();
 }
 
 double Camera::GetAngle()
