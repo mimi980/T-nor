@@ -25,7 +25,7 @@ void Shoot::Execute()
 {
   shooter_speed = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetAngle())][2];
   // planteray_angle = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetAngle())][1];
-  planteray_angle = 33.0 * exp(-(((m_pCamera->GetAngle() - 13.0) / -16.6) * *2) / 2);
+  planteray_angle = 33.0 * exp(-(pow(((m_pCamera->GetAngle() - 13.0) / -16.6), 2.0) / 2.0));
   m_pPlanetary->SetSetpoint(planteray_angle);
   m_goal = shooter_speed * 6379 * 0.90 * (10.0 / 12.0);
   // std::cout << shooter_speed << std::endl;
