@@ -26,6 +26,8 @@
 #include "command/TakeNote.h"
 #include "command/SpitNote.h"
 #include "command/NearShoot.h"
+#include "command/AmpShoot.h"
+#include "command/StageShoot.h"
 
 class RobotContainer
 {

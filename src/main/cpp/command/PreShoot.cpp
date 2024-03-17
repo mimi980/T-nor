@@ -35,7 +35,7 @@ void PreShoot::Execute()
     m_pShooter->SetShooter(STOP_SHOOTER_SPEED);
     m_pPlanetary->SetSetpoint(REST_ANGLE);
   }
-  std::cout << m_pShooter->IsPreShoot << std::endl;
+  // std::cout << m_pShooter->IsPreShoot << std::endl;
 }
 
 // Called once the command ends or is interrupted.

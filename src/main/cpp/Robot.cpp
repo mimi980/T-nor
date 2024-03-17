@@ -26,7 +26,15 @@ void Robot::TeleopPeriodic()
   {
     m_robotContainer.m_shooter.IsPreShoot ? m_robotContainer.m_shooter.IsPreShoot = false : m_robotContainer.m_shooter.IsPreShoot = true;
   }
-  std::cout << m_robotContainer.m_camera.GetAngle() << std::endl;
+
+  if (m_robotContainer.m_joystickLeft.GetRawButton(2))
+  {
+    m_robotContainer.m_drivetrain.drive_auto = true;
+  }
+  else
+  {
+    m_robotContainer.m_drivetrain.drive_auto = false;
+  }
 }
 
 void Robot::DisabledInit()

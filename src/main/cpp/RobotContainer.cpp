@@ -14,7 +14,7 @@ RobotContainer::RobotContainer()
                                          { return m_joystickRight.GetY(); },
                                          [=]
                                          { return m_joystickLeft.GetZ(); },
-                                         &m_drivetrain));
+                                         &m_drivetrain, &m_camera));
 }
 
 void RobotContainer::ConfigureButtonBindings()
@@ -26,14 +26,17 @@ void RobotContainer::ConfigureButtonBindings()
     m_buttonShoot.OnTrue(Shoot(&m_shooter, &m_feeder, &m_planetary, &m_camera).ToPtr());
 
     frc2::JoystickButton m_buttonAmpShoot = frc2::JoystickButton(&m_joystickRight, 4);
-    m_buttonAmpShoot.OnTrue(NearShoot(&m_shooter, &m_planetary, &m_feeder).ToPtr());
+    m_buttonAmpShoot.OnTrue(AmpShoot(&m_shooter, &m_planetary, &m_feeder).ToPtr());
 
     frc2::JoystickButton m_buttonNearShoot = frc2::JoystickButton(&m_joystickRight, 3);
     m_buttonNearShoot.OnTrue(NearShoot(&m_shooter, &m_planetary, &m_feeder).ToPtr());
 
+    frc2::JoystickButton m_buttonStageShoot = frc2::JoystickButton(&m_joystickRight, 5);
+    m_buttonStageShoot.OnTrue(StageShoot(&m_shooter, &m_planetary, &m_feeder).ToPtr());
+
     frc2::JoystickButton m_buttonIntake = frc2::JoystickButton(&m_joystickLeft, 1);
     m_buttonIntake.OnTrue(TakeNote(&m_feeder, &m_intake, &m_planetary).ToPtr());
 
-    frc2::JoystickButton m_buttonSpit = frc2::JoystickButton(&m_joystickLeft, 2);
+    frc2::JoystickButton m_buttonSpit = frc2::JoystickButton(&m_joystickLeft, 10);
     m_buttonSpit.OnTrue(SpitNote(&m_feeder, &m_intake).ToPtr());
 }

@@ -6,8 +6,9 @@
 
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
-#include "subsystem/Drivetrain.h"
-#include "Subsystem/Camera.h"
+#include "subsystem/Shooter.h"
+#include "subsystem/Planetary.h"
+#include "subsystem/Feeder.h"
 
 /**
  * An example command.
@@ -16,11 +17,11 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class Drive
-    : public frc2::CommandHelper<frc2::Command, Drive>
+class StageShoot
+    : public frc2::CommandHelper<frc2::Command, StageShoot>
 {
 public:
-  Drive(std::function<double()> forward, std::function<double()> turn, Drivetrain *pDrivetrain, Camera *pCamera);
+  StageShoot(Shooter *pShooter, Planetary *pPlanetary, Feeder *pFeeder);
 
   void Initialize() override;
 
@@ -31,8 +32,23 @@ public:
   bool IsFinished() override;
 
 private:
-  std::function<double()> m_Forward;
-  std::function<double()> m_Turn;
-  Drivetrain *m_pDrivetrain;
-  Camera *m_pCamera;
+  Shooter *m_pShooter;
+  Planetary *m_pPlanetary;
+  Feeder *m_pFeeder;
+
+  int m_count;
+  double shooter_speed;
+  double planteray_angle;
+  double m_goal;
+
+  enum class State
+  {
+    Loaded,
+    PreShoot,
+    Shoot,
+    Shooting,
+    End
+  };
+
+  State m_state;
 };

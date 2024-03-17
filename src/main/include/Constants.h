@@ -88,8 +88,9 @@
 
 #define SHOOTER_SPEED 0.5
 #define STOP_SHOOTER_SPEED 0.0
-#define AMP_SHOOTER_SPEED 0.15
+#define AMP_SHOOTER_SPEED 0.12
 #define NEAR_SPEED_SHOOT 0.5
+#define STAGE_SPEED_SHOOT 0.7
 
 #define INTAKE_SPEED 1.0
 #define SPIT_INTAKE_SPEED -INTAKE_SPEED
@@ -103,6 +104,7 @@
 #define NEAR_ANGLE 38
 #define TAKE_ANGLE 17
 #define REST_ANGLE 0.0
+#define STAGE_ANGLE 18
 // #########################   DRIVETRAIN SETTINGS  #########################
 
 #define DRIVE_WHEEL_TRACK_WIDTH_INCHES 22.441

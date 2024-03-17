@@ -4,7 +4,10 @@
 
 #include "subsystem/Camera.h"
 
-Camera::Camera() = default;
+Camera::Camera()
+{
+    m_basePid.SetGains(0.005, 0.0, 0.0);
+};
 
 // This method will be called once per scheduler run
 
@@ -27,8 +30,6 @@ bool Camera::isAprilTagMode()
 
 double Camera::GetAngle()
 {
-    // prevoir l'augmenation du pitch avec la distance
-
     m_camera.GetLatestResult().GetBestTarget().GetArea();
     double targetPitch = m_camera.GetLatestResult().GetBestTarget().GetPitch() + 0.01 * diffAir;
     if (m_camera.HasTargets())
@@ -42,11 +43,24 @@ double Camera::GetAngle()
     return m_verticalMedian.LastValue();
 }
 
+void Camera::SetSetpoint(double setpoint)
+{
+    m_basePid.SetSetpoint(setpoint);
+}
+
 void Camera::Periodic()
 {
     if (m_camera.HasTargets())
     {
         Air = m_camera.GetLatestResult().GetBestTarget().GetArea();
+    }
+    if (getAprilId() == 4)
+    {
+        m_output = m_basePid.Calculate(m_camera.GetLatestResult().GetBestTarget().GetYaw());
+    }
+    else
+    {
+        m_basePid.m_output = 0.0;
     }
     diffAir = Air - lastAir;
     lastAir = Air;

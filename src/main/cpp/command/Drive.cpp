@@ -3,12 +3,13 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "command/Drive.h"
+#include <iostream>
 
-Drive::Drive(std::function<double()> forward, std::function<double()> turn, Drivetrain *pDrivetrain)
-    : m_Forward(forward), m_Turn(turn), m_pDrivetrain(pDrivetrain)
+Drive::Drive(std::function<double()> forward, std::function<double()> turn, Drivetrain *pDrivetrain, Camera *pCamera)
+    : m_Forward(forward), m_Turn(turn), m_pDrivetrain(pDrivetrain), m_pCamera(pCamera)
 {
   // Use addRequirements() here to declare subsystem dependencies.
-  AddRequirements({pDrivetrain});
+  AddRequirements({pDrivetrain, pCamera});
 }
 
 // Called when the command is initially scheduled.
@@ -19,7 +20,16 @@ void Drive::Execute()
 {
   double forward = m_Forward();
   double turn = m_Turn();
-  m_pDrivetrain->Drive(forward, turn, false);
+  if (m_pDrivetrain->drive_auto)
+  {
+    m_pCamera->SetSetpoint(0.0);
+    std::cout << m_pCamera->m_output << std::endl;
+    m_pDrivetrain->DriveAuto(forward, m_pCamera->m_output, m_pCamera->m_basePid.m_error);
+  }
+  else
+  {
+    m_pDrivetrain->Drive(forward, turn, false);
+  }
 }
 
 // Called once the command ends or is interrupted.

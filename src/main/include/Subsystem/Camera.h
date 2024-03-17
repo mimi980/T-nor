@@ -8,7 +8,9 @@
 #include "photon/PhotonCamera.h"
 #include "photon/PhotonUtils.h"
 #include "frc/filter/MedianFilter.h"
+#include "frc/filter/LinearFilter.h"
 #include "lib/RblUtils.h"
+#include "lib/Pid.h"
 #include "Constants.h"
 
 class Camera : public frc2::SubsystemBase
@@ -18,15 +20,23 @@ public:
   int getAprilId();
   bool isAprilTagMode();
   double GetAngle();
-
-  void Periodic();
+  double GetOutput();
+  void SetSetpoint(double setpoint);
+  void Periodic() override;
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
+
   double Air;
   double lastAir;
   double diffAir;
+
+  Pid m_basePid{0.0, 0.1, 0.0, 0.0};
+  double m_setpoint;
+  double m_output;
+
   photon::PhotonCamera m_camera{"IRcam"};
-  frc::MedianFilter<double> m_verticalMedian = frc::MedianFilter<double>(5);
+  frc::MedianFilter<double> m_verticalMedian = frc::MedianFilter<double>(3);
+  frc::LinearFilter<double> m_horizontalErrorMovingAverage = frc::LinearFilter<double>::MovingAverage(3);
   // units::meter_t range = photon::PhotonUtils::CalculateDistanceToTarget(
   //     CAMERA_HEIGHT, TARGET_HEIGHT, CAMERA_PITCH,
   //     units::radian_t{m_camera.GetLatestResult().GetBestTarget().GetPitch()});
