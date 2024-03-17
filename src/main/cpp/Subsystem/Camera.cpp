@@ -30,10 +30,9 @@ bool Camera::isAprilTagMode()
 
 double Camera::GetAngle()
 {
-    m_camera.GetLatestResult().GetBestTarget().GetArea();
-    double targetPitch = m_camera.GetLatestResult().GetBestTarget().GetPitch() + 0.01 * diffAir;
     if (m_camera.HasTargets())
     {
+        double targetPitch = m_camera.GetLatestResult().GetBestTarget().GetPitch() + 0.01 * diffAir;
         m_verticalMedian.Calculate(targetPitch);
     }
     else
@@ -53,10 +52,10 @@ void Camera::Periodic()
     if (m_camera.HasTargets())
     {
         Air = m_camera.GetLatestResult().GetBestTarget().GetArea();
+        m_output = m_basePid.Calculate(m_camera.GetLatestResult().GetBestTarget().GetYaw());
     }
-    m_output = m_basePid.Calculate(m_camera.GetLatestResult().GetBestTarget().GetYaw());
 
     diffAir = Air - lastAir;
     lastAir = Air;
-    std::cout << m_camera.GetLatestResult().GetBestTarget().GetYaw() << "error" << std::endl;
+    // std::cout << m_camera.GetLatestResult().GetBestTarget().GetYaw() << "error" << std::endl;
 }

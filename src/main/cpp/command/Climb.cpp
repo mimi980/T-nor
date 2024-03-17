@@ -4,7 +4,7 @@
 
 #include "command/Climb.h"
 
-Climb::Climb(Climber *pClimber, Planetary *pPlanetary) : m_pClimber(pClimber), m_pPlanetary(pPlanetary)
+Climb::Climb(std::function<double()> forward, Climber *pClimber, Planetary *pPlanetary) : m_Forward(forward), m_pClimber(pClimber), m_pPlanetary(pPlanetary)
 {
   AddRequirements({pClimber, pPlanetary});
 }
@@ -17,8 +17,9 @@ void Climb::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void Climb::Execute()
 {
-  m_pClimber->SetSetpoint(CLIMB_ANGLE);
-  m_pPlanetary->SetSetpoint(AMP_ANGLE);
+  double forward = m_Forward();
+  m_pClimber->SetSetpoint(50 * forward);
+  m_pPlanetary->SetSetpoint(80);
 }
 
 // Called once the command ends or is interrupted.

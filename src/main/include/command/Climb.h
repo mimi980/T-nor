@@ -20,7 +20,7 @@ class Climb
     : public frc2::CommandHelper<frc2::Command, Climb>
 {
 public:
-  Climb(Climber *pClimber, Planetary *pPlanetary);
+  Climb(std::function<double()> forward, Climber *pClimber, Planetary *pPlanetary);
 
   void Initialize() override;
 
@@ -31,6 +31,7 @@ public:
   bool IsFinished() override;
 
 private:
+  std::function<double()> m_Forward;
   Climber *m_pClimber;
   Planetary *m_pPlanetary;
 };

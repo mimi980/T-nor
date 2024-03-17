@@ -27,7 +27,10 @@ Climber::Climber()
     m_climberMotorLeft.Follow(m_climberMotorRight);
 
     m_climberEncoder.Reset();
-    m_climberEncoder.SetDistancePerPulse((1.0 / 2048.0) / (150.0 / 18.0) * 360.0);
+    m_climberEncoder.SetDistancePerPulse((((1.0 / 2048.0)) / (150.0 / 18.0)) * 360.0);
+
+    m_pidClimber.SetGains(0.05, 0.0, 0.0);
+    m_pidClimber.SetSetpoint(0.0);
 };
 
 void Climber::SetClimberMotor(double speed)

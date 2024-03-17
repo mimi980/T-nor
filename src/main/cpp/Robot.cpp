@@ -61,7 +61,7 @@ void Robot::AutonomousPeriodic()
     //			(note dl/dt = vitesse roue gauche et dr/dt = vitesse roue droite  )
     //
 
-    m_follower.estimate(m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance(), m_robotContainer.m_drivetrain.m_EncoderRight.GetDistance(), NDEGtoRAD(m_gyro.GetAngle()));
+    // m_follower.estimate(m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance(), m_robotContainer.m_drivetrain.m_EncoderRight.GetDistance(), NDEGtoRAD(m_gyro.GetAngle()));
     m_follower.updateTarget(&m_TrajectoryPack, 0.02f);
     pout = m_follower.compute();
     m_robotContainer.m_drivetrain.DriveAuto(m_CrtzR.getVoltage(pout->m_rightVelocity, pout->m_rightAcceleration), m_CrtzL.getVoltage(pout->m_leftVelocity, pout->m_leftAcceleration), 0.0);
@@ -89,15 +89,6 @@ void Robot::TeleopPeriodic()
   if (m_robotContainer.m_joystickRight.GetRawButtonPressed(2))
   {
     m_robotContainer.m_shooter.IsPreShoot ? m_robotContainer.m_shooter.IsPreShoot = false : m_robotContainer.m_shooter.IsPreShoot = true;
-  }
-
-  if (m_robotContainer.m_joystickLeft.GetRawButton(2))
-  {
-    m_robotContainer.m_drivetrain.drive_auto = true;
-  }
-  else
-  {
-    m_robotContainer.m_drivetrain.drive_auto = false;
   }
 }
 

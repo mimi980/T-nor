@@ -24,8 +24,8 @@
 #define ID_MOTOR_CLIMBER_LEFT 12
 
 // #########################    ID Solenoid    #########################
-#define ID_SOLENOID_SHIFTER_A 0
-#define ID_SOLENOID_SHIFTER_B 1
+#define ID_SOLENOID_SHIFTER_A 1
+#define ID_SOLENOID_SHIFTER_B 7
 
 // #########################    ID Encoder    #########################
 
@@ -93,8 +93,8 @@
 #define PLANETARY_MOTOR_INVERTED false
 #define SHOOTER_MOTOR_LEFT_INVERTED true
 #define SHOOTER_MOTOR_RIGHT_INVERTED true
-#define CLIMBER_MOTOR_LEFT_INVERTED false
-#define CLIMBER_MOTOR_RIGHT_INVERTED true
+#define CLIMBER_MOTOR_LEFT_INVERTED true
+#define CLIMBER_MOTOR_RIGHT_INVERTED false
 
 // #########################    SetDistancePerPulse    #########################
 
@@ -122,7 +122,7 @@
 #define REST_ANGLE 0.0
 #define STAGE_ANGLE 18
 
-#define CLIMB_ANGLE 60.0
+#define CLIMB_ANGLE -60.0
 // #########################   DRIVETRAIN SETTINGS  #########################
 
 #define DRIVE_WHEEL_TRACK_WIDTH_INCHES 22.441

@@ -31,6 +31,7 @@
 #include "command/NearShoot.h"
 #include "command/AmpShoot.h"
 #include "command/StageShoot.h"
+#include "command/Climb.h"
 
 class RobotContainer
 {
@@ -61,6 +62,7 @@ public:
   Planetary m_planetary;
   Camera m_camera;
   Intake m_intake;
+  Climber m_climber;
 
 private:
 };

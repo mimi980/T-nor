@@ -15,10 +15,14 @@ RobotContainer::RobotContainer()
                                          [=]
                                          { return m_joystickLeft.GetZ(); },
                                          &m_drivetrain, &m_camera));
+    // m_climber.SetDefaultCommand(Climb([=]
+    //                                   { return m_joystickLeft.GetY(); },
+    //                                   &m_climber, &m_planetary));
 }
 
 void RobotContainer::ConfigureButtonBindings()
 {
+
     m_buttonPreShoot.OnTrue(PreShoot(&m_shooter, &m_planetary, &m_camera).ToPtr());
 
     m_buttonShoot.OnTrue(Shoot(&m_shooter, &m_feeder, &m_planetary, &m_camera).ToPtr());
