@@ -54,14 +54,9 @@ void Camera::Periodic()
     {
         Air = m_camera.GetLatestResult().GetBestTarget().GetArea();
     }
-    if (getAprilId() == 4)
-    {
-        m_output = m_basePid.Calculate(m_camera.GetLatestResult().GetBestTarget().GetYaw());
-    }
-    else
-    {
-        m_basePid.m_output = 0.0;
-    }
+    m_output = m_basePid.Calculate(m_camera.GetLatestResult().GetBestTarget().GetYaw());
+
     diffAir = Air - lastAir;
     lastAir = Air;
+    std::cout << m_camera.GetLatestResult().GetBestTarget().GetYaw() << "error" << std::endl;
 }

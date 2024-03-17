@@ -23,7 +23,7 @@ void Drive::Execute()
   if (m_pDrivetrain->drive_auto)
   {
     m_pCamera->SetSetpoint(0.0);
-    std::cout << m_pCamera->m_output << std::endl;
+    std::cout << m_pCamera->m_output << "output" << std::endl;
     m_pDrivetrain->DriveAuto(forward, m_pCamera->m_output, m_pCamera->m_basePid.m_error);
   }
   else
