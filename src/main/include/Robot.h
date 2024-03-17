@@ -35,8 +35,8 @@ public:
 private:
   Pid m_pid{0.0, 0.1, 0.1, 0.1}; // m_setpoint, m_kp, m_ki, m_kd
   frc::Joystick m_Joystick{0};
-  ctre::phoenix::motorcontrol::can::TalonFX m_MotorLeft{1};
-  ctre::phoenix::motorcontrol::can::TalonFX m_MotorRight{2};
+  ctre::phoenix::motorcontrol::can::TalonFX m_MotorLeft{11};
+  ctre::phoenix::motorcontrol::can::TalonFX m_MotorRight{12};
   frc::Encoder m_Encoder{8, 9};
   double m_setpoint;
   double m_output;

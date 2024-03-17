@@ -28,8 +28,8 @@ void Robot::TeleopInit()
   m_MotorLeft.ConfigSupplyCurrentLimit(ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(true, 40, 40, 0.0));
   m_MotorRight.ConfigSupplyCurrentLimit(ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(true, 40, 40, 0.0));
 
-  m_MotorLeft.SetInverted(true);
-  m_MotorRight.SetInverted(false);
+  m_MotorLeft.SetInverted(false);
+  m_MotorRight.SetInverted(true);
 
   m_MotorLeft.Follow(m_MotorRight);
 
@@ -38,14 +38,14 @@ void Robot::TeleopInit()
 
   frc::SmartDashboard::PutNumber("kp", 0.05);
   frc::SmartDashboard::PutNumber("ki", 0.0);
-  frc::SmartDashboard::PutNumber("kd", 0.04);
+  frc::SmartDashboard::PutNumber("kd", 0.00);
   frc::SmartDashboard::PutNumber("m_setpoint", 0.0);
   m_Encoder.Reset();
-  m_Encoder.SetDistancePerPulse(((1.0 / 2048.0)) * 360.0);
+  m_Encoder.SetDistancePerPulse((((1.0 / 2048.0)) / (150.0 / 18.0)) * 360.0);
 }
 void Robot::TeleopPeriodic()
 {
-  m_pid.SetGains(frc::SmartDashboard::GetNumber("kp", 0.05), frc::SmartDashboard::GetNumber("ki", 0.0), frc::SmartDashboard::GetNumber("kd", 0.04));
+  m_pid.SetGains(frc::SmartDashboard::GetNumber("kp", 0.05), frc::SmartDashboard::GetNumber("ki", 0.0), frc::SmartDashboard::GetNumber("kd", 0.0));
   m_mesure = m_Encoder.GetDistance();
   m_setpoint = frc::SmartDashboard::GetNumber("m_setpoint", 0.0);
   m_pid.SetSetpoint(m_setpoint);
@@ -56,7 +56,7 @@ void Robot::TeleopPeriodic()
 
   if (m_Joystick.GetRawButton(1))
   {
-    m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, std::clamp(m_output, -0.2, 0.2));
+    m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, std::clamp(m_output, -1.0, 1.0));
   }
   else
   {
