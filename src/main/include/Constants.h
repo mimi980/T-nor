@@ -20,6 +20,9 @@
 
 #define ID_MOTOR_PLANETARY 10
 
+#define ID_MOTOR_CLIMBER_RIGHT 11
+#define ID_MOTOR_CLIMBER_LEFT 12
+
 // #########################    ID Solenoid    #########################
 #define ID_SOLENOID_SHIFTER_A 0
 #define ID_SOLENOID_SHIFTER_B 1
@@ -34,6 +37,9 @@
 #define ID_ENCODER_PLANETARY_A 6
 #define ID_ENCODER_PLANETARY_B 7
 
+#define ID_ENCODER_CLIMBER_A 8
+#define ID_ENCODER_CLIMBER_B 9
+
 // #########################    ID Sensor    #########################
 
 #define ID_SENSOR_INFRA_FEEDER 5
@@ -46,6 +52,11 @@
 #define PLANETARY_PID_D 0.04
 #define PLANETARY_PID_TOLERANCE 1.0
 
+#define CLIMBER_PID_P 0.05
+#define CLIMBER_PID_I 0.0
+#define CLIMBER_PID_D 0.04
+#define CLIMBER_PID_TOLERANCE 1.0
+
 // #########################    VoltageCompensation    #########################
 
 #define DRIVETRAIN_VOLTAGE_COMPENSATION 10.0
@@ -53,6 +64,7 @@
 #define FEEDER_VOLTAGE_COMPENSATION 12.0
 #define PLANETARY_VOLTAGE_COMPENSATION 10.0
 #define SHOOTER_VOLTAGE_COMPENSATION 10.0
+#define CLIMBER_VOLTAGE_COMPENSATION 10.0
 
 // #########################    SmartCurrentLimit    #########################
 
@@ -61,6 +73,7 @@
 #define FEEDER_CURRENT_LIMIT 40
 #define PLANETARY_CURRENT_LIMIT 40
 #define SHOOTER_CURRENT_LIMIT 40
+#define CLIMBER_CURRENT_LIMIT 40
 
 // #########################    Ramp    #########################
 
@@ -69,6 +82,7 @@
 #define FEEDER_RAMP 0.0
 #define PLANETARY_RAMP 0.0
 #define SHOOTER_RAMP 0.1
+#define CLIMBER_RAMP 0.1
 
 // #########################    SetInvertedMotor    #########################
 
@@ -79,6 +93,8 @@
 #define PLANETARY_MOTOR_INVERTED false
 #define SHOOTER_MOTOR_LEFT_INVERTED true
 #define SHOOTER_MOTOR_RIGHT_INVERTED true
+#define CLIMBER_MOTOR_LEFT_INVERTED false
+#define CLIMBER_MOTOR_RIGHT_INVERTED true
 
 // #########################    SetDistancePerPulse    #########################
 
@@ -105,6 +121,8 @@
 #define TAKE_ANGLE 17
 #define REST_ANGLE 0.0
 #define STAGE_ANGLE 18
+
+#define CLIMB_ANGLE 60.0
 // #########################   DRIVETRAIN SETTINGS  #########################
 
 #define DRIVE_WHEEL_TRACK_WIDTH_INCHES 22.441
