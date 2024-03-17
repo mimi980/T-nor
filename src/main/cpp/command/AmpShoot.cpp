@@ -14,7 +14,6 @@ AmpShoot::AmpShoot(Shooter *pShooter, Planetary *pPlanetary, Feeder *pFeeder)
 void AmpShoot::Initialize()
 {
   m_count = 0;
-  m_pShooter->IsPreShoot = false;
   m_state = State::Loaded;
 }
 
@@ -34,15 +33,15 @@ void AmpShoot::Execute()
     }
     break;
   case State::PreShoot:
-    m_pShooter->SetShooter(AMP_SHOOTER_SPEED); // 0.5
-    if (NABS(m_pShooter->GetShooterVelocity()) > m_goal && m_pPlanetary->m_planetaryPid.AtSetpoint())
+    m_pShooter->SetAmpShooter(AMP_SHOOTER_SPEED); // 0.5
+    if (m_pPlanetary->m_planetaryPid.AtSetpoint())
     {
       m_state = State::Shoot;
     }
     break;
   case State::Shoot:
     m_pFeeder->SetFeeder(CATCH_FEEDER_SPEED);
-    m_pShooter->SetShooter(AMP_SHOOTER_SPEED); // 0.5
+    m_pShooter->SetAmpShooter(AMP_SHOOTER_SPEED); // 0.5
     if (!m_pFeeder->GetFeederInfraSensorValue())
     {
       m_state = State::Shooting;
@@ -51,7 +50,7 @@ void AmpShoot::Execute()
     break;
   case State::Shooting:
     m_pFeeder->SetFeeder(CATCH_FEEDER_SPEED);
-    m_pShooter->SetShooter(AMP_SHOOTER_SPEED);
+    m_pShooter->SetAmpShooter(AMP_SHOOTER_SPEED);
     m_pShooter->IsShoot = false;
     if (m_pFeeder->GetFeederInfraSensorValue() && m_count > 30)
     {
@@ -61,7 +60,8 @@ void AmpShoot::Execute()
   case State::End:
     m_pPlanetary->SetSetpoint(REST_ANGLE);
     m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
-    m_pShooter->SetShooter(STOP_SHOOTER_SPEED);
+    m_pShooter->SetAmpShooter(STOP_SHOOTER_SPEED);
+    m_pFeeder->IsNoteLoaded = false;
     break;
 
   default:
@@ -72,7 +72,9 @@ void AmpShoot::Execute()
 // Called once the command ends or is interrupted.
 void AmpShoot::End(bool interrupted)
 {
-  m_pFeeder->IsNoteLoaded = false;
+  m_pPlanetary->SetSetpoint(REST_ANGLE);
+  m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
+  m_pShooter->SetShooter(STOP_SHOOTER_SPEED);
 }
 
 // Returns true when the command should end.

@@ -13,7 +13,7 @@ class Intake : public frc2::SubsystemBase
 public:
   Intake();
   void SetIntake(double speed);
-  bool IsIntaked = false;
+  bool IsIntaked = true;
 
 private:
   ctre::phoenix::motorcontrol::can::TalonFX m_intakeMotorRight{ID_MOTOR_INTAKE};

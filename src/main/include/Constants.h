@@ -104,7 +104,7 @@
 
 #define SHOOTER_SPEED 0.5
 #define STOP_SHOOTER_SPEED 0.0
-#define AMP_SHOOTER_SPEED 0.12
+#define AMP_SHOOTER_SPEED 0.2
 #define NEAR_SPEED_SHOOT 0.5
 #define STAGE_SPEED_SHOOT 0.7
 
@@ -120,7 +120,7 @@
 #define NEAR_ANGLE 38
 #define TAKE_ANGLE 17
 #define REST_ANGLE 0.0
-#define STAGE_ANGLE 18
+#define STAGE_ANGLE 23
 
 #define CLIMB_ANGLE -60.0
 // #########################   DRIVETRAIN SETTINGS  #########################

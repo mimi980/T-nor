@@ -7,15 +7,8 @@ TakeNote::TakeNote(Feeder *pFeeder, Intake *pIntake, Planetary *pPlanetary) : m_
 
 void TakeNote::Initialize()
 {
-  if (!m_pIntake->IsIntaked)
-  {
-    m_state = State::End;
-  }
-  else
-  {
-    m_state = State::Catch;
-  }
   m_pPlanetary->SetSetpoint(TAKE_ANGLE);
+  m_state = State::Catch;
 }
 
 void TakeNote::Execute()
@@ -43,7 +36,6 @@ void TakeNote::Execute()
   case State::Loaded:
     m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
     m_pFeeder->IsNoteLoaded = true;
-    m_pIntake->IsIntaked = false;
     break;
   case State::End:
     m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
@@ -64,18 +56,5 @@ void TakeNote::End(bool interrupted)
 
 bool TakeNote::IsFinished()
 {
-  if (m_pFeeder->IsNoteLoaded)
-  {
-    m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
-    m_pIntake->SetIntake(STOP_INTAKE_SPEED);
-    return true;
-  }
-  else if (!m_pIntake->IsIntaked)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
+  return false;
 }

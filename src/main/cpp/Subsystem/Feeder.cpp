@@ -12,6 +12,8 @@ Feeder::Feeder()
     m_feederMotor.ConfigVoltageCompSaturation(FEEDER_VOLTAGE_COMPENSATION);
     m_feederMotor.ConfigSupplyCurrentLimit(ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(true, FEEDER_CURRENT_LIMIT, FEEDER_CURRENT_LIMIT, 0));
     m_feederMotor.ConfigClosedloopRamp(FEEDER_RAMP);
+
+    IsNoteLoaded = false;
 };
 
 // This method will be called once per scheduler run

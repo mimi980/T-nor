@@ -61,6 +61,7 @@ void StageShoot::Execute()
     m_pPlanetary->SetSetpoint(REST_ANGLE);
     m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
     m_pShooter->SetShooter(STOP_SHOOTER_SPEED);
+    m_pFeeder->IsNoteLoaded = false;
     break;
 
   default:
@@ -71,7 +72,9 @@ void StageShoot::Execute()
 // Called once the command ends or is interrupted.
 void StageShoot::End(bool interrupted)
 {
-  m_pFeeder->IsNoteLoaded = false;
+  m_pPlanetary->SetSetpoint(REST_ANGLE);
+  m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
+  m_pShooter->SetShooter(STOP_SHOOTER_SPEED);
 }
 
 // Returns true when the command should end.

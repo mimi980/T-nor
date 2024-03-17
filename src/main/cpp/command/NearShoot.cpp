@@ -15,7 +15,6 @@ NearShoot::NearShoot(Shooter *pShooter, Planetary *pPlanetary, Feeder *pFeeder)
 void NearShoot::Initialize()
 {
   m_count = 0;
-  m_pShooter->IsPreShoot = false;
   m_state = State::Loaded;
 }
 
@@ -53,13 +52,13 @@ void NearShoot::Execute()
   case State::Shooting:
     m_pFeeder->SetFeeder(CATCH_FEEDER_SPEED);
     m_pShooter->SetShooter(NEAR_SPEED_SHOOT);
-    m_pShooter->IsShoot = false;
     if (m_pFeeder->GetFeederInfraSensorValue() && m_count > 30)
     {
       m_state = State::End;
     }
     break;
   case State::End:
+    m_pFeeder->IsNoteLoaded = false;
     m_pPlanetary->SetSetpoint(0.0);
     m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
     m_pShooter->SetShooter(STOP_SHOOTER_SPEED);
@@ -73,7 +72,9 @@ void NearShoot::Execute()
 // Called once the command ends or is interrupted.
 void NearShoot::End(bool interrupted)
 {
-  m_pFeeder->IsNoteLoaded = false;
+  m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
+  m_pShooter->SetShooter(STOP_SHOOTER_SPEED);
+  m_pPlanetary->SetSetpoint(0.0);
 }
 
 // Returns true when the command should end.

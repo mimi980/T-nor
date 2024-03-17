@@ -27,7 +27,6 @@
 #include "command/PreShoot.h"
 #include "command/Shoot.h"
 #include "command/TakeNote.h"
-#include "command/SpitNote.h"
 #include "command/NearShoot.h"
 #include "command/AmpShoot.h"
 #include "command/StageShoot.h"
@@ -44,18 +43,17 @@ public:
   frc::XboxController m_xboxController{2};
 
   frc2::JoystickButton m_buttonPreShoot{&m_xboxController, 5};
-  // frc2::JoystickButton m_buttonShoot{&m_xboxController, 6};
+  frc2::JoystickButton m_buttonShoot{&m_xboxController, 6};
   frc2::JoystickButton m_buttonNearShoot{&m_xboxController, 1};
   frc2::JoystickButton m_buttonAmpShoot{&m_xboxController, 4};
   frc2::JoystickButton m_buttonStageShoot{&m_xboxController, 2};
 
   frc2::POVButton m_buttonTakeNote{&m_xboxController, 0};
-  frc2::POVButton m_buttonSpitNote{&m_xboxController, 180};
 
-  frc2::Trigger m_buttonShoot{[this]
-                              {
-                                return m_xboxController.GetRightTriggerAxis() > 1.0;
-                              }};
+  // frc2::Trigger m_buttonShoot{[this]
+  //                             {
+  //                               return m_xboxController.GetRightTriggerAxis() > 1.0;
+  //                             }};
   Drivetrain m_drivetrain;
   Shooter m_shooter;
   Feeder m_feeder;

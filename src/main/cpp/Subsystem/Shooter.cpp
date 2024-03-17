@@ -41,6 +41,12 @@ void Shooter::SetShooter(double speed)
     m_shooterMotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, speed);
 }
 
+void Shooter::SetAmpShooter(double speed)
+{
+    m_shooterMotorLeft.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.0);
+    m_shooterMotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, speed);
+}
+
 /**
  * Returns the velocity of the shooter.
  *

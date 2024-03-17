@@ -18,7 +18,7 @@ void PreShoot::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void PreShoot::Execute()
 {
-  if (m_pCamera->getAprilId() == 1 or m_pCamera->getAprilId() == 2 or m_pCamera->getAprilId() == 1 or m_pCamera->getAprilId() == 3 or m_pCamera->getAprilId() == 4)
+  if (m_pCamera->getAprilId() == 1 or m_pCamera->getAprilId() == 2 or m_pCamera->getAprilId() == 3 or m_pCamera->getAprilId() == 4)
   {
     shooter_speed = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetAngle())][2];
     planteray_angle = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetAngle())][1];
@@ -30,17 +30,14 @@ void PreShoot::Execute()
     m_pShooter->SetShooter(0.3);
     m_pPlanetary->SetSetpoint(20.0);
   }
-  if (!m_pShooter->IsPreShoot)
-  {
-    m_pShooter->SetShooter(STOP_SHOOTER_SPEED);
-    m_pPlanetary->SetSetpoint(REST_ANGLE);
-  }
   // std::cout << m_pShooter->IsPreShoot << std::endl;
 }
 
 // Called once the command ends or is interrupted.
 void PreShoot::End(bool interrupted)
 {
+  m_pShooter->SetShooter(STOP_SHOOTER_SPEED);
+  m_pPlanetary->SetSetpoint(REST_ANGLE);
 }
 
 // Returns true when the command should end.

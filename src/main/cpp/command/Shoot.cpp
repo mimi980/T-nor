@@ -10,22 +10,14 @@ void Shoot::Initialize()
   m_count = 0;
   // m_pShooter->IsShoot ? m_pShooter->IsShoot = false : m_pShooter->IsShoot = true;
   m_pShooter->IsPreShoot = false;
-  // if (!m_pShooter->IsShoot)
-  // {
-  //   m_state = State::End;
-  // }
-  // else
-  // {
-  //   m_state = State::Loaded;
-  // }
   m_state = State::Loaded;
 }
 
 void Shoot::Execute()
 {
   shooter_speed = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetAngle())][2];
-  // planteray_angle = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetAngle())][1];
-  planteray_angle = 33.0 * exp(-(pow(((m_pCamera->GetAngle() - 13.0) / -16.6), 2.0) / 2.0));
+  planteray_angle = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetAngle())][1];
+  // planteray_angle = 33.0 * exp(-(pow(((m_pCamera->GetAngle() - 13.0) / -16.6), 2.0) / 2.0));
   m_pPlanetary->SetSetpoint(planteray_angle);
   m_goal = shooter_speed * 6379 * 0.90 * (10.0 / 12.0);
   // std::cout << shooter_speed << std::endl;
@@ -66,6 +58,7 @@ void Shoot::Execute()
     }
     break;
   case State::End:
+    m_pFeeder->IsNoteLoaded = false;
     m_pPlanetary->SetSetpoint(REST_ANGLE);
     m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
     m_pShooter->SetShooter(STOP_SHOOTER_SPEED);
@@ -77,7 +70,9 @@ void Shoot::Execute()
 }
 void Shoot::End(bool interrupted)
 {
-  m_pFeeder->IsNoteLoaded = false;
+  m_pPlanetary->SetSetpoint(REST_ANGLE);
+  m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
+  m_pShooter->SetShooter(STOP_SHOOTER_SPEED);
 }
 
 bool Shoot::IsFinished()

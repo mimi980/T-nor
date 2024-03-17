@@ -14,6 +14,7 @@ class Shooter : public frc2::SubsystemBase
 public:
   Shooter();
   void SetShooter(double speed);
+  void SetAmpShooter(double speed);
   double GetShooterVelocity();
 
   int getNearestElementId(double target);

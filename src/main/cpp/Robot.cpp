@@ -82,14 +82,7 @@ void Robot::TeleopInit()
 }
 void Robot::TeleopPeriodic()
 {
-  if (m_robotContainer.m_joystickLeft.GetRawButtonPressed(1))
-  {
-    m_robotContainer.m_intake.IsIntaked ? m_robotContainer.m_intake.IsIntaked = false : m_robotContainer.m_intake.IsIntaked = true;
-  }
-  if (m_robotContainer.m_joystickRight.GetRawButtonPressed(2))
-  {
-    m_robotContainer.m_shooter.IsPreShoot ? m_robotContainer.m_shooter.IsPreShoot = false : m_robotContainer.m_shooter.IsPreShoot = true;
-  }
+  frc::SmartDashboard::PutBoolean("Loaded", m_robotContainer.m_feeder.IsNoteLoaded);
 }
 
 void Robot::DisabledInit()

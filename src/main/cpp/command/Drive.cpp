@@ -9,7 +9,7 @@ Drive::Drive(std::function<double()> forward, std::function<double()> turn, Driv
     : m_Forward(forward), m_Turn(turn), m_pDrivetrain(pDrivetrain), m_pCamera(pCamera)
 {
   // Use addRequirements() here to declare subsystem dependencies.
-  AddRequirements({pDrivetrain, pCamera});
+  AddRequirements({pDrivetrain});
 }
 
 // Called when the command is initially scheduled.
@@ -20,16 +20,7 @@ void Drive::Execute()
 {
   double forward = m_Forward();
   double turn = m_Turn();
-  if (m_pDrivetrain->drive_auto)
-  {
-    m_pCamera->SetSetpoint(0.0);
-    std::cout << m_pCamera->m_output << "output" << std::endl;
-    m_pDrivetrain->DriveAuto(forward, m_pCamera->m_output, m_pCamera->m_basePid.m_error);
-  }
-  else
-  {
-    m_pDrivetrain->Drive(forward, turn, false);
-  }
+  m_pDrivetrain->Drive(forward, turn, false);
 }
 
 // Called once the command ends or is interrupted.

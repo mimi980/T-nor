@@ -21,6 +21,7 @@ Intake::Intake()
     // m_intakeMotorLeft.ConfigVoltageCompSaturation(INTAKE_VOLTAGE_COMPENSATION);
     // m_intakeMotorLeft.EnableCurrentLimit(true);
     // m_intakeMotorLeft.ConfigContinuousCurrentLimit(20);
+    IsIntaked = true;
 };
 
 void Intake::SetIntake(double speed)

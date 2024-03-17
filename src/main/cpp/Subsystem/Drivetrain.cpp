@@ -150,14 +150,6 @@ void Drivetrain::ShiftGearDown() // passage de la vitesse en V1
 
 void Drivetrain::Drive(double joystick_V, double joystick_W, bool brakeButton) //
 {
-    if (utils::epsilonEquals(joystick_V, 0.0, 0.05))
-    {
-        joystick_V = 0.0;
-    }
-    if (utils::epsilonEquals(joystick_W, 0.0, 0.05))
-    {
-        joystick_W = 0.0;
-    }
 
     m_GearboxRightOutRawRpt.set(m_EncoderRight.GetDistance());
     m_GearboxRightOutAveragedRpt.add(m_GearboxRightOutRawRpt.m_delta);
@@ -219,11 +211,14 @@ void Drivetrain::Drive(double joystick_V, double joystick_W, bool brakeButton) /
     default:
         break;
     }
-    if (brakeButton)
+    if (utils::epsilonEquals(joystick_V, 0.0, 0.08))
     {
-        ActiveBallShifterV1();
+        joystick_V = 0.0;
     }
-
+    if (utils::epsilonEquals(joystick_W, 0.0, 0.08))
+    {
+        joystick_W = 0.0;
+    }
     m_MotorLeft1.Set(Calcul_De_Notre_Brave_JM(m_JoystickLimited_V.m_current, std::sin(m_JoystickLimited_W.m_current * (NF64_PI / 2)), 0));
     m_MotorRight1.Set(Calcul_De_Notre_Brave_JM(m_JoystickLimited_V.m_current, std::sin(m_JoystickLimited_W.m_current * (NF64_PI / 2)), 1));
 }
