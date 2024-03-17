@@ -12,6 +12,8 @@
 #include "lib/RblUtils.h"
 #include "lib/Pid.h"
 #include "Constants.h"
+#include <wpi/SpanExtras.h>
+#include "photon/targeting/PhotonTrackedTarget.h"
 
 class Camera : public frc2::SubsystemBase
 {
@@ -37,6 +39,8 @@ public:
   photon::PhotonCamera m_camera{"IRcam"};
   frc::MedianFilter<double> m_verticalMedian = frc::MedianFilter<double>(3);
   frc::LinearFilter<double> m_horizontalErrorMovingAverage = frc::LinearFilter<double>::MovingAverage(3);
+  // std::span<photon::PhotonTrackedTarget> targetsList = m_camera.GetLatestResult().HasTargets().GetTargets();
+
   // units::meter_t range = photon::PhotonUtils::CalculateDistanceToTarget(
   //     CAMERA_HEIGHT, TARGET_HEIGHT, CAMERA_PITCH,
   //     units::radian_t{m_camera.GetLatestResult().GetBestTarget().GetPitch()});

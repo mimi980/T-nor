@@ -40,6 +40,7 @@ double Camera::GetAngle()
         m_verticalMedian.Calculate(m_verticalMedian.LastValue());
     }
     return m_verticalMedian.LastValue();
+    m_camera.GetLatestResult().GetTargets();
 }
 
 void Camera::SetSetpoint(double setpoint)

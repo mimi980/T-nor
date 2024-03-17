@@ -52,10 +52,10 @@ Drivetrain::Drivetrain() : m_GearboxLeftOutAveragedRpt(AVERAGE_SAMPLES_NUMBER),
     m_CurrentGearboxRatio = REDUC_V1;*/
 
     m_JoystickPrelimited_V.Reset(0.0, 0.0, 2.0); // reset des rate limiters
-    m_JoystickLimited_V.Reset(0.0, 0.0, 0.06);   // 0.04
+    m_JoystickLimited_V.Reset(0.0, 0.0, 0.05);   // 0.04
 
     m_JoystickPrelimited_W.Reset(0.0, 0.0, 2.0);
-    m_JoystickLimited_W.Reset(0.0, 0.0, 0.06); // 0.0'
+    m_JoystickLimited_W.Reset(0.0, 0.0, 0.05); // 0.0'
 
     m_EncoderLeft.SetDistancePerPulse(1.0 / 2048.0);
     m_EncoderRight.SetDistancePerPulse(1.0 / 2048.0);
@@ -64,7 +64,7 @@ Drivetrain::Drivetrain() : m_GearboxLeftOutAveragedRpt(AVERAGE_SAMPLES_NUMBER),
     m_State = State::lowGear;
     m_CurrentGearboxRatio = REDUC_V1;
 
-    Reset();
+    // Reset();
 }
 
 void Drivetrain::Set(double v_motor) // set des moteurs
