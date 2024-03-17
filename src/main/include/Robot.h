@@ -37,7 +37,7 @@ private:
   frc::Joystick m_Joystick{0};
   ctre::phoenix::motorcontrol::can::TalonFX m_MotorLeft{1};
   ctre::phoenix::motorcontrol::can::TalonFX m_MotorRight{2};
-  frc::Encoder m_Encoder{6, 7};
+  frc::Encoder m_Encoder{8, 9};
   double m_setpoint;
   double m_output;
   double m_mesure;

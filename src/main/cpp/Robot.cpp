@@ -41,7 +41,7 @@ void Robot::TeleopInit()
   frc::SmartDashboard::PutNumber("kd", 0.04);
   frc::SmartDashboard::PutNumber("m_setpoint", 0.0);
   m_Encoder.Reset();
-  m_Encoder.SetDistancePerPulse(((1.0 / 2048.0) / 4.5) * 360.0);
+  m_Encoder.SetDistancePerPulse(((1.0 / 2048.0)) * 360.0);
 }
 void Robot::TeleopPeriodic()
 {
