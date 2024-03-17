@@ -12,11 +12,30 @@ void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit()
 {
-  m_Gros.RestoreFactoryDefaults();
-  m_Gros.SetSmartCurrentLimit(40);
-  m_Gros.EnableVoltageCompensation(12);
-  m_Gros.SetInverted(false);
-  m_Gros.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+
+  m_MotorLeft.ConfigFactoryDefault();
+  m_MotorRight.ConfigFactoryDefault();
+
+  m_MotorLeft.EnableVoltageCompensation(true);
+  m_MotorRight.EnableVoltageCompensation(true);
+
+  m_MotorLeft.ConfigVoltageCompSaturation(10.0);
+  m_MotorRight.ConfigVoltageCompSaturation(10.0);
+
+  m_MotorLeft.ConfigOpenloopRamp(0.1);
+  m_MotorRight.ConfigOpenloopRamp(0.1);
+
+  m_MotorLeft.ConfigSupplyCurrentLimit(ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(true, 40, 40, 0.0));
+  m_MotorRight.ConfigSupplyCurrentLimit(ctre::phoenix::motorcontrol::SupplyCurrentLimitConfiguration(true, 40, 40, 0.0));
+
+  m_MotorLeft.SetInverted(true);
+  m_MotorRight.SetInverted(false);
+
+  m_MotorLeft.Follow(m_MotorRight);
+
+  m_MotorLeft.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
+  m_MotorRight.SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode::Brake);
+
   frc::SmartDashboard::PutNumber("kp", 0.05);
   frc::SmartDashboard::PutNumber("ki", 0.0);
   frc::SmartDashboard::PutNumber("kd", 0.04);
@@ -34,13 +53,14 @@ void Robot::TeleopPeriodic()
   frc::SmartDashboard::PutNumber("output", m_output);
   frc::SmartDashboard::PutNumber("mesure", m_mesure);
   frc::SmartDashboard::PutNumber("error", m_pid.m_error);
+
   if (m_Joystick.GetRawButton(1))
   {
-    m_Gros.Set(std::clamp(m_output, -1.0, 1.0));
+    m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, std::clamp(m_output, -0.2, 0.2));
   }
   else
   {
-    m_Gros.Set(0.0);
+    m_MotorRight.Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, 0.0);
   }
 }
 
