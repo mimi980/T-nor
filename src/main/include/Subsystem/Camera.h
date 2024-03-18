@@ -37,9 +37,11 @@ public:
   double m_output;
 
   photon::PhotonCamera m_camera{"IRcam"};
+  photon::PhotonPipelineResult result = m_camera.GetLatestResult();
+  // std::span<photon::PhotonTrackedTarget> targetsList = result.GetTargets();
+
   frc::MedianFilter<double> m_verticalMedian = frc::MedianFilter<double>(3);
   frc::LinearFilter<double> m_horizontalErrorMovingAverage = frc::LinearFilter<double>::MovingAverage(3);
-  // std::span<photon::PhotonTrackedTarget> targetsList = m_camera.GetLatestResult().HasTargets().GetTargets();
 
   // units::meter_t range = photon::PhotonUtils::CalculateDistanceToTarget(
   //     CAMERA_HEIGHT, TARGET_HEIGHT, CAMERA_PITCH,
