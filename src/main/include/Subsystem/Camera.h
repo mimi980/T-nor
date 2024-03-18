@@ -25,6 +25,7 @@ public:
   double GetAngle();
   double GetOutput();
   void SetSetpoint(double setpoint);
+  double GetYaw(int Id);
   void Periodic() override;
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.

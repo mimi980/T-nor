@@ -48,6 +48,27 @@ void Camera::SetSetpoint(double setpoint)
     m_basePid.SetSetpoint(setpoint);
 }
 
+double Camera::GetYaw(int Id)
+{
+    if (m_camera.HasTargets())
+    {
+        std::span<const photon::PhotonTrackedTarget> targetsList = result.GetTargets();
+        std::vector<photon::PhotonTrackedTarget>::iterator it;
+        photon::PhotonTrackedTarget target;
+        for (int i = 0; i < result.targets.size(); i++)
+        {
+            target = result.targets[i];
+            if (target.GetFiducialId() == Id)
+            {
+                return target.GetYaw();
+            }
+        }
+    }
+    else
+    {
+        return 0;
+    }
+}
 void Camera::Periodic()
 {
     if (m_camera.HasTargets())
@@ -58,14 +79,15 @@ void Camera::Periodic()
 
     diffAir = Air - lastAir;
     lastAir = Air;
-    std::span<const photon::PhotonTrackedTarget> targetsList = result.GetTargets();
-    if (m_camera.HasTargets())
-    {
-        std::vector<photon::PhotonTrackedTarget>::iterator it;
-        photon::PhotonTrackedTarget target;
-        target = result.targets[0];
-        std::cout << target.GetFiducialId() << "id" << std::endl;
-    }
+    // std::span<const photon::PhotonTrackedTarget> targetsList = result.GetTargets();
+    // if (m_camera.HasTargets())
+    // {
+    //     std::vector<photon::PhotonTrackedTarget>::iterator it;
+    //     photon::PhotonTrackedTarget target;
+    //     target = result.targets[1];
+    //     std::cout << target.GetFiducialId() << "id" << std::endl;
+    //     std::cout << result.targets.size() << "size" << std::endl;
+    // }
 
     // for (it = targetsList.begin(); it != targetsList.end(); it++)
     // {

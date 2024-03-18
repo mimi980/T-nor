@@ -20,8 +20,8 @@ void PreShoot::Execute()
 {
   if (m_pCamera->getAprilId() == 1 or m_pCamera->getAprilId() == 2 or m_pCamera->getAprilId() == 3 or m_pCamera->getAprilId() == 4)
   {
-    shooter_speed = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetAngle())][2];
-    planteray_angle = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetAngle())][1];
+    shooter_speed = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetYaw(4))][2];
+    planteray_angle = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetYaw(4))][1];
     m_pShooter->SetShooter(shooter_speed);
     m_pPlanetary->SetSetpoint(planteray_angle);
   }
