@@ -133,6 +133,6 @@
 #define CAMERA_PITCH 1.0
 #define CAMERA_HEIGHT 1.0
 #define TARGET_HEIGHT 1.0
-#define SHOOTER_TABLE_SIZE 11
+#define SHOOTER_TABLE_SIZE 12
 
 // ##################################################################################

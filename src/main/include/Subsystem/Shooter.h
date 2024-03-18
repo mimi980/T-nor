@@ -20,6 +20,7 @@ public:
   int getNearestElementId(double target);
   static constexpr double shooterDataTable[SHOOTER_TABLE_SIZE][3] = {
       // pitch, angle, vitesse
+      {-8.43, 14, 0.85},
       {-7, 15, 0.85},
       {-5.75, 17, 0.85},
       {-4, 18, 0.8},
