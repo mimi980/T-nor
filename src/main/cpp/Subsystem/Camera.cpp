@@ -58,5 +58,19 @@ void Camera::Periodic()
 
     diffAir = Air - lastAir;
     lastAir = Air;
+    std::span<const photon::PhotonTrackedTarget> targetsList = result.GetTargets();
+    if (m_camera.HasTargets())
+    {
+        std::vector<photon::PhotonTrackedTarget>::iterator it;
+        photon::PhotonTrackedTarget target;
+        target = result.targets[0];
+        std::cout << target.GetFiducialId() << "id" << std::endl;
+    }
+
+    // for (it = targetsList.begin(); it != targetsList.end(); it++)
+    // {
+    //     std::cout << ' ' << *it;
+    // }
+    // targetsList.n();
     // std::cout << m_camera.GetLatestResult().GetBestTarget().GetYaw() << "error" << std::endl;
 }

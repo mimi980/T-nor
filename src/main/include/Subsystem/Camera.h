@@ -14,6 +14,7 @@
 #include "Constants.h"
 #include <wpi/SpanExtras.h>
 #include "photon/targeting/PhotonTrackedTarget.h"
+#include <vector>
 
 class Camera : public frc2::SubsystemBase
 {
@@ -38,7 +39,6 @@ public:
 
   photon::PhotonCamera m_camera{"IRcam"};
   photon::PhotonPipelineResult result = m_camera.GetLatestResult();
-  // std::span<photon::PhotonTrackedTarget> targetsList = result.GetTargets();
 
   frc::MedianFilter<double> m_verticalMedian = frc::MedianFilter<double>(3);
   frc::LinearFilter<double> m_horizontalErrorMovingAverage = frc::LinearFilter<double>::MovingAverage(3);
