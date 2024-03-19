@@ -74,7 +74,7 @@ void NearShoot::End(bool interrupted)
 {
   m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
   m_pShooter->SetShooter(STOP_SHOOTER_SPEED);
-  m_pPlanetary->SetSetpoint(0.0);
+  m_pPlanetary->SetSetpoint(REST_ANGLE);
 }
 
 // Returns true when the command should end.

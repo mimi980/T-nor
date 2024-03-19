@@ -52,10 +52,10 @@
 #define PLANETARY_PID_D 0.04
 #define PLANETARY_PID_TOLERANCE 1.0
 
-#define CLIMBER_PID_P 0.05
-#define CLIMBER_PID_I 0.0
-#define CLIMBER_PID_D 0.04
-#define CLIMBER_PID_TOLERANCE 1.0
+#define BASE_PID_P 0.1
+#define BASE_PID_I 0.0
+#define BASE_PID_D 0.0
+#define BASE_PID_TOLERANCE 1.0
 
 // #########################    VoltageCompensation    #########################
 

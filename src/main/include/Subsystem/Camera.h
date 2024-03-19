@@ -21,8 +21,8 @@ class Camera : public frc2::SubsystemBase
 public:
   Camera();
   int getAprilId();
-  bool isAprilTagMode();
   double GetAngle();
+  double GetPitch(int Id);
   double GetOutput();
   void SetSetpoint(double setpoint);
   double GetYaw(int Id);
@@ -33,8 +33,10 @@ public:
   double Air;
   double lastAir;
   double diffAir;
+  double yaw;
+  double pitch;
 
-  Pid m_basePid{0.0, 0.1, 0.0, 0.0};
+  Pid m_basePid{0.0, BASE_PID_P, BASE_PID_I, BASE_PID_D};
   double m_setpoint;
   double m_output;
 
