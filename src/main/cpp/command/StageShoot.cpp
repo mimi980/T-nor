@@ -13,7 +13,6 @@ StageShoot::StageShoot(Shooter *pShooter, Planetary *pPlanetary, Feeder *pFeeder
 void StageShoot::Initialize()
 {
   m_count = 0;
-  m_pShooter->IsPreShoot = false;
   m_state = State::Loaded;
 }
 
@@ -51,7 +50,6 @@ void StageShoot::Execute()
   case State::Shooting:
     m_pFeeder->SetFeeder(CATCH_FEEDER_SPEED);
     m_pShooter->SetShooter(STAGE_SPEED_SHOOT);
-    m_pShooter->IsShoot = false;
     if (m_pFeeder->GetFeederInfraSensorValue() && m_count > 30)
     {
       m_state = State::End;

@@ -37,8 +37,6 @@ public:
       {17, 35.0, 0.5}
 
   };
-  bool IsShoot;
-  bool IsPreShoot;
 
 private:
   ctre::phoenix::motorcontrol::can::TalonFX m_shooterMotorRight{ID_MOTOR_SHOOTER_DOWN};

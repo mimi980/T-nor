@@ -18,7 +18,7 @@ Planetary::Planetary()
 
     m_planetaryPid.Reset();
     m_planetaryPid.SetGains(PLANETARY_PID_P, PLANETARY_PID_I, PLANETARY_PID_D);
-    m_planetaryPid.SetSetpoint(0.0);
+    m_planetaryPid.SetSetpoint(REST_ANGLE);
     m_planetaryPid.SetTolerance(PLANETARY_PID_TOLERANCE);
 };
 

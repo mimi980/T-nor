@@ -51,6 +51,7 @@ double Camera::GetPitch(int Id)
             {
                 pitch = target.GetPitch();
                 m_verticalMedian.Calculate(pitch);
+                break;
             }
         }
     }
@@ -75,6 +76,7 @@ double Camera::GetYaw(int Id)
             {
                 yaw = target.GetYaw();
                 m_horizontalErrorMovingAverage.Calculate(yaw);
+                break;
             }
         }
     }

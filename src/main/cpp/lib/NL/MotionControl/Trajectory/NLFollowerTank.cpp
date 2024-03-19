@@ -201,7 +201,8 @@ void NLFOLLOWER_TANK::initialize(const NLTRAJECTORY_PACK *ppack)
 	// posted Messages
 	NErrorIf(ppack->m_postedMessagesArray.Size < 2, NERROR_SYSTEM_CHECK);
 	m_pToMessage = (NLTRJ_POSTED_MESSAGE *)ppack->m_postedMessagesArray.pFirst; // On positionne le To sur le premier message ( le message d'amorce, donc un Fake )
-	m_pFromMessage = m_pToMessage + 1;											// On positionne le From ( donc la "tete de lecture" ) sur le premier VRAI message ( donc APRES m_pToMessage )
+	// m_pFromMessage	= m_pToMessage + 1; // On positionne le From ( donc la "tete de lecture" ) sur le premier VRAI message ( donc APRES m_pToMessage )
+	m_pFromMessage = m_pToMessage; // On positionne le From ( donc la "tete de lecture" ) sur le premier message également
 
 	m_driveTrainSpecifications = ppack->m_driveTrainSpecifications;
 	m_ramsete = ppack->m_ramsete;
@@ -300,7 +301,7 @@ NLFOLLOWER_TANK_OUTPUT *NLFOLLOWER_TANK::compute()
 		j.x = -si; // k.x = 0
 		i.y = si;
 		j.y = co; // k.y = 0
-		//	i.z = 0			j.z =  0	// k.z = 1
+				  //	i.z = 0			j.z =  0	// k.z = 1
 	}
 	else
 	{
@@ -308,7 +309,7 @@ NLFOLLOWER_TANK_OUTPUT *NLFOLLOWER_TANK::compute()
 		j.x = si; // k.x = 0
 		i.y = -si;
 		j.y = -co; // k.y = 0
-		//	i.z = 0			j.z =  0	// k.z = 1
+				   //	i.z = 0			j.z =  0	// k.z = 1
 	}
 
 	// ------------------------------------------------------------------------------------------------------------------------------

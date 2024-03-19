@@ -4,6 +4,55 @@
 
 #include "Robot.h"
 
+void Robot::NearShoot()
+{
+  m_robotContainer.m_planetary.SetSetpoint(NEAR_ANGLE);
+  m_goal = NEAR_SPEED_SHOOT * 6379 * 0.90 * (10.0 / 12.0);
+  m_count++;
+  switch (m_stateNearShoot)
+  {
+  case StateNearShoot::Loaded:
+    m_robotContainer.m_feeder.SetFeeder(STOP_FEEDER_SPEED);
+    if (m_robotContainer.m_feeder.IsNoteLoaded)
+    {
+      m_stateNearShoot = StateNearShoot::PreShoot;
+    }
+    break;
+  case StateNearShoot::PreShoot:
+    m_robotContainer.m_shooter.SetShooter(NEAR_SPEED_SHOOT); // 0.5
+    if (NABS(m_robotContainer.m_shooter.GetShooterVelocity()) > m_goal && m_robotContainer.m_planetary.m_planetaryPid.AtSetpoint())
+    {
+      m_stateNearShoot = StateNearShoot::Shoot;
+    }
+    break;
+  case StateNearShoot::Shoot:
+    m_robotContainer.m_feeder.SetFeeder(CATCH_FEEDER_SPEED);
+    m_robotContainer.m_shooter.SetShooter(NEAR_SPEED_SHOOT); // 0.5
+    if (!m_robotContainer.m_feeder.GetFeederInfraSensorValue())
+    {
+      m_stateNearShoot = StateNearShoot::Shooting;
+      m_count = 0;
+    }
+    break;
+  case StateNearShoot::Shooting:
+    m_robotContainer.m_feeder.SetFeeder(CATCH_FEEDER_SPEED);
+    m_robotContainer.m_shooter.SetShooter(NEAR_SPEED_SHOOT);
+    if (m_robotContainer.m_feeder.GetFeederInfraSensorValue() && m_count > 30)
+    {
+      m_stateNearShoot = StateNearShoot::End;
+    }
+    break;
+  case StateNearShoot::End:
+    m_robotContainer.m_feeder.IsNoteLoaded = false;
+    m_robotContainer.m_planetary.SetSetpoint(REST_ANGLE);
+    m_robotContainer.m_feeder.SetFeeder(STOP_FEEDER_SPEED);
+    m_robotContainer.m_shooter.SetShooter(STOP_SHOOTER_SPEED);
+    break;
+
+  default:
+    break;
+  }
+}
 void Robot::TakeNoteSwitch()
 {
   m_robotContainer.m_planetary.SetSetpoint(TAKE_ANGLE);
@@ -79,7 +128,6 @@ void Robot::ShootSwitch()
   case StateShoot::Shooting:
     m_robotContainer.m_feeder.SetFeeder(CATCH_FEEDER_SPEED);
     m_robotContainer.m_shooter.SetShooter(shooter_speed);
-    m_robotContainer.m_shooter.IsShoot = false;
     if (m_robotContainer.m_feeder.GetFeederInfraSensorValue() && m_count > 30)
     {
       m_stateShoot = StateShoot::End;
@@ -95,6 +143,22 @@ void Robot::ShootSwitch()
 
   default:
     break;
+  }
+}
+
+void Robot::PreShoot()
+{
+  if (m_robotContainer.m_camera.getAprilId() == 4 or m_robotContainer.m_camera.getAprilId() == 7)
+  {
+    shooter_speed = m_robotContainer.m_shooter.shooterDataTable[m_robotContainer.m_shooter.getNearestElementId(m_robotContainer.m_camera.GetPitch(4))][2];
+    planteray_angle = m_robotContainer.m_shooter.shooterDataTable[m_robotContainer.m_shooter.getNearestElementId(m_robotContainer.m_camera.GetPitch(4))][1];
+    m_robotContainer.m_shooter.SetShooter(shooter_speed);
+    m_robotContainer.m_planetary.SetSetpoint(planteray_angle);
+  }
+  else
+  {
+    m_robotContainer.m_shooter.SetShooter(m_robotContainer.m_shooter.shooterDataTable[SHOOTER_TABLE_SIZE - 1][2]);
+    m_robotContainer.m_planetary.SetSetpoint(m_robotContainer.m_shooter.shooterDataTable[SHOOTER_TABLE_SIZE - 1][1]);
   }
 }
 
@@ -139,50 +203,97 @@ void Robot::AutonomousPeriodic()
 
   NLTRJ_POSTED_MESSAGE message; // Posted Message
 
-  switch (m_state)
+  // switch (m_state)
+  // {
+  // case Robot::STATE::PATH_ERROR:
+  //   break;
+
+  // case Robot::STATE::PATH_FOLLOWING:
+
+  //   // *****************************************************    'THE' METHOD(e)
+  //   // A) Feed back:
+  //   // avec les encodeurs on estime la position du robot:
+  //   //			l = distance parcourue par la roue gauche depuis le dernier reset encodeur.
+  //   //			r = distance parcourue par la roue droite depuis le dernier reset encodeur.
+  //   //
+  //   //			dl et dr = distances parcourues par les roues gauche et droite depuis le dernier call.
+  //   //			(note dl/dt = vitesse roue gauche et dr/dt = vitesse roue droite  )
+  //   //
+
+  //   m_follower.estimate(m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance(), m_robotContainer.m_drivetrain.m_EncoderRight.GetDistance(), NDEGtoRAD(m_gyro.GetAngle()));
+  //   m_follower.updateTarget(&m_TrajectoryPack, 0.02f);
+  //   pout = m_follower.compute();
+  //   m_robotContainer.m_drivetrain.DriveAuto(m_CrtzR.getVoltage(pout->m_rightVelocity, pout->m_rightAcceleration), m_CrtzL.getVoltage(pout->m_leftVelocity, pout->m_leftAcceleration), 0.0);
+  //   std::cout << "pathFollowing" << std::endl;
+  //   while (m_follower.getMessage(&message))
+  //   {
+  //     switch (message.m_id)
+  //     {
+  //     case TAKE_NOTE:
+  //       m_stateTakeNote = StateTakeNote::Catch;
+  //       m_takeNote = true;
+  //       break;
+  //     case ODO_SHOOT:
+  //       m_preShoot = false;
+
+  //       break;
+  //     case CAMERA_SHOOT:
+  //       m_stateShoot = StateShoot::Loaded;
+  //       m_preShoot = false;
+  //       m_shoot = true;
+  //       break;
+  //     case PRE_SHOOT:
+  //       m_preShoot = true;
+  //     default:
+  //       break;
+  //     }
+  //   }
+
+  //   break;
+  // case Robot::STATE::PATH_END:
+  //   std::cout << "pathEND" << std::endl;
+  //   break;
+  // default:
+  //   NErrorIf(1, NERROR_UNAUTHORIZED_CASE);
+  //   break;
+  // }
+
+  m_follower.estimate(m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance(), m_robotContainer.m_drivetrain.m_EncoderRight.GetDistance(), NDEGtoRAD(m_gyro.GetAngle()));
+  m_follower.updateTarget(&m_TrajectoryPack, 0.02f);
+  pout = m_follower.compute();
+  m_robotContainer.m_drivetrain.DriveAuto(m_CrtzR.getVoltage(pout->m_rightVelocity, pout->m_rightAcceleration), m_CrtzL.getVoltage(pout->m_leftVelocity, pout->m_leftAcceleration), 0.0);
+  std::cout << "pathFollowing" << std::endl;
+  while (m_follower.getMessage(&message))
   {
-  case Robot::STATE::PATH_ERROR:
-    break;
-
-  case Robot::STATE::PATH_FOLLOWING:
-
-    // *****************************************************    'THE' METHOD(e)
-    // A) Feed back:
-    // avec les encodeurs on estime la position du robot:
-    //			l = distance parcourue par la roue gauche depuis le dernier reset encodeur.
-    //			r = distance parcourue par la roue droite depuis le dernier reset encodeur.
-    //
-    //			dl et dr = distances parcourues par les roues gauche et droite depuis le dernier call.
-    //			(note dl/dt = vitesse roue gauche et dr/dt = vitesse roue droite  )
-    //
-
-    m_follower.estimate(m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance(), m_robotContainer.m_drivetrain.m_EncoderRight.GetDistance(), NDEGtoRAD(m_gyro.GetAngle()));
-    m_follower.updateTarget(&m_TrajectoryPack, 0.02f);
-    pout = m_follower.compute();
-    m_robotContainer.m_drivetrain.DriveAuto(m_CrtzR.getVoltage(pout->m_rightVelocity, pout->m_rightAcceleration), m_CrtzL.getVoltage(pout->m_leftVelocity, pout->m_leftAcceleration), 0.0);
-    std::cout << "pathFollowing" << std::endl;
-    while (m_follower.getMessage(&message))
+    switch (message.m_id)
     {
-      switch (message.m_id)
-      {
-      case TAKE_NOTE:
-        m_takeNote = true;
-        break;
-      case SHOOT:
-        m_shoot = true;
+    case NL_CATEGORIZED_MESSAGE_TRJ_START:
+      break;
 
-      default:
-        break;
-      }
+    case NL_CATEGORIZED_MESSAGE_TRJ_TIMEOUT:
+      break;
+
+    case NL_CATEGORIZED_MESSAGE_TRJ_ENDOFMESSAGE:
+      break;
+
+    case TAKE_NOTE:
+      m_stateTakeNote = StateTakeNote::Catch;
+      m_takeNote = true;
+      break;
+    case ODO_SHOOT:
+      m_preShoot = false;
+
+      break;
+    case CAMERA_SHOOT:
+      m_stateShoot = StateShoot::Loaded;
+      m_preShoot = false;
+      m_shoot = true;
+      break;
+    case PRE_SHOOT:
+      m_preShoot = true;
+    default:
+      break;
     }
-
-    break;
-  case Robot::STATE::PATH_END:
-    std::cout << "pathEND" << std::endl;
-    break;
-  default:
-    NErrorIf(1, NERROR_UNAUTHORIZED_CASE);
-    break;
   }
 
   if (m_takeNote)
@@ -192,6 +303,10 @@ void Robot::AutonomousPeriodic()
   if (m_shoot)
   {
     ShootSwitch();
+  }
+  if (m_preShoot)
+  {
+    PreShoot();
   }
 }
 

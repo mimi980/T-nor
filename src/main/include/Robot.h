@@ -11,6 +11,7 @@
 #include "lib/NL/MotionControl/Trajectory/NLFollowerTank.h"
 #include "lib/NL/MotionControl/Trajectory/NLTrajectoryPack.h"
 #include "lib/NL/MotionControl/Trajectory/NLTrajectoryActionMessagesEnum.h"
+#include "lib/NL/MotionControl/Trajectory/NLTrajectorySystemMessage.h"
 #include <AHRS.h>
 #include "RobotContainer.h"
 
@@ -37,6 +38,8 @@ public:
 
   void TakeNoteSwitch();
   void ShootSwitch();
+  void PreShoot();
+  void NearShoot();
 
   enum class StateTakeNote
   {
@@ -64,6 +67,19 @@ public:
   double planteray_angle;
   int m_count;
   bool m_shoot;
+
+  bool m_preShoot;
+
+  enum class StateNearShoot
+  {
+    Loaded,
+    PreShoot,
+    Shoot,
+    Shooting,
+    End
+  };
+
+  StateNearShoot m_stateNearShoot;
 
   RobotContainer m_robotContainer;
   enum STATE

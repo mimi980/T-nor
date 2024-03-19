@@ -51,7 +51,6 @@ void AmpShoot::Execute()
   case State::Shooting:
     m_pFeeder->SetFeeder(CATCH_FEEDER_SPEED);
     m_pShooter->SetAmpShooter(AMP_SHOOTER_SPEED);
-    m_pShooter->IsShoot = false;
     if (m_pFeeder->GetFeederInfraSensorValue() && m_count > 30)
     {
       m_state = State::End;

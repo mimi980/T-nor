@@ -26,8 +26,6 @@ Shooter::Shooter()
 
     m_shooterMotorLeft.SetInverted(SHOOTER_MOTOR_LEFT_INVERTED);
     m_shooterMotorRight.SetInverted(SHOOTER_MOTOR_RIGHT_INVERTED);
-
-    IsPreShoot = false;
 };
 
 /**
