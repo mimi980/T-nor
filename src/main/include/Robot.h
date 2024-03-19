@@ -10,6 +10,7 @@
 #include "lib/NL/MotionControl/DriveTrain/Characterization/NLMotorCharacterization.h"
 #include "lib/NL/MotionControl/Trajectory/NLFollowerTank.h"
 #include "lib/NL/MotionControl/Trajectory/NLTrajectoryPack.h"
+#include "lib/NL/MotionControl/Trajectory/NLTrajectoryActionMessagesEnum.h"
 #include <AHRS.h>
 #include "RobotContainer.h"
 
@@ -33,6 +34,36 @@ public:
 
   void SimulationInit() override;
   void SimulationPeriodic() override;
+
+  void TakeNoteSwitch();
+  void ShootSwitch();
+
+  enum class StateTakeNote
+  {
+    Catch,
+    Recul,
+    Loaded,
+    End
+  };
+
+  StateTakeNote m_stateTakeNote;
+  bool m_takeNote;
+
+  enum class StateShoot
+  {
+    Loaded,
+    PreShoot,
+    Shoot,
+    Shooting,
+    End
+  };
+
+  StateShoot m_stateShoot;
+  double m_goal;
+  double shooter_speed;
+  double planteray_angle;
+  int m_count;
+  bool m_shoot;
 
   RobotContainer m_robotContainer;
   enum STATE

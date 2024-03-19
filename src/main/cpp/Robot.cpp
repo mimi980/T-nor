@@ -4,6 +4,100 @@
 
 #include "Robot.h"
 
+void Robot::TakeNoteSwitch()
+{
+  m_robotContainer.m_planetary.SetSetpoint(TAKE_ANGLE);
+  switch (m_stateTakeNote)
+  {
+  case StateTakeNote::Catch:
+    m_robotContainer.m_feeder.SetFeeder(CATCH_FEEDER_SPEED);
+    m_robotContainer.m_intake.SetIntake(INTAKE_SPEED);
+    if (!m_robotContainer.m_feeder.GetFeederInfraSensorValue())
+    {
+      m_robotContainer.m_intake.SetIntake(STOP_INTAKE_SPEED);
+      m_robotContainer.m_feeder.SetFeeder(SPIT_FEEDER_SPEED);
+      m_stateTakeNote = StateTakeNote::Recul;
+    }
+    break;
+  case StateTakeNote::Recul:
+    m_robotContainer.m_feeder.SetFeeder(SPIT_FEEDER_SPEED);
+    if (m_robotContainer.m_feeder.GetFeederInfraSensorValue())
+    {
+      m_robotContainer.m_feeder.SetFeeder(STOP_FEEDER_SPEED);
+      m_stateTakeNote = StateTakeNote::Loaded;
+    }
+    break;
+  case StateTakeNote::Loaded:
+    m_robotContainer.m_feeder.SetFeeder(STOP_FEEDER_SPEED);
+    m_robotContainer.m_feeder.IsNoteLoaded = true;
+    m_robotContainer.m_planetary.SetSetpoint(REST_ANGLE);
+    m_takeNote = false;
+    break;
+  case StateTakeNote::End:
+    m_robotContainer.m_feeder.SetFeeder(STOP_FEEDER_SPEED);
+    m_robotContainer.m_intake.SetIntake(STOP_INTAKE_SPEED);
+    m_robotContainer.m_feeder.IsNoteLoaded = false;
+    break;
+  default:
+    break;
+  }
+}
+
+void Robot::ShootSwitch()
+{
+  shooter_speed = m_robotContainer.m_shooter.shooterDataTable[m_robotContainer.m_shooter.getNearestElementId(m_robotContainer.m_camera.GetYaw(4))][2];
+  planteray_angle = m_robotContainer.m_shooter.shooterDataTable[m_robotContainer.m_shooter.getNearestElementId(m_robotContainer.m_camera.GetYaw(4))][1];
+
+  m_robotContainer.m_planetary.SetSetpoint(planteray_angle);
+  m_goal = shooter_speed * 6379 * 0.90 * (10.0 / 12.0);
+  m_count++;
+  switch (m_stateShoot)
+  {
+  case StateShoot::Loaded:
+    m_robotContainer.m_feeder.SetFeeder(STOP_FEEDER_SPEED);
+    if (m_robotContainer.m_feeder.IsNoteLoaded)
+    {
+      m_stateShoot = StateShoot::PreShoot;
+    }
+    break;
+  case StateShoot::PreShoot:
+    m_robotContainer.m_shooter.SetShooter(shooter_speed);
+    if (NABS(m_robotContainer.m_shooter.GetShooterVelocity()) > m_goal && m_robotContainer.m_planetary.m_planetaryPid.AtSetpoint())
+    {
+      m_stateShoot = StateShoot::Shoot;
+    }
+    break;
+  case StateShoot::Shoot:
+    m_robotContainer.m_feeder.SetFeeder(CATCH_FEEDER_SPEED);
+    m_robotContainer.m_shooter.SetShooter(shooter_speed);
+    if (!m_robotContainer.m_feeder.GetFeederInfraSensorValue())
+    {
+      m_stateShoot = StateShoot::Shooting;
+      m_count = 0;
+    }
+    break;
+  case StateShoot::Shooting:
+    m_robotContainer.m_feeder.SetFeeder(CATCH_FEEDER_SPEED);
+    m_robotContainer.m_shooter.SetShooter(shooter_speed);
+    m_robotContainer.m_shooter.IsShoot = false;
+    if (m_robotContainer.m_feeder.GetFeederInfraSensorValue() && m_count > 30)
+    {
+      m_stateShoot = StateShoot::End;
+    }
+    break;
+  case StateShoot::End:
+    m_robotContainer.m_feeder.IsNoteLoaded = false;
+    m_robotContainer.m_planetary.SetSetpoint(REST_ANGLE);
+    m_robotContainer.m_feeder.SetFeeder(STOP_FEEDER_SPEED);
+    m_robotContainer.m_shooter.SetShooter(STOP_SHOOTER_SPEED);
+    m_shoot = false;
+    break;
+
+  default:
+    break;
+  }
+}
+
 void Robot::RobotInit() {}
 void Robot::RobotPeriodic()
 {
@@ -51,6 +145,7 @@ void Robot::AutonomousPeriodic()
     break;
 
   case Robot::STATE::PATH_FOLLOWING:
+
     // *****************************************************    'THE' METHOD(e)
     // A) Feed back:
     // avec les encodeurs on estime la position du robot:
@@ -61,19 +156,42 @@ void Robot::AutonomousPeriodic()
     //			(note dl/dt = vitesse roue gauche et dr/dt = vitesse roue droite  )
     //
 
-    // m_follower.estimate(m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance(), m_robotContainer.m_drivetrain.m_EncoderRight.GetDistance(), NDEGtoRAD(m_gyro.GetAngle()));
+    m_follower.estimate(m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance(), m_robotContainer.m_drivetrain.m_EncoderRight.GetDistance(), NDEGtoRAD(m_gyro.GetAngle()));
     m_follower.updateTarget(&m_TrajectoryPack, 0.02f);
     pout = m_follower.compute();
     m_robotContainer.m_drivetrain.DriveAuto(m_CrtzR.getVoltage(pout->m_rightVelocity, pout->m_rightAcceleration), m_CrtzL.getVoltage(pout->m_leftVelocity, pout->m_leftAcceleration), 0.0);
     std::cout << "pathFollowing" << std::endl;
-    break;
+    while (m_follower.getMessage(&message))
+    {
+      switch (message.m_id)
+      {
+      case TAKE_NOTE:
+        m_takeNote = true;
+        break;
+      case SHOOT:
+        m_shoot = true;
 
+      default:
+        break;
+      }
+    }
+
+    break;
   case Robot::STATE::PATH_END:
     std::cout << "pathEND" << std::endl;
     break;
   default:
     NErrorIf(1, NERROR_UNAUTHORIZED_CASE);
     break;
+  }
+
+  if (m_takeNote)
+  {
+    TakeNoteSwitch();
+  }
+  if (m_shoot)
+  {
+    ShootSwitch();
   }
 }
 
