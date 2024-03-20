@@ -40,6 +40,7 @@ public:
   void ShootSwitch();
   void PreShoot();
   void NearShoot();
+  void Shoot(double speed, double angle);
 
   enum class StateTakeNote
   {
@@ -52,7 +53,7 @@ public:
   StateTakeNote m_stateTakeNote;
   bool m_takeNote;
 
-  enum class StateShoot
+  enum class StateShootSwitch
   {
     Loaded,
     PreShoot,
@@ -61,7 +62,7 @@ public:
     End
   };
 
-  StateShoot m_stateShoot;
+  StateShootSwitch m_stateShootSwitch;
   double m_goal;
   double shooter_speed;
   double planteray_angle;
@@ -80,6 +81,17 @@ public:
   };
 
   StateNearShoot m_stateNearShoot;
+
+  enum class StateShoot
+  {
+    Loaded,
+    PreShoot,
+    Shoot,
+    Shooting,
+    End
+  };
+
+  StateShoot m_stateShoot;
 
   RobotContainer m_robotContainer;
   enum STATE

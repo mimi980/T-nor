@@ -57,8 +57,8 @@ Drivetrain::Drivetrain() : m_GearboxLeftOutAveragedRpt(AVERAGE_SAMPLES_NUMBER),
     m_JoystickPrelimited_W.Reset(0.0, 0.0, 2.0);
     m_JoystickLimited_W.Reset(0.0, 0.0, 0.05); // 0.0'
 
-    m_EncoderLeft.SetDistancePerPulse(1.0 / 2048.0);
-    m_EncoderRight.SetDistancePerPulse(1.0 / 2048.0);
+    m_EncoderLeft.SetDistancePerPulse(DRIVETRAIN_DISTANCE_PER_PULSE);
+    m_EncoderRight.SetDistancePerPulse(DRIVETRAIN_DISTANCE_PER_PULSE);
 
     ActiveBallShifterV1();
     m_State = State::lowGear;

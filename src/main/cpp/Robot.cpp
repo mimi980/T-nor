@@ -100,40 +100,40 @@ void Robot::ShootSwitch()
   m_robotContainer.m_planetary.SetSetpoint(planteray_angle);
   m_goal = shooter_speed * SHOOTER_GOALS_CONVERSION;
   m_count++;
-  switch (m_stateShoot)
+  switch (m_stateShootSwitch)
   {
-  case StateShoot::Loaded:
+  case StateShootSwitch::Loaded:
     m_robotContainer.m_feeder.SetFeeder(STOP_FEEDER_SPEED);
     if (m_robotContainer.m_feeder.IsNoteLoaded)
     {
-      m_stateShoot = StateShoot::PreShoot;
+      m_stateShootSwitch = StateShootSwitch::PreShoot;
     }
     break;
-  case StateShoot::PreShoot:
+  case StateShootSwitch::PreShoot:
     m_robotContainer.m_shooter.SetShooter(shooter_speed);
     if (NABS(m_robotContainer.m_shooter.GetShooterVelocity()) > m_goal && m_robotContainer.m_planetary.m_planetaryPid.AtSetpoint())
     {
-      m_stateShoot = StateShoot::Shoot;
+      m_stateShootSwitch = StateShootSwitch::Shoot;
     }
     break;
-  case StateShoot::Shoot:
+  case StateShootSwitch::Shoot:
     m_robotContainer.m_feeder.SetFeeder(CATCH_FEEDER_SPEED);
     m_robotContainer.m_shooter.SetShooter(shooter_speed);
     if (!m_robotContainer.m_feeder.GetFeederInfraSensorValue())
     {
-      m_stateShoot = StateShoot::Shooting;
+      m_stateShootSwitch = StateShootSwitch::Shooting;
       m_count = 0;
     }
     break;
-  case StateShoot::Shooting:
+  case StateShootSwitch::Shooting:
     m_robotContainer.m_feeder.SetFeeder(CATCH_FEEDER_SPEED);
     m_robotContainer.m_shooter.SetShooter(shooter_speed);
     if (m_robotContainer.m_feeder.GetFeederInfraSensorValue() && m_count > SHOOTER_COUNT_READY)
     {
-      m_stateShoot = StateShoot::End;
+      m_stateShootSwitch = StateShootSwitch::End;
     }
     break;
-  case StateShoot::End:
+  case StateShootSwitch::End:
     m_robotContainer.m_feeder.IsNoteLoaded = false;
     m_robotContainer.m_planetary.SetSetpoint(REST_ANGLE);
     m_robotContainer.m_feeder.SetFeeder(STOP_FEEDER_SPEED);
@@ -159,6 +159,56 @@ void Robot::PreShoot()
   {
     m_robotContainer.m_shooter.SetShooter(m_robotContainer.m_shooter.shooterDataTable[SHOOTER_TABLE_SIZE - 3][2]);
     m_robotContainer.m_planetary.SetSetpoint(m_robotContainer.m_shooter.shooterDataTable[SHOOTER_TABLE_SIZE - 3][1]);
+  }
+}
+
+void Robot::Shoot(double speed, double angle)
+{
+  m_robotContainer.m_planetary.SetSetpoint(angle);
+  m_goal = speed * SHOOTER_GOALS_CONVERSION;
+  m_count++;
+  switch (m_stateShoot)
+  {
+  case StateShoot::Loaded:
+    m_robotContainer.m_feeder.SetFeeder(STOP_FEEDER_SPEED);
+    if (m_robotContainer.m_feeder.IsNoteLoaded)
+    {
+      m_stateShoot = StateShoot::PreShoot;
+    }
+    break;
+  case StateShoot::PreShoot:
+    m_robotContainer.m_shooter.SetShooter(speed); // 0.5
+    if (NABS(m_robotContainer.m_shooter.GetShooterVelocity()) > m_goal && m_robotContainer.m_planetary.m_planetaryPid.AtSetpoint())
+    {
+      m_stateShoot = StateShoot::Shoot;
+    }
+    break;
+  case StateShoot::Shoot:
+    m_robotContainer.m_feeder.SetFeeder(CATCH_FEEDER_SPEED);
+    m_robotContainer.m_shooter.SetShooter(speed); // 0.5
+    if (!m_robotContainer.m_feeder.GetFeederInfraSensorValue())
+    {
+      m_stateShoot = StateShoot::Shooting;
+      m_count = 0;
+    }
+    break;
+  case StateShoot::Shooting:
+    m_robotContainer.m_feeder.SetFeeder(CATCH_FEEDER_SPEED);
+    m_robotContainer.m_shooter.SetShooter(speed);
+    if (m_robotContainer.m_feeder.GetFeederInfraSensorValue() && m_count > SHOOTER_COUNT_READY)
+    {
+      m_stateShoot = StateShoot::End;
+    }
+    break;
+  case StateShoot::End:
+    m_robotContainer.m_feeder.IsNoteLoaded = false;
+    m_robotContainer.m_planetary.SetSetpoint(REST_ANGLE);
+    m_robotContainer.m_feeder.SetFeeder(STOP_FEEDER_SPEED);
+    m_robotContainer.m_shooter.SetShooter(STOP_SHOOTER_SPEED);
+    break;
+
+  default:
+    break;
   }
 }
 

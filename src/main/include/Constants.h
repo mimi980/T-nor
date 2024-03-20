@@ -104,6 +104,10 @@
 #define STAGE_SPEED_SHOOT 0.7
 #define STOP_SHOOTER_SPEED 0.0
 
+#define SHOOTER_SPEED_0 0.0
+#define SHOOTER_SPEED_1 0.5
+#define SHOOTER_SPEED_2 0.6
+
 #define INTAKE_SPEED 1.0
 #define SPIT_INTAKE_SPEED -INTAKE_SPEED
 #define STOP_INTAKE_SPEED 0.0
@@ -117,6 +121,10 @@
 #define TAKE_ANGLE 17
 #define STAGE_ANGLE 23
 #define REST_ANGLE 0.0
+
+#define ANGLE_0 0.0
+#define ANGLE_1 0.0
+#define ANGLE_2 0.0
 
 // #########################   DRIVETRAIN SETTINGS  #########################
 
