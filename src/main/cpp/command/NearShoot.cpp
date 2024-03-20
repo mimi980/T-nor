@@ -22,7 +22,7 @@ void NearShoot::Initialize()
 void NearShoot::Execute()
 {
   m_pPlanetary->SetSetpoint(NEAR_ANGLE);
-  m_goal = NEAR_SPEED_SHOOT * 6379 * 0.90 * (10.0 / 12.0);
+  m_goal = NEAR_SPEED_SHOOT * SHOOTER_GOALS_CONVERSION;
   m_count++;
   switch (m_state)
   {
@@ -52,7 +52,7 @@ void NearShoot::Execute()
   case State::Shooting:
     m_pFeeder->SetFeeder(CATCH_FEEDER_SPEED);
     m_pShooter->SetShooter(NEAR_SPEED_SHOOT);
-    if (m_pFeeder->GetFeederInfraSensorValue() && m_count > 30)
+    if (m_pFeeder->GetFeederInfraSensorValue() && m_count > SHOOTER_COUNT_READY)
     {
       m_state = State::End;
     }

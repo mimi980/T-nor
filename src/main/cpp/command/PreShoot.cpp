@@ -17,10 +17,10 @@ void PreShoot::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void PreShoot::Execute()
 {
-  if (m_pCamera->getAprilId() == 4 or m_pCamera->getAprilId() == 7)
+  if (m_pCamera->getAprilId() == ID_APRILTAG_MIDDLE or m_pCamera->getAprilId() == ID_APRILTAG_LEFT)
   {
-    shooter_speed = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetPitch(4))][2];
-    planteray_angle = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetPitch(4))][1];
+    shooter_speed = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetPitch(ID_APRILTAG_MIDDLE))][2];
+    planteray_angle = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetPitch(ID_APRILTAG_MIDDLE))][1];
     m_pShooter->SetShooter(shooter_speed);
     m_pPlanetary->SetSetpoint(planteray_angle);
   }

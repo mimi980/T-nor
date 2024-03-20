@@ -13,11 +13,11 @@ void Shoot::Initialize()
 
 void Shoot::Execute()
 {
-  shooter_speed = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetPitch(4))][2];
-  planteray_angle = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetPitch(4))][1];
+  shooter_speed = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetPitch(ID_APRILTAG_MIDDLE))][2];
+  planteray_angle = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetPitch(ID_APRILTAG_MIDDLE))][1];
   // planteray_angle = 21.9 + 0.913 * m_pCamera->GetAngle() - 0.00817 * pow(m_pCamera->GetAngle(), 2.0);
   m_pPlanetary->SetSetpoint(planteray_angle);
-  m_goal = shooter_speed * 6379 * 0.90 * (10.0 / 12.0);
+  m_goal = shooter_speed * SHOOTER_GOALS_CONVERSION;
   // std::cout << shooter_speed << std::endl;
   // std::cout << planteray_angle << std::endl;
   m_count++;
@@ -49,7 +49,7 @@ void Shoot::Execute()
   case State::Shooting:
     m_pFeeder->SetFeeder(CATCH_FEEDER_SPEED);
     m_pShooter->SetShooter(shooter_speed);
-    if (m_pFeeder->GetFeederInfraSensorValue() && m_count > 30)
+    if (m_pFeeder->GetFeederInfraSensorValue() && m_count > SHOOTER_COUNT_READY)
     {
       m_state = State::End;
     }

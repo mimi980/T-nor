@@ -20,9 +20,6 @@
 
 #define ID_MOTOR_PLANETARY 10
 
-#define ID_MOTOR_CLIMBER_RIGHT 11
-#define ID_MOTOR_CLIMBER_LEFT 12
-
 // #########################    ID Solenoid    #########################
 #define ID_SOLENOID_SHIFTER_A 1
 #define ID_SOLENOID_SHIFTER_B 7
@@ -36,9 +33,6 @@
 
 #define ID_ENCODER_PLANETARY_A 6
 #define ID_ENCODER_PLANETARY_B 7
-
-#define ID_ENCODER_CLIMBER_A 8
-#define ID_ENCODER_CLIMBER_B 9
 
 // #########################    ID Sensor    #########################
 
@@ -93,20 +87,22 @@
 #define PLANETARY_MOTOR_INVERTED false
 #define SHOOTER_MOTOR_LEFT_INVERTED true
 #define SHOOTER_MOTOR_RIGHT_INVERTED true
-#define CLIMBER_MOTOR_LEFT_INVERTED true
-#define CLIMBER_MOTOR_RIGHT_INVERTED false
 
 // #########################    SetDistancePerPulse    #########################
 
 #define PLANETARY_DISTANCE_PER_PULSE ((1.0 / 2048.0) / 4.5) * 360.0
+#define DRIVETRAIN_DISTANCE_PER_PULSE 1.0 / 2048.0
+
+#define SHOOTER_GOALS_CONVERSION 6379 * 0.90 * (10.0 / 12.0)
+#define SHOOTER_COUNT_READY 30
 
 // #########################   SPEED  #########################
 
 #define SHOOTER_SPEED 0.5
-#define STOP_SHOOTER_SPEED 0.0
-#define AMP_SHOOTER_SPEED 0.2
+#define AMP_SHOOTER_SPEED 0.12
 #define NEAR_SPEED_SHOOT 0.5
 #define STAGE_SPEED_SHOOT 0.7
+#define STOP_SHOOTER_SPEED 0.0
 
 #define INTAKE_SPEED 1.0
 #define SPIT_INTAKE_SPEED -INTAKE_SPEED
@@ -119,10 +115,9 @@
 #define AMP_ANGLE 100
 #define NEAR_ANGLE 38
 #define TAKE_ANGLE 17
-#define REST_ANGLE 0.0
 #define STAGE_ANGLE 23
+#define REST_ANGLE 0.0
 
-#define CLIMB_ANGLE -60.0
 // #########################   DRIVETRAIN SETTINGS  #########################
 
 #define DRIVE_WHEEL_TRACK_WIDTH_INCHES 22.441
@@ -133,6 +128,8 @@
 #define CAMERA_PITCH 1.0
 #define CAMERA_HEIGHT 1.0
 #define TARGET_HEIGHT 1.0
-#define SHOOTER_TABLE_SIZE 15
+#define SHOOTER_TABLE_SIZE
+#define ID_APRILTAG_MIDDLE 4
+#define ID_APRILTAG_LEFT 3
 
 // ##################################################################################

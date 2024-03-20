@@ -20,7 +20,7 @@ void StageShoot::Initialize()
 void StageShoot::Execute()
 {
   m_pPlanetary->SetSetpoint(STAGE_ANGLE);
-  m_goal = NEAR_SPEED_SHOOT * 6379 * 0.90 * (10.0 / 12.0);
+  m_goal = NEAR_SPEED_SHOOT * SHOOTER_GOALS_CONVERSION;
   m_count++;
   switch (m_state)
   {
@@ -50,7 +50,7 @@ void StageShoot::Execute()
   case State::Shooting:
     m_pFeeder->SetFeeder(CATCH_FEEDER_SPEED);
     m_pShooter->SetShooter(STAGE_SPEED_SHOOT);
-    if (m_pFeeder->GetFeederInfraSensorValue() && m_count > 30)
+    if (m_pFeeder->GetFeederInfraSensorValue() && m_count > SHOOTER_COUNT_READY)
     {
       m_state = State::End;
     }

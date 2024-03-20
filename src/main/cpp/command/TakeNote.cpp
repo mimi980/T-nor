@@ -37,11 +37,11 @@ void TakeNote::Execute()
     m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
     m_pFeeder->IsNoteLoaded = true;
     break;
-  case State::End:
-    m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
-    m_pIntake->SetIntake(STOP_INTAKE_SPEED);
-    m_pFeeder->IsNoteLoaded = false;
-    break;
+  // case State::End:
+  //   m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
+  //   m_pIntake->SetIntake(STOP_INTAKE_SPEED);
+  //   m_pFeeder->IsNoteLoaded = false;
+  //   break;
   default:
     break;
   }

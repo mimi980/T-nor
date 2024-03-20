@@ -21,7 +21,7 @@ void AmpShoot::Initialize()
 void AmpShoot::Execute()
 {
   m_pPlanetary->SetSetpoint(AMP_ANGLE);
-  m_goal = AMP_SHOOTER_SPEED * 6379 * 0.90 * (10.0 / 12.0);
+  m_goal = AMP_SHOOTER_SPEED * SHOOTER_GOALS_CONVERSION;
   m_count++;
   switch (m_state)
   {
@@ -34,7 +34,7 @@ void AmpShoot::Execute()
     break;
   case State::PreShoot:
     m_pShooter->SetAmpShooter(AMP_SHOOTER_SPEED); // 0.5
-    if (m_pPlanetary->m_planetaryPid.AtSetpoint())
+    if (NABS(m_pShooter->GetShooterVelocity()) > m_goal && m_pPlanetary->m_planetaryPid.AtSetpoint())
     {
       m_state = State::Shoot;
     }
@@ -51,7 +51,7 @@ void AmpShoot::Execute()
   case State::Shooting:
     m_pFeeder->SetFeeder(CATCH_FEEDER_SPEED);
     m_pShooter->SetAmpShooter(AMP_SHOOTER_SPEED);
-    if (m_pFeeder->GetFeederInfraSensorValue() && m_count > 30)
+    if (m_pFeeder->GetFeederInfraSensorValue() && m_count > SHOOTER_COUNT_READY)
     {
       m_state = State::End;
     }

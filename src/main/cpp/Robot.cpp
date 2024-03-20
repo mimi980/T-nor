@@ -7,7 +7,7 @@
 void Robot::NearShoot()
 {
   m_robotContainer.m_planetary.SetSetpoint(NEAR_ANGLE);
-  m_goal = NEAR_SPEED_SHOOT * 6379 * 0.90 * (10.0 / 12.0);
+  m_goal = NEAR_SPEED_SHOOT * SHOOTER_GOALS_CONVERSION;
   m_count++;
   switch (m_stateNearShoot)
   {
@@ -37,7 +37,7 @@ void Robot::NearShoot()
   case StateNearShoot::Shooting:
     m_robotContainer.m_feeder.SetFeeder(CATCH_FEEDER_SPEED);
     m_robotContainer.m_shooter.SetShooter(NEAR_SPEED_SHOOT);
-    if (m_robotContainer.m_feeder.GetFeederInfraSensorValue() && m_count > 30)
+    if (m_robotContainer.m_feeder.GetFeederInfraSensorValue() && m_count > SHOOTER_COUNT_READY)
     {
       m_stateNearShoot = StateNearShoot::End;
     }
@@ -94,11 +94,11 @@ void Robot::TakeNoteSwitch()
 
 void Robot::ShootSwitch()
 {
-  shooter_speed = m_robotContainer.m_shooter.shooterDataTable[m_robotContainer.m_shooter.getNearestElementId(m_robotContainer.m_camera.GetYaw(4))][2];
-  planteray_angle = m_robotContainer.m_shooter.shooterDataTable[m_robotContainer.m_shooter.getNearestElementId(m_robotContainer.m_camera.GetYaw(4))][1];
+  shooter_speed = m_robotContainer.m_shooter.shooterDataTable[m_robotContainer.m_shooter.getNearestElementId(m_robotContainer.m_camera.GetPitch(ID_APRILTAG_MIDDLE))][2];
+  planteray_angle = m_robotContainer.m_shooter.shooterDataTable[m_robotContainer.m_shooter.getNearestElementId(m_robotContainer.m_camera.GetPitch(ID_APRILTAG_MIDDLE))][1];
 
   m_robotContainer.m_planetary.SetSetpoint(planteray_angle);
-  m_goal = shooter_speed * 6379 * 0.90 * (10.0 / 12.0);
+  m_goal = shooter_speed * SHOOTER_GOALS_CONVERSION;
   m_count++;
   switch (m_stateShoot)
   {
@@ -128,7 +128,7 @@ void Robot::ShootSwitch()
   case StateShoot::Shooting:
     m_robotContainer.m_feeder.SetFeeder(CATCH_FEEDER_SPEED);
     m_robotContainer.m_shooter.SetShooter(shooter_speed);
-    if (m_robotContainer.m_feeder.GetFeederInfraSensorValue() && m_count > 30)
+    if (m_robotContainer.m_feeder.GetFeederInfraSensorValue() && m_count > SHOOTER_COUNT_READY)
     {
       m_stateShoot = StateShoot::End;
     }
@@ -148,17 +148,17 @@ void Robot::ShootSwitch()
 
 void Robot::PreShoot()
 {
-  if (m_robotContainer.m_camera.getAprilId() == 4 or m_robotContainer.m_camera.getAprilId() == 7)
+  if (m_robotContainer.m_camera.getAprilId() == ID_APRILTAG_MIDDLE or m_robotContainer.m_camera.getAprilId() == ID_APRILTAG_LEFT)
   {
-    shooter_speed = m_robotContainer.m_shooter.shooterDataTable[m_robotContainer.m_shooter.getNearestElementId(m_robotContainer.m_camera.GetPitch(4))][2];
-    planteray_angle = m_robotContainer.m_shooter.shooterDataTable[m_robotContainer.m_shooter.getNearestElementId(m_robotContainer.m_camera.GetPitch(4))][1];
+    shooter_speed = m_robotContainer.m_shooter.shooterDataTable[m_robotContainer.m_shooter.getNearestElementId(m_robotContainer.m_camera.GetPitch(ID_APRILTAG_MIDDLE))][2];
+    planteray_angle = m_robotContainer.m_shooter.shooterDataTable[m_robotContainer.m_shooter.getNearestElementId(m_robotContainer.m_camera.GetPitch(ID_APRILTAG_MIDDLE))][1];
     m_robotContainer.m_shooter.SetShooter(shooter_speed);
     m_robotContainer.m_planetary.SetSetpoint(planteray_angle);
   }
   else
   {
-    m_robotContainer.m_shooter.SetShooter(m_robotContainer.m_shooter.shooterDataTable[SHOOTER_TABLE_SIZE - 1][2]);
-    m_robotContainer.m_planetary.SetSetpoint(m_robotContainer.m_shooter.shooterDataTable[SHOOTER_TABLE_SIZE - 1][1]);
+    m_robotContainer.m_shooter.SetShooter(m_robotContainer.m_shooter.shooterDataTable[SHOOTER_TABLE_SIZE - 3][2]);
+    m_robotContainer.m_planetary.SetSetpoint(m_robotContainer.m_shooter.shooterDataTable[SHOOTER_TABLE_SIZE - 3][1]);
   }
 }
 
