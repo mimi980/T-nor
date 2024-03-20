@@ -53,6 +53,7 @@ void Robot::NearShoot()
     break;
   }
 }
+
 void Robot::TakeNoteSwitch()
 {
   m_robotContainer.m_planetary.SetSetpoint(TAKE_ANGLE);
@@ -212,7 +213,24 @@ void Robot::Shoot(double speed, double angle)
   }
 }
 
-void Robot::RobotInit() {}
+void Robot::RobotInit() 
+{
+  m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
+  m_chooser.AddOption(kAutoNameBlueAmpNear, kAutoNameBlueAmpNear);
+  m_chooser.AddOption(kAutoNameBlueCenterNear, kAutoNameBlueCenterNear);
+  m_chooser.AddOption(kAutoNameBlueSourceNear, kAutoNameBlueSourceNear);
+  m_chooser.AddOption(kAutoNameBlueAmpFar, kAutoNameBlueAmpFar);
+  m_chooser.AddOption(kAutoNameBlueCenterFar, kAutoNameBlueCenterFar);
+  m_chooser.AddOption(kAutoNameBlueSourceFar, kAutoNameBlueSourceFar);
+  m_chooser.AddOption(kAutoNameRedAmpNear, kAutoNameRedAmpNear);
+  m_chooser.AddOption(kAutoNameRedCenterNear, kAutoNameRedCenterNear);
+  m_chooser.AddOption(kAutoNameRedSourceNear, kAutoNameRedSourceNear);
+  m_chooser.AddOption(kAutoNameRedAmpFar, kAutoNameRedAmpFar);
+  m_chooser.AddOption(kAutoNameRedCenterFar, kAutoNameRedCenterFar);
+  m_chooser.AddOption(kAutoNameRedSourceFar, kAutoNameRedSourceFar);
+
+  frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+}
 void Robot::RobotPeriodic()
 {
   frc2::CommandScheduler::GetInstance().Run();
@@ -220,6 +238,9 @@ void Robot::RobotPeriodic()
 
 void Robot::AutonomousInit()
 {
+  m_autoSelected = m_chooser.GetSelected();
+  std::cout << "Auto selected: {}\n" << m_autoSelected << std::endl;
+
   m_gyro.Reset();
   m_gyro.Calibrate();
 
@@ -241,8 +262,59 @@ void Robot::AutonomousInit()
   m_CrtzR.m_forwardIntercept = 0.4218986448873328f; // = m_intercept[0]
   m_CrtzR.m_backwardIntercept = -0.49001485320659466f;
 
-  m_TrajectoryPack.load("/home/lvuser/auto/tout_droit.trk");
-
+  if(m_autoSelected == kAutoNameBlueAmpNear)
+  {
+    m_TrajectoryPack.load("/home/lvuser/auto/blue_amp_near.trk");
+  }
+  else if(m_autoSelected == kAutoNameBlueCenterNear)
+  {
+    m_TrajectoryPack.load("/home/lvuser/auto/blue_center_near.trk");
+  }
+  else if(m_autoSelected == kAutoNameBlueSourceNear)
+  {
+    m_TrajectoryPack.load("/home/lvuser/auto/blue_source_near.trk");
+  }
+  else if(m_autoSelected == kAutoNameBlueAmpFar)
+  {
+    m_TrajectoryPack.load("/home/lvuser/auto/blue_amp_far.trk");
+  }
+  else if(m_autoSelected == kAutoNameBlueCenterFar)
+  {
+    m_TrajectoryPack.load("/home/lvuser/auto/blue_center_far.trk");
+  }
+  else if(m_autoSelected == kAutoNameBlueSourceFar)
+  {
+    m_TrajectoryPack.load("/home/lvuser/auto/blue_source_far.trk");
+  }
+  else if(m_autoSelected == kAutoNameRedAmpNear)
+  {
+    m_TrajectoryPack.load("/home/lvuser/auto/red_amp_near.trk");
+  }
+  else if(m_autoSelected == kAutoNameRedCenterNear)
+  {
+    m_TrajectoryPack.load("/home/lvuser/auto/red_center_near.trk");
+  }
+  else if(m_autoSelected == kAutoNameRedSourceNear)
+  {
+    m_TrajectoryPack.load("/home/lvuser/auto/red_source_near.trk");
+  }
+  else if(m_autoSelected == kAutoNameRedAmpFar)
+  {
+    m_TrajectoryPack.load("/home/lvuser/auto/red_amp_far.trk");
+  }
+  else if(m_autoSelected == kAutoNameRedCenterFar)
+  {
+    m_TrajectoryPack.load("/home/lvuser/auto/red_center_far.trk");
+  }
+  else if(m_autoSelected == kAutoNameRedSourceFar)
+  {
+    m_TrajectoryPack.load("/home/lvuser/auto/red_source_far.trk");
+  }
+  else
+  {
+    m_TrajectoryPack.load("/home/lvuser/auto/tout_droit.trk");
+  }
+  
   m_follower.initialize(&m_TrajectoryPack);
   m_state = Robot::STATE::PATH_FOLLOWING;
 }

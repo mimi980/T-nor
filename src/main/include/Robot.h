@@ -14,6 +14,7 @@
 #include "lib/NL/MotionControl/Trajectory/NLTrajectorySystemMessage.h"
 #include <AHRS.h>
 #include "RobotContainer.h"
+#include <frc/smartdashboard/SendableChooser.h>
 
 class Robot : public frc::TimedRobot
 {
@@ -110,4 +111,21 @@ public:
   NLFOLLOWER_TANK m_follower;
 
   AHRS m_gyro{frc::SerialPort::Port::kOnboard};
+
+// Auto Selector
+  frc::SendableChooser m_chooser;
+  const std::string kAutoNameDefault = "Default";
+  const std::string kAutoNameBlueAmpNear = "Blue Amp Near";
+  const std::string kAutoNameBlueCenterNear = "Blue Center Near";
+  const std::string kAutoNameBlueSourceNear = "Blue Source Near";
+  const std::string kAutoNameBlueAmpFar = "Blue Amp Far";
+  const std::string kAutoNameBlueCenterFar = "Blue Center Far";
+  const std::string kAutoNameBlueSourceFar = "Blue Source Far";
+  const std::string kAutoNameRedAmpNear = "Red Amp Near";
+  const std::string kAutoNameRedCenterNear = "Red Center Near";
+  const std::string kAutoNameRedSourceNear = "Red Source Near";
+  const std::string kAutoNameRedAmpFar = "Red Amp Far";
+  const std::string kAutoNameRedCenterFar = "Red Center Far";
+  const std::string kAutoNameRedSourceFar = "Red Source Far";
+  std::string m_autoSelected;
 };
