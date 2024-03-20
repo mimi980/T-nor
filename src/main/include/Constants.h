@@ -46,7 +46,7 @@
 #define PLANETARY_PID_D 0.04
 #define PLANETARY_PID_TOLERANCE 1.0
 
-#define BASE_PID_P 0.1
+#define BASE_PID_P 0.05
 #define BASE_PID_I 0.0
 #define BASE_PID_D 0.0
 #define BASE_PID_TOLERANCE 1.0
@@ -99,7 +99,7 @@
 // #########################   SPEED  #########################
 
 #define SHOOTER_SPEED 0.5
-#define AMP_SHOOTER_SPEED 0.12
+#define AMP_SHOOTER_SPEED 0.17
 #define NEAR_SPEED_SHOOT 0.5
 #define STAGE_SPEED_SHOOT 0.7
 #define STOP_SHOOTER_SPEED 0.0

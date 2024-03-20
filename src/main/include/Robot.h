@@ -111,4 +111,6 @@ public:
   NLFOLLOWER_TANK m_follower;
 
   AHRS m_gyro{frc::SerialPort::Port::kOnboard};
+
+  int m_countable;
 };

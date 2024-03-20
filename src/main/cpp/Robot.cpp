@@ -366,9 +366,29 @@ void Robot::TeleopInit()
 void Robot::TeleopPeriodic()
 {
   frc::SmartDashboard::PutBoolean("Loaded", m_robotContainer.m_feeder.IsNoteLoaded);
-  if (m_robotContainer.m_joystickLeft.GetRawButtonPressed(1))
+  frc::SmartDashboard::PutBoolean("auto", m_robotContainer.m_camera.drive_auto);
+
+  if (m_countable < 100 and m_robotContainer.m_feeder.IsRumbled)
   {
-    m_robotContainer.m_drivetrain.ChangeBallShifter();
+    m_countable++;
+    std::cout << "cc" << std::endl;
+    m_robotContainer.m_xboxControllerCopilote.SetRumble(frc::GenericHID::RumbleType::kBothRumble, 0.5);
+    m_robotContainer.m_xboxControllerPilote.SetRumble(frc::GenericHID::RumbleType::kBothRumble, 0.5);
+  }
+  else
+  {
+    m_countable = 0;
+    m_robotContainer.m_feeder.IsRumbled = false;
+    m_robotContainer.m_xboxControllerCopilote.SetRumble(frc::GenericHID::RumbleType::kBothRumble, 0.0);
+    m_robotContainer.m_xboxControllerPilote.SetRumble(frc::GenericHID::RumbleType::kBothRumble, 0.0);
+  }
+  if (m_robotContainer.m_xboxControllerPilote.GetRawButton(1))
+  {
+    m_robotContainer.m_camera.drive_auto = true;
+  }
+  else
+  {
+    m_robotContainer.m_camera.drive_auto = false;
   }
 }
 

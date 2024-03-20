@@ -39,6 +39,7 @@ public:
   Pid m_basePid{0.0, BASE_PID_P, BASE_PID_I, BASE_PID_D};
   double m_setpoint;
   double m_output;
+  bool drive_auto;
 
   photon::PhotonCamera m_camera{"IRcam"};
 

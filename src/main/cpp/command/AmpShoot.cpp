@@ -61,6 +61,7 @@ void AmpShoot::Execute()
     m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
     m_pShooter->SetAmpShooter(STOP_SHOOTER_SPEED);
     m_pFeeder->IsNoteLoaded = false;
+    m_pFeeder->IsRumbled = true;
     break;
 
   default:

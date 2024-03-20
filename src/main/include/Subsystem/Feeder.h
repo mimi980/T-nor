@@ -16,6 +16,7 @@ public:
   void SetFeeder(double speed);
   bool GetFeederInfraSensorValue();
   bool IsNoteLoaded;
+  bool IsRumbled;
 
 private:
   ctre::phoenix::motorcontrol::can::TalonFX m_feederMotor{ID_MOTOR_FEEDER};

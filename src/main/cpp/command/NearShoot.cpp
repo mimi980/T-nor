@@ -62,6 +62,7 @@ void NearShoot::Execute()
     m_pPlanetary->SetSetpoint(0.0);
     m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
     m_pShooter->SetShooter(STOP_SHOOTER_SPEED);
+    m_pFeeder->IsRumbled = true;
     break;
 
   default:

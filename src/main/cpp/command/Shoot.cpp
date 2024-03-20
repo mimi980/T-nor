@@ -59,6 +59,7 @@ void Shoot::Execute()
     m_pPlanetary->SetSetpoint(REST_ANGLE);
     m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
     m_pShooter->SetShooter(STOP_SHOOTER_SPEED);
+    m_pFeeder->IsRumbled = true;
     break;
 
   default:
