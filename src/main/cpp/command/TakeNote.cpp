@@ -20,6 +20,7 @@ void TakeNote::Execute()
     m_pIntake->SetIntake(INTAKE_SPEED);
     if (!m_pFeeder->GetFeederInfraSensorValue())
     {
+      m_pFeeder->IsRumbled = true;
       m_pIntake->SetIntake(STOP_INTAKE_SPEED);
       m_pFeeder->SetFeeder(SPIT_FEEDER_SPEED);
       m_state = State::Recul;
@@ -53,7 +54,6 @@ void TakeNote::End(bool interrupted)
   m_pIntake->SetIntake(STOP_INTAKE_SPEED);
   m_pPlanetary->SetSetpoint(REST_ANGLE);
 }
-
 bool TakeNote::IsFinished()
 {
   return false;

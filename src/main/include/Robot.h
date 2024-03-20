@@ -15,6 +15,7 @@
 #include <AHRS.h>
 #include "RobotContainer.h"
 #include <frc/smartdashboard/SendableChooser.h>
+#include <units/pressure.h>
 
 class Robot : public frc::TimedRobot
 {
@@ -128,4 +129,6 @@ public:
   const std::string kAutoNameRedCenterFar = "Red Center Far";
   const std::string kAutoNameRedSourceFar = "Red Source Far";
   std::string m_autoSelected;
+
+  int m_countable;
 };

@@ -15,6 +15,7 @@
 #include <wpi/SpanExtras.h>
 #include "photon/targeting/PhotonTrackedTarget.h"
 #include <vector>
+#include "lib/NRollingAverage.h"
 
 class Camera : public frc2::SubsystemBase
 {
@@ -22,7 +23,7 @@ public:
   Camera();
   int getAprilId();
   double GetAngle();
-  double GetPitch(int Id);
+  double GetPitch(int Id_1, int Id_2);
   double GetOutput();
   void SetSetpoint(double setpoint);
   double GetYaw(int Id);
@@ -34,17 +35,17 @@ public:
   double lastAir;
   double diffAir;
   double yaw;
-  double pitch;
 
   Pid m_basePid{0.0, BASE_PID_P, BASE_PID_I, BASE_PID_D};
   double m_setpoint;
   double m_output;
+  bool drive_auto;
 
   photon::PhotonCamera m_camera{"IRcam"};
-  photon::PhotonPipelineResult result = m_camera.GetLatestResult();
 
-  frc::MedianFilter<double> m_verticalMedian = frc::MedianFilter<double>(3);
   frc::LinearFilter<double> m_horizontalErrorMovingAverage = frc::LinearFilter<double>::MovingAverage(3);
+
+  NdoubleRollingAverage m_verticalRollingAverage{10};
 
   // units::meter_t range = photon::PhotonUtils::CalculateDistanceToTarget(
   //     CAMERA_HEIGHT, TARGET_HEIGHT, CAMERA_PITCH,

@@ -17,18 +17,19 @@ void PreShoot::Initialize()
 // Called repeatedly when this Command is scheduled to run
 void PreShoot::Execute()
 {
-  if (m_pCamera->getAprilId() == ID_APRILTAG_MIDDLE or m_pCamera->getAprilId() == ID_APRILTAG_LEFT)
-  {
-    shooter_speed = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetPitch(ID_APRILTAG_MIDDLE))][2];
-    planteray_angle = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetPitch(ID_APRILTAG_MIDDLE))][1];
-    m_pShooter->SetShooter(shooter_speed);
-    m_pPlanetary->SetSetpoint(planteray_angle);
-  }
-  else
-  {
-    m_pShooter->SetShooter(m_pShooter->shooterDataTable[SHOOTER_TABLE_SIZE - 1][2]);
-    m_pPlanetary->SetSetpoint(m_pShooter->shooterDataTable[SHOOTER_TABLE_SIZE - 1][1]);
-  }
+  // if (m_pCamera->getAprilId() == ID_APRILTAG_MIDDLE or m_pCamera->getAprilId() == ID_APRILTAG_LEFT)
+  // {
+  shooter_speed = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetPitch(ID_APRILTAG_MIDDLE, ID_APRILTAG_LEFT))][2];
+  planteray_angle = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetPitch(ID_APRILTAG_MIDDLE, ID_APRILTAG_LEFT))][1];
+
+  m_pShooter->SetShooter(shooter_speed);
+  m_pPlanetary->SetSetpoint(planteray_angle);
+  // }
+  // else
+  // {
+  //   m_pShooter->SetShooter(m_pShooter->shooterDataTable[SHOOTER_TABLE_SIZE - 1][2]);
+  //   m_pPlanetary->SetSetpoint(m_pShooter->shooterDataTable[SHOOTER_TABLE_SIZE - 1][1]);
+  // }
 }
 
 // Called once the command ends or is interrupted.

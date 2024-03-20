@@ -16,6 +16,7 @@
 #include <frc2/command/RunCommand.h>
 #include <frc2/command/button/CommandXboxController.h>
 #include <frc2/command/button/POVButton.h>
+#include <frc/Compressor.h>
 #include "subsystem/Drivetrain.h"
 #include "subsystem/Shooter.h"
 #include "subsystem/Feeder.h"
@@ -37,17 +38,20 @@ public:
   RobotContainer();
   void ConfigureButtonBindings();
 
-  frc::Joystick m_joystickRight{0};
-  frc::Joystick m_joystickLeft{1};
-  frc::XboxController m_xboxController{2};
+  // frc::Joystick m_joystickRight{0};
+  // frc::Joystick m_joystickLeft{1};
+  frc::XboxController m_xboxControllerPilote{0};
+  frc::XboxController m_xboxControllerCopilote{1};
 
-  frc2::JoystickButton m_buttonPreShoot{&m_xboxController, 5};
-  frc2::JoystickButton m_buttonShoot{&m_xboxController, 6};
-  frc2::JoystickButton m_buttonNearShoot{&m_xboxController, 1};
-  frc2::JoystickButton m_buttonAmpShoot{&m_xboxController, 4};
-  frc2::JoystickButton m_buttonStageShoot{&m_xboxController, 2};
+  frc2::JoystickButton m_buttonPreShoot{&m_xboxControllerCopilote, 5};
+  frc2::JoystickButton m_buttonShoot{&m_xboxControllerCopilote, 6};
+  frc2::JoystickButton m_buttonNearShoot{&m_xboxControllerCopilote, 1};
+  frc2::JoystickButton m_buttonAmpShoot{&m_xboxControllerCopilote, 4};
+  frc2::JoystickButton m_buttonStageShoot{&m_xboxControllerCopilote, 2};
 
-  frc2::POVButton m_buttonTakeNote{&m_xboxController, 0};
+  frc2::POVButton m_buttonTakeNote{&m_xboxControllerCopilote, 0};
+
+  frc::Compressor m_compressor{frc::PneumaticsModuleType::CTREPCM};
 
   // frc2::Trigger m_buttonShoot{[this]
   //                             {

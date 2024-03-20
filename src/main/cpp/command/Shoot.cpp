@@ -13,8 +13,8 @@ void Shoot::Initialize()
 
 void Shoot::Execute()
 {
-  shooter_speed = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetPitch(ID_APRILTAG_MIDDLE))][2];
-  planteray_angle = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetPitch(ID_APRILTAG_MIDDLE))][1];
+  shooter_speed = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetPitch(ID_APRILTAG_MIDDLE, ID_APRILTAG_LEFT))][2];
+  planteray_angle = m_pShooter->shooterDataTable[m_pShooter->getNearestElementId(m_pCamera->GetPitch(ID_APRILTAG_MIDDLE, ID_APRILTAG_LEFT))][1];
   // planteray_angle = 21.9 + 0.913 * m_pCamera->GetAngle() - 0.00817 * pow(m_pCamera->GetAngle(), 2.0);
   m_pPlanetary->SetSetpoint(planteray_angle);
   m_goal = shooter_speed * SHOOTER_GOALS_CONVERSION;
@@ -59,6 +59,7 @@ void Shoot::Execute()
     m_pPlanetary->SetSetpoint(REST_ANGLE);
     m_pFeeder->SetFeeder(STOP_FEEDER_SPEED);
     m_pShooter->SetShooter(STOP_SHOOTER_SPEED);
+    m_pFeeder->IsRumbled = true;
     break;
 
   default:
