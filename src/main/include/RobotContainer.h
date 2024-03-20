@@ -16,6 +16,7 @@
 #include <frc2/command/RunCommand.h>
 #include <frc2/command/button/CommandXboxController.h>
 #include <frc2/command/button/POVButton.h>
+#include <frc/Compressor.h>
 #include "subsystem/Drivetrain.h"
 #include "subsystem/Shooter.h"
 #include "subsystem/Feeder.h"
@@ -48,6 +49,8 @@ public:
   frc2::JoystickButton m_buttonStageShoot{&m_xboxController, 2};
 
   frc2::POVButton m_buttonTakeNote{&m_xboxController, 0};
+
+  frc::Compressor m_compressor{frc::PneumaticsModuleType::CTREPCM};
 
   // frc2::Trigger m_buttonShoot{[this]
   //                             {

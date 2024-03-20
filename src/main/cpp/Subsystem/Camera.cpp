@@ -37,35 +37,39 @@ int Camera::getAprilId()
 //     return m_verticalMedian.LastValue();
 // }
 
-double Camera::GetPitch(int Id)
+double Camera::GetPitch(int Id_1, int Id_2)
 {
+    std::cout << m_camera.GetCameraName() << std::endl;
     if (m_camera.HasTargets())
     {
+        photon::PhotonPipelineResult result = m_camera.GetLatestResult();
         std::span<const photon::PhotonTrackedTarget> targetsList = result.GetTargets();
         std::vector<photon::PhotonTrackedTarget>::iterator it;
         photon::PhotonTrackedTarget target;
+
         for (int i = 0; i < result.targets.size(); i++)
         {
             target = result.targets[i];
-            if (target.GetFiducialId() == Id)
+
+            if (target.GetFiducialId() == Id_1 || target.GetFiducialId() == Id_2)
             {
-                pitch = target.GetPitch();
-                m_verticalMedian.Calculate(pitch);
-                break;
+                m_verticalRollingAverage.add(target.GetPitch());
+                std::cout << target.GetFiducialId() << std::endl;
             }
         }
     }
     else
     {
-        m_verticalMedian.Calculate(m_verticalMedian.LastValue());
+        m_verticalRollingAverage.add(m_verticalRollingAverage.get());
     }
-    return m_verticalMedian.LastValue();
+    return m_verticalRollingAverage.get();
 }
 
 double Camera::GetYaw(int Id)
 {
     if (m_camera.HasTargets())
     {
+        photon::PhotonPipelineResult result = m_camera.GetLatestResult();
         std::span<const photon::PhotonTrackedTarget> targetsList = result.GetTargets();
         std::vector<photon::PhotonTrackedTarget>::iterator it;
         photon::PhotonTrackedTarget target;

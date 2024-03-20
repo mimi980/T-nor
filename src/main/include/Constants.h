@@ -21,8 +21,8 @@
 #define ID_MOTOR_PLANETARY 10
 
 // #########################    ID Solenoid    #########################
-#define ID_SOLENOID_SHIFTER_A 1
-#define ID_SOLENOID_SHIFTER_B 7
+#define ID_SOLENOID_SHIFTER_A 0
+#define ID_SOLENOID_SHIFTER_B 1
 
 // #########################    ID Encoder    #########################
 
@@ -136,7 +136,7 @@
 #define CAMERA_PITCH 1.0
 #define CAMERA_HEIGHT 1.0
 #define TARGET_HEIGHT 1.0
-#define SHOOTER_TABLE_SIZE
+#define SHOOTER_TABLE_SIZE 15
 #define ID_APRILTAG_MIDDLE 4
 #define ID_APRILTAG_LEFT 3
 

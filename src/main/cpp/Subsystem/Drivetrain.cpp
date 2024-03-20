@@ -75,17 +75,17 @@ void Drivetrain::Set(double v_motor) // set des moteurs
 
 void Drivetrain::ActiveBallShifterV1() // active ball shifter V1
 {
-    m_BallShifterSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
+    m_BallShifterSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
 }
 
 void Drivetrain::ActiveBallShifterV2() // active ball shifter V2
 {
-    m_BallShifterSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
+    m_BallShifterSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
 }
 
 void Drivetrain::ChangeBallShifter() // change ball shifter
 {
-    if (m_BallShifterSolenoid.Get() == frc::DoubleSolenoid::Value::kForward)
+    if (m_BallShifterSolenoid.Get() == frc::DoubleSolenoid::Value::kReverse)
     {
         ActiveBallShifterV2();
     }
@@ -116,16 +116,16 @@ double Drivetrain::Calcul_De_Notre_Brave_JM(double forward, double turn, bool wh
 
 bool Drivetrain::isUpshiftingAllowed() // mode up, détermine si on peut passer en V2
 {
-    if ((m_GearShiftingTimeLock == 0.0) /*and (m_GearboxLeftOutAdjustedRpm / m_GearboxRightOutAdjustedRpm < (1 + TURNING_TOLERANCE)) and ((1 - TURNING_TOLERANCE) < m_GearboxLeftOutAdjustedRpm / m_GearboxRightOutAdjustedRpm)*/)
-    {
-        if (std::abs(m_GearboxesOutAdjustedRpm.m_current) > UP_SHIFTING_POINT_GEARBOXES_OUT_RPM and
-            std::abs(m_GearboxesOutAveragedAccelerationRpm2.get()) > UP_SHIFTING_POINT_GEARBOXES_OUT_RPM2 and
-            std::abs(m_JoystickRaw_V.m_current) > UP_SHIFTING_POINT_JOYSTICK_V and
-            std::abs(m_JoystickRaw_V.m_delta) >= UP_SHIFTING_POINT_JOYSTICK_V_VARIATION)
-            return true;
-        else
-            return false;
-    }
+    // if ((m_GearShiftingTimeLock == 0.0) /*and (m_GearboxLeftOutAdjustedRpm / m_GearboxRightOutAdjustedRpm < (1 + TURNING_TOLERANCE)) and ((1 - TURNING_TOLERANCE) < m_GearboxLeftOutAdjustedRpm / m_GearboxRightOutAdjustedRpm)*/)
+    // {
+    if (std::abs(m_GearboxesOutAdjustedRpm.m_current) > UP_SHIFTING_POINT_GEARBOXES_OUT_RPM and
+        std::abs(m_GearboxesOutAveragedAccelerationRpm2.get()) > UP_SHIFTING_POINT_GEARBOXES_OUT_RPM2 and
+        std::abs(m_JoystickRaw_V.m_current) > UP_SHIFTING_POINT_JOYSTICK_V and
+        std::abs(m_JoystickRaw_V.m_delta) >= UP_SHIFTING_POINT_JOYSTICK_V_VARIATION)
+        return true;
+    else
+        return false;
+    // }
 }
 
 bool Drivetrain::isKickdownShiftingAllowed() // mode kickdown, détermine si on peut passer en V1

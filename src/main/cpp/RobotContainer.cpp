@@ -18,6 +18,7 @@ RobotContainer::RobotContainer()
     // m_climber.SetDefaultCommand(Climb([=]
     //                                   { return m_joystickLeft.GetY(); },
     //                                   &m_climber, &m_planetary));
+    m_compressor.EnableDigital();
 }
 
 void RobotContainer::ConfigureButtonBindings()

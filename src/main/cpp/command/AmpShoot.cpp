@@ -34,7 +34,7 @@ void AmpShoot::Execute()
     break;
   case State::PreShoot:
     m_pShooter->SetAmpShooter(AMP_SHOOTER_SPEED); // 0.5
-    if (NABS(m_pShooter->GetShooterVelocity()) > m_goal && m_pPlanetary->m_planetaryPid.AtSetpoint())
+    if (m_pPlanetary->m_planetaryPid.AtSetpoint())
     {
       m_state = State::Shoot;
     }

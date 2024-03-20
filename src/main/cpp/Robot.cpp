@@ -94,8 +94,8 @@ void Robot::TakeNoteSwitch()
 
 void Robot::ShootSwitch()
 {
-  shooter_speed = m_robotContainer.m_shooter.shooterDataTable[m_robotContainer.m_shooter.getNearestElementId(m_robotContainer.m_camera.GetPitch(ID_APRILTAG_MIDDLE))][2];
-  planteray_angle = m_robotContainer.m_shooter.shooterDataTable[m_robotContainer.m_shooter.getNearestElementId(m_robotContainer.m_camera.GetPitch(ID_APRILTAG_MIDDLE))][1];
+  shooter_speed = m_robotContainer.m_shooter.shooterDataTable[m_robotContainer.m_shooter.getNearestElementId(m_robotContainer.m_camera.GetPitch(ID_APRILTAG_MIDDLE, ID_APRILTAG_LEFT))][2];
+  planteray_angle = m_robotContainer.m_shooter.shooterDataTable[m_robotContainer.m_shooter.getNearestElementId(m_robotContainer.m_camera.GetPitch(ID_APRILTAG_MIDDLE, ID_APRILTAG_LEFT))][1];
 
   m_robotContainer.m_planetary.SetSetpoint(planteray_angle);
   m_goal = shooter_speed * SHOOTER_GOALS_CONVERSION;
@@ -150,8 +150,8 @@ void Robot::PreShoot()
 {
   if (m_robotContainer.m_camera.getAprilId() == ID_APRILTAG_MIDDLE or m_robotContainer.m_camera.getAprilId() == ID_APRILTAG_LEFT)
   {
-    shooter_speed = m_robotContainer.m_shooter.shooterDataTable[m_robotContainer.m_shooter.getNearestElementId(m_robotContainer.m_camera.GetPitch(ID_APRILTAG_MIDDLE))][2];
-    planteray_angle = m_robotContainer.m_shooter.shooterDataTable[m_robotContainer.m_shooter.getNearestElementId(m_robotContainer.m_camera.GetPitch(ID_APRILTAG_MIDDLE))][1];
+    shooter_speed = m_robotContainer.m_shooter.shooterDataTable[m_robotContainer.m_shooter.getNearestElementId(m_robotContainer.m_camera.GetPitch(ID_APRILTAG_MIDDLE, ID_APRILTAG_LEFT))][2];
+    planteray_angle = m_robotContainer.m_shooter.shooterDataTable[m_robotContainer.m_shooter.getNearestElementId(m_robotContainer.m_camera.GetPitch(ID_APRILTAG_MIDDLE, ID_APRILTAG_LEFT))][1];
     m_robotContainer.m_shooter.SetShooter(shooter_speed);
     m_robotContainer.m_planetary.SetSetpoint(planteray_angle);
   }
@@ -366,6 +366,10 @@ void Robot::TeleopInit()
 void Robot::TeleopPeriodic()
 {
   frc::SmartDashboard::PutBoolean("Loaded", m_robotContainer.m_feeder.IsNoteLoaded);
+  if (m_robotContainer.m_joystickLeft.GetRawButtonPressed(1))
+  {
+    m_robotContainer.m_drivetrain.ChangeBallShifter();
+  }
 }
 
 void Robot::DisabledInit()

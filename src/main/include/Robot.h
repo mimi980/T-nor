@@ -14,6 +14,7 @@
 #include "lib/NL/MotionControl/Trajectory/NLTrajectorySystemMessage.h"
 #include <AHRS.h>
 #include "RobotContainer.h"
+#include <units/pressure.h>
 
 class Robot : public frc::TimedRobot
 {
