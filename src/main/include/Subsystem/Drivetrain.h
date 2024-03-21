@@ -58,6 +58,7 @@ public:
   void ShiftGearUp();
   void ShiftGearDown();
   void Reset();
+  void SetVoltage(double right, double left);
 
   double getLeftDistance();
   double getRightDistance();

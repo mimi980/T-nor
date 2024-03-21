@@ -96,14 +96,14 @@ public:
   StateShoot m_stateShoot;
 
   RobotContainer m_robotContainer;
-  enum STATE
-  {
-    PATH_ERROR = 0, ///< L'initialisation du path following a rencontr� un probl�me ( erreur au chargement tr�s probablement ). Le Robot ne peut-�tre en �tat PATH_FOLLOWING.
-    PATH_FOLLOWING, ///< Le robot est en �tat de suivit de chemin.
-    PATH_END        ///< La Vitesse  est en d�passement.
-  };
+  // enum STATE
+  // {
+  //   PATH_ERROR = 0, ///< L'initialisation du path following a rencontr� un probl�me ( erreur au chargement tr�s probablement ). Le Robot ne peut-�tre en �tat PATH_FOLLOWING.
+  //   PATH_FOLLOWING, ///< Le robot est en �tat de suivit de chemin.
+  //   PATH_END        ///< La Vitesse  est en d�passement.
+  // };
 
-  STATE m_state;
+  // STATE m_state;
 
   NLMOTOR_CHARACTERIZATION m_CrtzL;
   NLMOTOR_CHARACTERIZATION m_CrtzR;
@@ -112,6 +112,7 @@ public:
   NLFOLLOWER_TANK m_follower;
 
   AHRS m_gyro{frc::SerialPort::Port::kUSB};
+  int m_state;
 
   // Auto Selector
   frc::SendableChooser<std::string> m_autoChooser;

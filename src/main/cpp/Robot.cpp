@@ -237,7 +237,7 @@ void Robot::RobotPeriodic()
 
 void Robot::AutonomousInit()
 {
-  m_TrajectoryPack.load("/home/lvuser/auto/test1.trk");
+  m_TrajectoryPack.load("/home/lvuser/auto/autre.trk");
 
   m_autoSelected = m_autoChooser.GetSelected();
   m_sideSelected = m_sideChooser.GetSelected();
@@ -246,7 +246,7 @@ void Robot::AutonomousInit()
   std::cout << "Side selected \n"
             << m_sideSelected << std::endl;
 
-  // m_gyro.Reset();
+  m_gyro.Reset();
   // m_gyro.Calibrate();
 
   // ######## NLMOTOR_CHARACTERIZATION ########
@@ -334,7 +334,7 @@ void Robot::AutonomousInit()
   }
 
   m_follower.initialize(&m_TrajectoryPack);
-  m_state = Robot::STATE::PATH_FOLLOWING;
+  m_state = 0;
 }
 void Robot::AutonomousPeriodic()
 {
@@ -397,12 +397,14 @@ void Robot::AutonomousPeriodic()
   //   NErrorIf(1, NERROR_UNAUTHORIZED_CASE);
   //   break;
   // }
-
-  m_follower.estimate(m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance(), m_robotContainer.m_drivetrain.m_EncoderRight.GetDistance(), NDEGtoRAD(m_gyro.GetAngle()));
-  m_follower.updateTarget(&m_TrajectoryPack, 0.02f);
-  pout = m_follower.compute();
-  m_robotContainer.m_drivetrain.DriveAuto(m_CrtzR.getVoltage(pout->m_rightVelocity, pout->m_rightAcceleration), m_CrtzL.getVoltage(pout->m_leftVelocity, pout->m_leftAcceleration));
-  std::cout << "pathFollowing" << std::endl;
+  if (m_state == 0)
+  {
+    m_follower.estimate(m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance(), m_robotContainer.m_drivetrain.m_EncoderRight.GetDistance(), NDEGtoRAD(m_gyro.GetAngle()));
+    m_follower.updateTarget(&m_TrajectoryPack, 0.02f);
+    pout = m_follower.compute();
+    m_robotContainer.m_drivetrain.SetVoltage(m_CrtzR.getVoltage(pout->m_rightVelocity, pout->m_rightAcceleration), m_CrtzL.getVoltage(pout->m_leftVelocity, pout->m_leftAcceleration));
+    std::cout << "pathFollowing" << std::endl;
+  }
   while (m_follower.getMessage(&message))
   {
     switch (message.m_id)
@@ -411,6 +413,8 @@ void Robot::AutonomousPeriodic()
       break;
 
     case NL_CATEGORIZED_MESSAGE_TRJ_TIMEOUT:
+      m_state = 1;
+
       break;
 
     case NL_CATEGORIZED_MESSAGE_TRJ_ENDOFMESSAGE:

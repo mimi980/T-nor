@@ -10,11 +10,11 @@ RobotContainer::RobotContainer()
 {
     ConfigureButtonBindings();
 
-    m_drivetrain.SetDefaultCommand(Drive([=]
-                                         { return m_xboxControllerPilote.GetLeftY(); },
-                                         [=]
-                                         { return m_xboxControllerPilote.GetRightX(); },
-                                         &m_drivetrain, &m_camera));
+    // m_drivetrain.SetDefaultCommand(Drive([=]
+    //                                      { return m_xboxControllerPilote.GetLeftY(); },
+    //                                      [=]
+    //                                      { return m_xboxControllerPilote.GetRightX(); },
+    //                                      &m_drivetrain, &m_camera));
     // m_climber.SetDefaultCommand(Climb([=]
     //                                   { return m_joystickLeft.GetY(); },
     //                                   &m_climber, &m_planetary));

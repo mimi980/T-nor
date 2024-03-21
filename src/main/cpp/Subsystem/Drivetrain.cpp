@@ -228,7 +228,11 @@ void Drivetrain::DriveAuto(double speed, double rotation)
     m_MotorLeft1.Set(rotation);
     m_MotorRight1.Set(speed);
 }
-
+void Drivetrain::SetVoltage(double right, double left)
+{
+    m_MotorLeft1.Set(left / 12.0);
+    m_MotorRight1.Set(right / 12.0);
+}
 void Drivetrain::Reset()
 {
     m_JoystickPrelimited_V.Reset(0.0, 0.0, 2.0); // reset des rate limiters
