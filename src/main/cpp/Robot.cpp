@@ -237,7 +237,7 @@ void Robot::RobotPeriodic()
 
 void Robot::AutonomousInit()
 {
-  m_TrajectoryPack.load("/home/lvuser/auto/autre.trk");
+  m_TrajectoryPack.load("/home/lvuser/auto/other.trk");
 
   m_autoSelected = m_autoChooser.GetSelected();
   m_sideSelected = m_sideChooser.GetSelected();
@@ -253,19 +253,19 @@ void Robot::AutonomousInit()
   // NLCHARACTERIZATION_TABLE characterization_table(4);
   // characterization_table.importTxt("/home/lvuser/auto/characterization_MultiVarLinearRegression.txt");
 
-  m_CrtzL.m_forwardKv = 2.6412869101570307f;
-  m_CrtzL.m_backwardKv = 2.6248036368134255f;        // = m_kv[1]
-  m_CrtzL.m_forwardKa = 0.41029013114711876f;        // = m_ka[0]
-  m_CrtzL.m_backwardKa = 0.3713930975997702f;        // = m_ka[1]
-  m_CrtzL.m_forwardIntercept = 0.39281383839084655f; // = m_intercept[0]
-  m_CrtzL.m_backwardIntercept = -0.47477756289709444f;
+  m_CrtzL.m_forwardKv = 2.961074589352691f;
+  m_CrtzL.m_backwardKv = 2.955671698032205f;         // = m_kv[1]
+  m_CrtzL.m_forwardKa = 0.42279125944509977f;        // = m_ka[0]
+  m_CrtzL.m_backwardKa = 0.4037295051102273f;        // = m_ka[1]
+  m_CrtzL.m_forwardIntercept = 0.29337288743049417f; // = m_intercept[0]
+  m_CrtzL.m_backwardIntercept = -0.2980326729368912f;
 
-  m_CrtzR.m_forwardKv = 2.643306157356795f;
-  m_CrtzR.m_backwardKv = 2.632469106333122f;        // = m_kv[1]
-  m_CrtzR.m_forwardKa = 0.36456683427794917f;       // = m_ka[0]
-  m_CrtzR.m_backwardKa = 0.3257845553734638f;       // = m_ka[1]
-  m_CrtzR.m_forwardIntercept = 0.4218986448873328f; // = m_intercept[0]
-  m_CrtzR.m_backwardIntercept = -0.49001485320659466f;
+  m_CrtzR.m_forwardKv = 2.6368631645896765f;
+  m_CrtzR.m_backwardKv = 2.6235298370570757f;        // = m_kv[1]
+  m_CrtzR.m_forwardKa = 0.451022875842432f;          // = m_ka[0]
+  m_CrtzR.m_backwardKa = 0.45627272443623107f;       // = m_ka[1]
+  m_CrtzR.m_forwardIntercept = 0.30401126757243535f; // = m_intercept[0]
+  m_CrtzR.m_backwardIntercept = -0.3249879861355316f;
 
   if (m_autoSelected == kAutoNameAmpNear && m_sideSelected == kArenaBlueSide)
   {
@@ -334,7 +334,7 @@ void Robot::AutonomousInit()
   }
 
   m_follower.initialize(&m_TrajectoryPack);
-  m_state = 0;
+  m_state = 1;
 }
 void Robot::AutonomousPeriodic()
 {
@@ -342,6 +342,10 @@ void Robot::AutonomousPeriodic()
   NLFOLLOWER_TANK_OUTPUT *pout = nullptr;
 
   NLTRJ_POSTED_MESSAGE message; // Posted Message
+
+  std::cout << m_TrajectoryPack.m_driveTrainSpecifications.m_limits.getVelocityMax() << "vitesse" << std::endl;
+  std::cout << m_TrajectoryPack.m_driveTrainSpecifications.m_limits.getJerkMax() << "jerk" << std::endl;
+  std::cout << m_TrajectoryPack.m_driveTrainSpecifications.m_limits.getAccelerationMax() << "accel" << std::endl;
 
   // switch (m_state)
   // {
@@ -403,8 +407,8 @@ void Robot::AutonomousPeriodic()
     m_follower.updateTarget(&m_TrajectoryPack, 0.02f);
     pout = m_follower.compute();
     m_robotContainer.m_drivetrain.SetVoltage(m_CrtzR.getVoltage(pout->m_rightVelocity, pout->m_rightAcceleration), m_CrtzL.getVoltage(pout->m_leftVelocity, pout->m_leftAcceleration));
-    std::cout << "pathFollowing" << std::endl;
   }
+  std::cout << m_state << std::endl;
   while (m_follower.getMessage(&message))
   {
     switch (message.m_id)
@@ -459,7 +463,7 @@ void Robot::TeleopInit()
 }
 void Robot::TeleopPeriodic()
 {
-  std::cout << "droite" << m_gyro.GetAngle() << std::endl;
+  std::cout << "droite" << m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance() << std::endl;
   frc::SmartDashboard::PutBoolean("Loaded", m_robotContainer.m_feeder.IsNoteLoaded);
   frc::SmartDashboard::PutNumber("auto", m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance());
 
