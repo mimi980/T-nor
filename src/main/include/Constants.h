@@ -126,8 +126,8 @@
 #define ANGLE_1 0.0
 #define ANGLE_2 0.0
 
-#define YAW_VELOCITY 0.3
-#define YAW_DEG 180.0
+#define YAW_VELOCITY 0.1
+#define YAW_DEG 60.0
 
 // #########################   DRIVETRAIN SETTINGS  #########################
 

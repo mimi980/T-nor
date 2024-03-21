@@ -23,7 +23,6 @@ RobotContainer::RobotContainer()
 
 void RobotContainer::ConfigureButtonBindings()
 {
-
     m_buttonPreShoot.WhileTrue(PreShoot(&m_shooter, &m_planetary, &m_camera).ToPtr());
 
     m_buttonShoot.WhileTrue(Shoot(&m_shooter, &m_feeder, &m_planetary, &m_camera).ToPtr());

@@ -88,16 +88,11 @@ double Camera::GetYaw(int Id)
 
 void Camera::Periodic()
 {
-    double newYaw;
     if (m_camera.HasTargets())
     {
-        newYaw = GetYaw(ID_APRILTAG_MIDDLE);
-        if (NABS(newYaw - yaw) > 3.0)
-        {
-            yaw = newYaw;
-            yaw_dt = NABS(yaw) / YAW_DEG;
-            yaw_speed = -NSIGN(yaw) * YAW_VELOCITY;
-        }
+        yaw = GetYaw(ID_APRILTAG_MIDDLE);
+        yaw_dt = NABS(yaw) / YAW_DEG;
+        yaw_speed = -NSIGN(yaw) * YAW_VELOCITY;
     }
 
     if (yaw_dt > 0.0)

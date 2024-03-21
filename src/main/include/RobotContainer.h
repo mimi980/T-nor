@@ -16,6 +16,7 @@
 #include <frc2/command/RunCommand.h>
 #include <frc2/command/button/CommandXboxController.h>
 #include <frc2/command/button/POVButton.h>
+#include <frc2/command/button/CommandGenericHID.h>
 #include <frc/Compressor.h>
 #include "subsystem/Drivetrain.h"
 #include "subsystem/Shooter.h"

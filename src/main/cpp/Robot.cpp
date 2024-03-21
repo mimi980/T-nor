@@ -237,6 +237,8 @@ void Robot::RobotPeriodic()
 
 void Robot::AutonomousInit()
 {
+  m_TrajectoryPack.load("/home/lvuser/auto/test1.trk");
+
   m_autoSelected = m_autoChooser.GetSelected();
   m_sideSelected = m_sideChooser.GetSelected();
   std::cout << "Auto selected:\n"
@@ -456,7 +458,7 @@ void Robot::TeleopPeriodic()
   frc::SmartDashboard::PutBoolean("Loaded", m_robotContainer.m_feeder.IsNoteLoaded);
   frc::SmartDashboard::PutBoolean("auto", m_robotContainer.m_camera.drive_auto);
 
-  if (m_countable < 100 and m_robotContainer.m_feeder.IsRumbled)
+  if (m_countable < 50 and m_robotContainer.m_feeder.IsRumbled)
   {
     m_countable++;
     std::cout << "cc" << std::endl;
