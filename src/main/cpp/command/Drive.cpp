@@ -20,15 +20,15 @@ void Drive::Execute()
 {
   double forward = m_Forward();
   double turn = m_Turn();
-  if (m_pCamera->drive_auto)
-  {
-    m_pDrivetrain->DriveAuto(forward, m_pCamera->m_basePid.m_output, false);
-  }
-  else
-  {
-    std::cout << m_pCamera->m_basePid.m_output << std::endl;
-    m_pDrivetrain->Drive(forward, turn, false);
-  }
+  // if (m_pCamera->drive_auto)
+  // {
+  //   m_pDrivetrain->DriveAuto(forward, m_pCamera->m_output, 0.0);
+  // }
+  // else
+  // {
+  //   std::cout << m_pCamera->m_output << std::endl;
+  m_pDrivetrain->Drive(forward, turn, false);
+  // }
 }
 
 // Called once the command ends or is interrupted.

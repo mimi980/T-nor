@@ -4,10 +4,7 @@
 
 #include "subsystem/Camera.h"
 
-Camera::Camera()
-{
-    m_basePid.SetGains(BASE_PID_P, BASE_PID_I, BASE_PID_D);
-};
+Camera::Camera(){};
 
 // This method will be called once per scheduler run
 
@@ -78,32 +75,38 @@ double Camera::GetYaw(int Id)
             target = result.targets[i];
             if (target.GetFiducialId() == Id)
             {
-                yaw = target.GetYaw();
-                m_horizontalErrorMovingAverage.Calculate(yaw);
-                break;
+                m_horizontalRollingAverage.add(target.GetYaw());
             }
         }
     }
     else
     {
-        m_horizontalErrorMovingAverage.Calculate(m_horizontalErrorMovingAverage.LastValue());
+        m_horizontalRollingAverage.add(m_horizontalRollingAverage.get());
     }
-    return m_horizontalErrorMovingAverage.LastValue();
-}
-
-void Camera::SetSetpoint(double setpoint)
-{
-    m_basePid.SetSetpoint(setpoint);
+    return m_horizontalRollingAverage.get();
 }
 
 void Camera::Periodic()
 {
+    double newYaw;
     if (m_camera.HasTargets())
     {
-        Air = m_camera.GetLatestResult().GetBestTarget().GetArea();
-        m_output = m_basePid.Calculate(m_camera.GetLatestResult().GetBestTarget().GetYaw());
+        newYaw = GetYaw(ID_APRILTAG_MIDDLE);
+        if (NABS(newYaw - yaw) > 3.0)
+        {
+            yaw = newYaw;
+            yaw_dt = NABS(yaw) / YAW_DEG;
+            yaw_speed = -NSIGN(yaw) * YAW_VELOCITY;
+        }
     }
 
-    diffAir = Air - lastAir;
-    lastAir = Air;
+    if (yaw_dt > 0.0)
+    {
+        m_output = yaw_speed;
+        yaw_dt -= 0.02;
+    }
+    else
+    {
+        m_output = 0.0;
+    }
 }

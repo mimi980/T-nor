@@ -34,18 +34,17 @@ public:
   double Air;
   double lastAir;
   double diffAir;
-  double yaw;
+  double yaw = 0.0;
+  double yaw_dt;
+  double yaw_speed; // V/s entre 0 et 1
 
-  Pid m_basePid{0.0, BASE_PID_P, BASE_PID_I, BASE_PID_D};
-  double m_setpoint;
   double m_output;
   bool drive_auto;
 
   photon::PhotonCamera m_camera{"IRcam"};
 
-  frc::LinearFilter<double> m_horizontalErrorMovingAverage = frc::LinearFilter<double>::MovingAverage(3);
-
   NdoubleRollingAverage m_verticalRollingAverage{10};
+  NdoubleRollingAverage m_horizontalRollingAverage{10};
 
   // units::meter_t range = photon::PhotonUtils::CalculateDistanceToTarget(
   //     CAMERA_HEIGHT, TARGET_HEIGHT, CAMERA_PITCH,

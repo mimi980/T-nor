@@ -46,7 +46,7 @@
 #define PLANETARY_PID_D 0.04
 #define PLANETARY_PID_TOLERANCE 1.0
 
-#define BASE_PID_P 0.05
+#define BASE_PID_P 0.01
 #define BASE_PID_I 0.0
 #define BASE_PID_D 0.0
 #define BASE_PID_TOLERANCE 1.0
@@ -125,6 +125,9 @@
 #define ANGLE_0 0.0
 #define ANGLE_1 0.0
 #define ANGLE_2 0.0
+
+#define YAW_VELOCITY 0.3
+#define YAW_DEG 180.0
 
 // #########################   DRIVETRAIN SETTINGS  #########################
 

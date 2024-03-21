@@ -227,7 +227,6 @@ void Drivetrain::DriveAuto(double speed, double rotation, double error)
 {
     m_MotorLeft1.Set(rotation + speed);
     m_MotorRight1.Set(-rotation + speed);
-    std::cout << -NSIGN(error) * rotation + speed << std::endl;
 }
 
 void Drivetrain::Reset()
