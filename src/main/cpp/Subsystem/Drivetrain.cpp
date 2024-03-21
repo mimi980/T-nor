@@ -75,17 +75,17 @@ void Drivetrain::Set(double v_motor) // set des moteurs
 
 void Drivetrain::ActiveBallShifterV1() // active ball shifter V1
 {
-    m_BallShifterSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
+    m_BallShifterSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
 }
 
 void Drivetrain::ActiveBallShifterV2() // active ball shifter V2
 {
-    m_BallShifterSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
+    m_BallShifterSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
 }
 
 void Drivetrain::ChangeBallShifter() // change ball shifter
 {
-    if (m_BallShifterSolenoid.Get() == frc::DoubleSolenoid::Value::kReverse)
+    if (m_BallShifterSolenoid.Get() == frc::DoubleSolenoid::Value::kForward)
     {
         ActiveBallShifterV2();
     }
@@ -119,9 +119,7 @@ bool Drivetrain::isUpshiftingAllowed() // mode up, détermine si on peut passer 
     // if ((m_GearShiftingTimeLock == 0.0) /*and (m_GearboxLeftOutAdjustedRpm / m_GearboxRightOutAdjustedRpm < (1 + TURNING_TOLERANCE)) and ((1 - TURNING_TOLERANCE) < m_GearboxLeftOutAdjustedRpm / m_GearboxRightOutAdjustedRpm)*/)
     // {
     if (std::abs(m_GearboxesOutAdjustedRpm.m_current) > UP_SHIFTING_POINT_GEARBOXES_OUT_RPM and
-        std::abs(m_GearboxesOutAveragedAccelerationRpm2.get()) > UP_SHIFTING_POINT_GEARBOXES_OUT_RPM2 and
-        std::abs(m_JoystickRaw_V.m_current) > UP_SHIFTING_POINT_JOYSTICK_V and
-        std::abs(m_JoystickRaw_V.m_delta) >= UP_SHIFTING_POINT_JOYSTICK_V_VARIATION)
+        std::abs(m_JoystickRaw_V.m_current) > UP_SHIFTING_POINT_JOYSTICK_V)
         return true;
     else
         return false;
@@ -184,7 +182,7 @@ void Drivetrain::Drive(double joystick_V, double joystick_W, bool brakeButton) /
     {
     case State::lowGear:
     {
-        m_sigma = NLERP(0.9, 0.6, NABS(joystick_V)); // 0401
+        m_sigma = NLERP(0.7, 0.5, NABS(joystick_V)); // 0401
         if (isUpshiftingAllowed())                   // and brakeButton == false
         {
             m_CurrentGearboxRatio = REDUC_V2;
@@ -225,8 +223,8 @@ void Drivetrain::Drive(double joystick_V, double joystick_W, bool brakeButton) /
 
 void Drivetrain::DriveAuto(double speed, double rotation)
 {
-    m_MotorLeft1.Set(rotation);
-    m_MotorRight1.Set(speed);
+    m_MotorLeft1.Set(speed + rotation);
+    m_MotorRight1.Set(speed - rotation);
 }
 void Drivetrain::SetVoltage(double right, double left)
 {

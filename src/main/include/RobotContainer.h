@@ -39,10 +39,10 @@ public:
   RobotContainer();
   void ConfigureButtonBindings();
 
-  // frc::Joystick m_joystickRight{0};
-  // frc::Joystick m_joystickLeft{1};
-  frc::XboxController m_xboxControllerPilote{0};
-  frc::XboxController m_xboxControllerCopilote{1};
+  frc::Joystick m_joystickRight{0};
+  frc::Joystick m_joystickLeft{1};
+  // frc::XboxController m_xboxControllerPilote{0};
+  frc::XboxController m_xboxControllerCopilote{2};
 
   frc2::JoystickButton m_buttonPreShoot{&m_xboxControllerCopilote, 5};
   frc2::JoystickButton m_buttonShoot{&m_xboxControllerCopilote, 6};
@@ -64,6 +64,7 @@ public:
   Planetary m_planetary;
   Camera m_camera;
   Intake m_intake;
+  bool m_auto;
 
 private:
 };

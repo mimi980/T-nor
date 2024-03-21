@@ -13,9 +13,11 @@
 #include "lib/NL/MotionControl/Trajectory/NLTrajectoryActionMessagesEnum.h"
 #include "lib/NL/MotionControl/Trajectory/NLTrajectorySystemMessage.h"
 #include <AHRS.h>
+#include <frc/Timer.h>
 #include "RobotContainer.h"
 #include <frc/smartdashboard/SendableChooser.h>
 #include <units/pressure.h>
+#include "lib/NLCsv.h"
 
 class Robot : public frc::TimedRobot
 {
@@ -44,12 +46,40 @@ public:
   void NearShoot();
   void Shoot(double speed, double angle);
 
+  frc::Timer m_timer;
+  double m_deltatime;
+  double m_previoustime;
+
+  /// @brief //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  void Center2Auto();
+  enum class StateCenter2Auto
+  {
+    Nearshoot,
+    Backward,
+    wait,
+    Shooting,
+    End
+  };
+  StateCenter2Auto m_stateCenter2Auto;
+  bool m_center2Auto;
+
+  void ShootOnly();
+  enum class StateShootOnly
+  {
+    Nearshoot,
+    Backward,
+    End
+  };
+  StateShootOnly m_stateShootOnly;
+  bool m_shootOnly;
+
   enum class StateTakeNote
   {
     Catch,
     Recul,
     Loaded,
-    End
+    End,
+    nule
   };
 
   StateTakeNote m_stateTakeNote;
@@ -75,7 +105,6 @@ public:
 
   enum class StateNearShoot
   {
-    Loaded,
     PreShoot,
     Shoot,
     Shooting,
@@ -132,4 +161,12 @@ public:
   std::string m_sideSelected;
 
   int m_countable;
+  NLCSV m_csv{7};
+  double m_encoderRightValue;
+  double m_encoderLeftValue;
+  double m_gyroAngle;
+  double m_VoltageLeft;
+  double m_VoltageRight;
+  double m_LeftV;
+  double m_RightV;
 };
