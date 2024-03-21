@@ -182,7 +182,7 @@ void Drivetrain::Drive(double joystick_V, double joystick_W, bool brakeButton) /
     {
     case State::lowGear:
     {
-        m_sigma = NLERP(0.7, 0.5, NABS(joystick_V)); // 0401
+        m_sigma = NLERP(0.5, 0.5, NABS(joystick_V)); // 0401
         if (isUpshiftingAllowed())                   // and brakeButton == false
         {
             m_CurrentGearboxRatio = REDUC_V2;
@@ -195,7 +195,7 @@ void Drivetrain::Drive(double joystick_V, double joystick_W, bool brakeButton) /
 
     case State::highGear:
     {
-        m_sigma = NLERP(0.7, 0.5, NABS(joystick_V)); // 0401
+        m_sigma = NLERP(0.5, 0.5, NABS(joystick_V)); // 0401
 
         if (isKickdownShiftingAllowed()) // or brakeButton == true
         {

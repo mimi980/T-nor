@@ -258,7 +258,7 @@ void Robot::ShootOnly()
     NearShoot();
     if (m_stateNearShoot == StateNearShoot::End)
     {
-      m_stateShootOnly = StateShootOnly::Backward;
+      m_stateShootOnly = StateShootOnly::End;
     }
     break;
   case StateShootOnly::Backward:
@@ -345,8 +345,8 @@ void Robot::AutonomousInit()
     m_state = 0;
     */
 
-  // m_stateShootOnly = StateShootOnly::Nearshoot;
-  // m_stateNearShoot = StateNearShoot::PreShoot;
+  m_stateShootOnly = StateShootOnly::Nearshoot;
+  m_stateNearShoot = StateNearShoot::PreShoot;
   // m_stateCenter2Auto = StateCenter2Auto::Nearshoot;
   // m_stateNearShoot = StateNearShoot::PreShoot;
 }
@@ -354,7 +354,7 @@ void Robot::AutonomousPeriodic()
 {
   // TakeNoteSwitch();
 
-  // ShootOnly();
+  ShootOnly();
   // Center2Auto();
 
   /*
