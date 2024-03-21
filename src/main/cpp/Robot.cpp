@@ -215,20 +215,20 @@ void Robot::Shoot(double speed, double angle)
 
 void Robot::RobotInit()
 {
-  m_sideChooser.SetDefaultOption(kArenaBlueSide, kArenaBlueSide);
-  m_sideChooser.AddOption(kArenaBlueSide, kArenaBlueSide);
-  m_sideChooser.AddOption(kArenaRedSide, kArenaRedSide);
+  // m_sideChooser.SetDefaultOption(kArenaBlueSide, kArenaBlueSide);
+  // m_sideChooser.AddOption(kArenaBlueSide, kArenaBlueSide);
+  // m_sideChooser.AddOption(kArenaRedSide, kArenaRedSide);
 
-  m_autoChooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
-  m_autoChooser.AddOption(kAutoNameCenterNear, kAutoNameCenterNear);
-  m_autoChooser.AddOption(kAutoNameCenterFar, kAutoNameCenterFar);
-  m_autoChooser.AddOption(kAutoNameSourceNear, kAutoNameSourceNear);
-  m_autoChooser.AddOption(kAutoNameSourceFar, kAutoNameSourceFar);
-  m_autoChooser.AddOption(kAutoNameAmpNear, kAutoNameAmpNear);
-  m_autoChooser.AddOption(kAutoNameAmpFar, kAutoNameAmpFar);
+  // m_autoChooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
+  // m_autoChooser.AddOption(kAutoNameCenterNear, kAutoNameCenterNear);
+  // m_autoChooser.AddOption(kAutoNameCenterFar, kAutoNameCenterFar);
+  // m_autoChooser.AddOption(kAutoNameSourceNear, kAutoNameSourceNear);
+  // m_autoChooser.AddOption(kAutoNameSourceFar, kAutoNameSourceFar);
+  // m_autoChooser.AddOption(kAutoNameAmpNear, kAutoNameAmpNear);
+  // m_autoChooser.AddOption(kAutoNameAmpFar, kAutoNameAmpFar);
 
-  frc::SmartDashboard::PutData("Auto Modes", &m_autoChooser);
-  frc::SmartDashboard::PutData("Side", &m_sideChooser);
+  // frc::SmartDashboard::PutData("Auto Modes", &m_autoChooser);
+  // frc::SmartDashboard::PutData("Side", &m_sideChooser);
 }
 void Robot::RobotPeriodic()
 {
@@ -237,7 +237,7 @@ void Robot::RobotPeriodic()
 
 void Robot::AutonomousInit()
 {
-  m_TrajectoryPack.load("/home/lvuser/auto/other.trk");
+  m_TrajectoryPack.load("/home/lvuser/auto/1metre.trk");
 
   m_autoSelected = m_autoChooser.GetSelected();
   m_sideSelected = m_sideChooser.GetSelected();
@@ -266,75 +266,75 @@ void Robot::AutonomousInit()
   m_CrtzR.m_backwardKa = 0.45627272443623107f;       // = m_ka[1]
   m_CrtzR.m_forwardIntercept = 0.30401126757243535f; // = m_intercept[0]
   m_CrtzR.m_backwardIntercept = -0.3249879861355316f;
-
-  if (m_autoSelected == kAutoNameAmpNear && m_sideSelected == kArenaBlueSide)
-  {
-    // m_TrajectoryPack.load("/home/lvuser/auto/blue_amp_near.trk");
-    std::cout << "blueAmpNear" << std::endl;
-  }
-  else if (m_autoSelected == kAutoNameCenterNear && m_sideSelected == kArenaBlueSide)
-  {
-    // m_TrajectoryPack.load("/home/lvuser/auto/blue_center_near.trk");
-    std::cout << "blueCenterNear" << std::endl;
-  }
-  else if (m_autoSelected == kAutoNameSourceNear && m_sideSelected == kArenaBlueSide)
-  {
-    // m_TrajectoryPack.load("/home/lvuser/auto/blue_source_near.trk");
-    std::cout << "blueSourceNear" << std::endl;
-  }
-  else if (m_autoSelected == kAutoNameAmpFar && m_sideSelected == kArenaBlueSide)
-  {
-    // m_TrajectoryPack.load("/home/lvuser/auto/blue_amp_far.trk");
-    std::cout << "blueAmpFar" << std::endl;
-  }
-  else if (m_autoSelected == kAutoNameCenterFar && m_sideSelected == kArenaBlueSide)
-  {
-    // m_TrajectoryPack.load("/home/lvuser/auto/blue_center_far.trk");
-    std::cout << "blueCenterFar" << std::endl;
-  }
-  else if (m_autoSelected == kAutoNameSourceFar && m_sideSelected == kArenaBlueSide)
-  {
-    // m_TrajectoryPack.load("/home/lvuser/auto/blue_source_far.trk");
-    std::cout << "blueSourceFar" << std::endl;
-  }
-  else if (m_autoSelected == kAutoNameAmpNear && m_sideSelected == kArenaRedSide)
-  {
-    // m_TrajectoryPack.load("/home/lvuser/auto/red_amp_near.trk");
-    std::cout << "redAmpNear" << std::endl;
-  }
-  else if (m_autoSelected == kAutoNameCenterNear && m_sideSelected == kArenaRedSide)
-  {
-    // m_TrajectoryPack.load("/home/lvuser/auto/red_center_near.trk");
-    std::cout << "redCenterNear" << std::endl;
-  }
-  else if (m_autoSelected == kAutoNameSourceNear && m_sideSelected == kArenaRedSide)
-  {
-    // m_TrajectoryPack.load("/home/lvuser/auto/red_source_near.trk");
-    std::cout << "redSourceNear" << std::endl;
-  }
-  else if (m_autoSelected == kAutoNameAmpFar && m_sideSelected == kArenaRedSide)
-  {
-    // m_TrajectoryPack.load("/home/lvuser/auto/red_amp_far.trk");
-    std::cout << "redAmpFar" << std::endl;
-  }
-  else if (m_autoSelected == kAutoNameCenterFar && m_sideSelected == kArenaRedSide)
-  {
-    // m_TrajectoryPack.load("/home/lvuser/auto/red_center_far.trk");
-    std::cout << "redCenterFar" << std::endl;
-  }
-  else if (m_autoSelected == kAutoNameSourceFar && m_sideSelected == kArenaRedSide)
-  {
-    // m_TrajectoryPack.load("/home/lvuser/auto/red_source_far.trk");
-    std::cout << "redSourceFar" << std::endl;
-  }
-  else
-  {
-    // m_TrajectoryPack.load("/home/lvuser/auto/tout_droit.trk");
-    std::cout << "toutDroit" << std::endl;
-  }
+  /*
+    if (m_autoSelected == kAutoNameAmpNear && m_sideSelected == kArenaBlueSide)
+    {
+      // m_TrajectoryPack.load("/home/lvuser/auto/blue_amp_near.trk");
+      std::cout << "blueAmpNear" << std::endl;
+    }
+    else if (m_autoSelected == kAutoNameCenterNear && m_sideSelected == kArenaBlueSide)
+    {
+      // m_TrajectoryPack.load("/home/lvuser/auto/blue_center_near.trk");
+      std::cout << "blueCenterNear" << std::endl;
+    }
+    else if (m_autoSelected == kAutoNameSourceNear && m_sideSelected == kArenaBlueSide)
+    {
+      // m_TrajectoryPack.load("/home/lvuser/auto/blue_source_near.trk");
+      std::cout << "blueSourceNear" << std::endl;
+    }
+    else if (m_autoSelected == kAutoNameAmpFar && m_sideSelected == kArenaBlueSide)
+    {
+      // m_TrajectoryPack.load("/home/lvuser/auto/blue_amp_far.trk");
+      std::cout << "blueAmpFar" << std::endl;
+    }
+    else if (m_autoSelected == kAutoNameCenterFar && m_sideSelected == kArenaBlueSide)
+    {
+      // m_TrajectoryPack.load("/home/lvuser/auto/blue_center_far.trk");
+      std::cout << "blueCenterFar" << std::endl;
+    }
+    else if (m_autoSelected == kAutoNameSourceFar && m_sideSelected == kArenaBlueSide)
+    {
+      // m_TrajectoryPack.load("/home/lvuser/auto/blue_source_far.trk");
+      std::cout << "blueSourceFar" << std::endl;
+    }
+    else if (m_autoSelected == kAutoNameAmpNear && m_sideSelected == kArenaRedSide)
+    {
+      // m_TrajectoryPack.load("/home/lvuser/auto/red_amp_near.trk");
+      std::cout << "redAmpNear" << std::endl;
+    }
+    else if (m_autoSelected == kAutoNameCenterNear && m_sideSelected == kArenaRedSide)
+    {
+      // m_TrajectoryPack.load("/home/lvuser/auto/red_center_near.trk");
+      std::cout << "redCenterNear" << std::endl;
+    }
+    else if (m_autoSelected == kAutoNameSourceNear && m_sideSelected == kArenaRedSide)
+    {
+      // m_TrajectoryPack.load("/home/lvuser/auto/red_source_near.trk");
+      std::cout << "redSourceNear" << std::endl;
+    }
+    else if (m_autoSelected == kAutoNameAmpFar && m_sideSelected == kArenaRedSide)
+    {
+      // m_TrajectoryPack.load("/home/lvuser/auto/red_amp_far.trk");
+      std::cout << "redAmpFar" << std::endl;
+    }
+    else if (m_autoSelected == kAutoNameCenterFar && m_sideSelected == kArenaRedSide)
+    {
+      // m_TrajectoryPack.load("/home/lvuser/auto/red_center_far.trk");
+      std::cout << "redCenterFar" << std::endl;
+    }
+    else if (m_autoSelected == kAutoNameSourceFar && m_sideSelected == kArenaRedSide)
+    {
+      // m_TrajectoryPack.load("/home/lvuser/auto/red_source_far.trk");
+      std::cout << "redSourceFar" << std::endl;
+    }
+    else
+    {
+      // m_TrajectoryPack.load("/home/lvuser/auto/tout_droit.trk");
+      std::cout << "toutDroit" << std::endl;
+    }*/
 
   m_follower.initialize(&m_TrajectoryPack);
-  m_state = 1;
+  m_state = 0;
 }
 void Robot::AutonomousPeriodic()
 {
@@ -456,6 +456,8 @@ void Robot::AutonomousPeriodic()
   {
     PreShoot();
   }
+  std::cout << "droite" << m_robotContainer.m_drivetrain.m_EncoderRight.GetDistance() << std::endl;
+  std::cout << "gauche" << m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance() << std::endl;
 }
 
 void Robot::TeleopInit()
@@ -463,7 +465,6 @@ void Robot::TeleopInit()
 }
 void Robot::TeleopPeriodic()
 {
-  std::cout << "droite" << m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance() << std::endl;
   frc::SmartDashboard::PutBoolean("Loaded", m_robotContainer.m_feeder.IsNoteLoaded);
   frc::SmartDashboard::PutNumber("auto", m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance());
 

@@ -53,7 +53,7 @@
 
 // #########################    VoltageCompensation    #########################
 
-#define DRIVETRAIN_VOLTAGE_COMPENSATION 10.0
+#define DRIVETRAIN_VOLTAGE_COMPENSATION 12.0
 #define INTAKE_VOLTAGE_COMPENSATION 12.0
 #define FEEDER_VOLTAGE_COMPENSATION 12.0
 #define PLANETARY_VOLTAGE_COMPENSATION 10.0
