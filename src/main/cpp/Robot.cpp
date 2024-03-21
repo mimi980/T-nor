@@ -237,7 +237,7 @@ void Robot::RobotPeriodic()
 
 void Robot::AutonomousInit()
 {
-  m_TrajectoryPack.load("/home/lvuser/auto/test1.trk");
+  m_TrajectoryPack.load("/home/lvuser/auto/tout_droit.trk");
 
   m_autoSelected = m_autoChooser.GetSelected();
   m_sideSelected = m_sideChooser.GetSelected();
@@ -455,8 +455,9 @@ void Robot::TeleopInit()
 }
 void Robot::TeleopPeriodic()
 {
+  std::cout << "droite" << m_gyro.GetAngle() << std::endl;
   frc::SmartDashboard::PutBoolean("Loaded", m_robotContainer.m_feeder.IsNoteLoaded);
-  frc::SmartDashboard::PutBoolean("auto", m_robotContainer.m_camera.drive_auto);
+  frc::SmartDashboard::PutNumber("auto", m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance());
 
   if (m_countable < 50 and m_robotContainer.m_feeder.IsRumbled)
   {
