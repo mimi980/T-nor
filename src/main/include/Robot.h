@@ -111,7 +111,7 @@ public:
   NLTRAJECTORY_PACK m_TrajectoryPack;
   NLFOLLOWER_TANK m_follower;
 
-  AHRS m_gyro{frc::SerialPort::Port::kOnboard};
+  AHRS m_gyro{frc::SerialPort::Port::kUSB};
 
   // Auto Selector
   frc::SendableChooser<std::string> m_autoChooser;

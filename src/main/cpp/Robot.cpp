@@ -237,7 +237,7 @@ void Robot::RobotPeriodic()
 
 void Robot::AutonomousInit()
 {
-  m_TrajectoryPack.load("/home/lvuser/auto/tout_droit.trk");
+  m_TrajectoryPack.load("/home/lvuser/auto/test1.trk");
 
   m_autoSelected = m_autoChooser.GetSelected();
   m_sideSelected = m_sideChooser.GetSelected();

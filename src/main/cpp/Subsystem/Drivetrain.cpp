@@ -225,8 +225,8 @@ void Drivetrain::Drive(double joystick_V, double joystick_W, bool brakeButton) /
 
 void Drivetrain::DriveAuto(double speed, double rotation)
 {
-    m_MotorLeft1.Set(speed + rotation);
-    m_MotorRight1.Set(speed - rotation);
+    m_MotorLeft1.Set(rotation);
+    m_MotorRight1.Set(speed);
 }
 
 void Drivetrain::Reset()
