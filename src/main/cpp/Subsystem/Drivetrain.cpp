@@ -223,10 +223,10 @@ void Drivetrain::Drive(double joystick_V, double joystick_W, bool brakeButton) /
     m_MotorRight1.Set(Calcul_De_Notre_Brave_JM(m_JoystickLimited_V.m_current, std::sin(m_JoystickLimited_W.m_current * (NF64_PI / 2)), 1));
 }
 
-void Drivetrain::DriveAuto(double speed, double rotation, double error)
+void Drivetrain::DriveAuto(double speed, double rotation)
 {
-    m_MotorLeft1.Set(rotation + speed);
-    m_MotorRight1.Set(-rotation + speed);
+    m_MotorLeft1.Set(speed + rotation);
+    m_MotorRight1.Set(speed - rotation);
 }
 
 void Drivetrain::Reset()

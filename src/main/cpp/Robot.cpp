@@ -401,7 +401,7 @@ void Robot::AutonomousPeriodic()
   m_follower.estimate(m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance(), m_robotContainer.m_drivetrain.m_EncoderRight.GetDistance(), NDEGtoRAD(m_gyro.GetAngle()));
   m_follower.updateTarget(&m_TrajectoryPack, 0.02f);
   pout = m_follower.compute();
-  m_robotContainer.m_drivetrain.DriveAuto(m_CrtzR.getVoltage(pout->m_rightVelocity, pout->m_rightAcceleration), m_CrtzL.getVoltage(pout->m_leftVelocity, pout->m_leftAcceleration), 0.0);
+  m_robotContainer.m_drivetrain.DriveAuto(m_CrtzR.getVoltage(pout->m_rightVelocity, pout->m_rightAcceleration), m_CrtzL.getVoltage(pout->m_leftVelocity, pout->m_leftAcceleration));
   std::cout << "pathFollowing" << std::endl;
   while (m_follower.getMessage(&message))
   {

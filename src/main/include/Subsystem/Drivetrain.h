@@ -49,7 +49,7 @@ public:
   void ChangeBallShifter();                                                // ok
   void Drive(double joystickLeft, double joystickRight, bool brakeButton); // ok
 
-  void DriveAuto(double speed, double, double error);
+  void DriveAuto(double speed, double rotation);
   double Calcul_De_Notre_Brave_JM(double forward, double turn, bool wheelSide); // Si wheelSide 0: roue droite / Si wheelSide 1: roue gauche
 
   bool isUpshiftingAllowed();
