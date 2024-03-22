@@ -252,8 +252,16 @@ void Robot::Center2Auto()
 
 void Robot::ShootOnly()
 {
+  m_countWait++;
+  std::cout << m_countWait << std::endl;
   switch (m_stateShootOnly)
   {
+  case StateShootOnly::Wait:
+    if (m_countWait > 200)
+    {
+      m_stateNearShoot = StateNearShoot::PreShoot;
+      m_stateShootOnly = StateShootOnly::Nearshoot;
+    }
   case StateShootOnly::Nearshoot:
     NearShoot();
     if (m_stateNearShoot == StateNearShoot::End)
@@ -263,7 +271,7 @@ void Robot::ShootOnly()
     break;
   case StateShootOnly::Backward:
     m_robotContainer.m_drivetrain.DriveAuto(0.2, 0.0);
-    if (NABS(m_robotContainer.m_drivetrain.m_EncoderRight.GetDistance()) > 1900.0 / (6.25 * 25.4 * 3.14))
+    if (NABS(m_robotContainer.m_drivetrain.m_EncoderRight.GetDistance()) > 3000.0 / (6.25 * 25.4 * 3.14))
     {
       m_stateShootOnly = StateShootOnly::End;
     }
@@ -277,20 +285,6 @@ void Robot::ShootOnly()
 }
 void Robot::RobotInit()
 {
-  // m_sideChooser.SetDefaultOption(kArenaBlueSide, kArenaBlueSide);
-  // m_sideChooser.AddOption(kArenaBlueSide, kArenaBlueSide);
-  // m_sideChooser.AddOption(kArenaRedSide, kArenaRedSide);
-
-  // m_autoChooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
-  // m_autoChooser.AddOption(kAutoNameCenterNear, kAutoNameCenterNear);
-  // m_autoChooser.AddOption(kAutoNameCenterFar, kAutoNameCenterFar);
-  // m_autoChooser.AddOption(kAutoNameSourceNear, kAutoNameSourceNear);
-  // m_autoChooser.AddOption(kAutoNameSourceFar, kAutoNameSourceFar);
-  // m_autoChooser.AddOption(kAutoNameAmpNear, kAutoNameAmpNear);
-  // m_autoChooser.AddOption(kAutoNameAmpFar, kAutoNameAmpFar);
-
-  // frc::SmartDashboard::PutData("Auto Modes", &m_autoChooser);
-  // frc::SmartDashboard::PutData("Side", &m_sideChooser);
 }
 void Robot::RobotPeriodic()
 {
@@ -299,54 +293,32 @@ void Robot::RobotPeriodic()
 
 void Robot::AutonomousInit()
 {
-  m_robotContainer.m_auto = true;
-  m_stateTakeNote = StateTakeNote::nule;
-  // m_autoSelected = m_autoChooser.GetSelected();
-  // m_sideSelected = m_sideChooser.GetSelected();
-  // std::cout << "Auto selected:\n"
-  //           << m_autoSelected << std::endl;
-  // std::cout << "Side selected \n"
-  //           << m_sideSelected << std::endl;
+  m_countWait = 0;
+  m_robotContainer.m_drivetrain.IsAuto = true;
+  // m_stateTakeNote = StateTakeNote::nule;
   /*
-  m_csv.open("/home/lvuser/", true); // ouverture du fichier de log
-
-  m_csv.setItem(0, "encoderLeft", 5, &m_encoderLeftValue);
-  m_csv.setItem(1, "encoderRight", 5, &m_encoderRightValue);
-  m_csv.setItem(2, "gyro", 5, &m_gyroAngle);
-  m_csv.setItem(3, "voltageLeft", 5, &m_VoltageLeft);
-  m_csv.setItem(4, "voltageRight", 5, &m_VoltageRight);
-  m_csv.setItem(5, "LeftV", 5, &m_LeftV);
-  m_csv.setItem(6, "RightV", 5, &m_RightV);
-
   m_TrajectoryPack.load("/home/lvuser/auto/1metre.trk");
 
-    m_gyro.Reset();
-    // m_gyro.Calibrate();
+  m_gyro.Reset();
 
-    // ######## NLMOTOR_CHARACTERIZATION ########
-    // NLCHARACTERIZATION_TABLE characterization_table(4);
-    // characterization_table.importTxt("/home/lvuser/auto/characterization_MultiVarLinearRegression.txt");
+  m_CrtzL.m_forwardKv = 2.961074589352691f;
+  m_CrtzL.m_backwardKv = 2.955671698032205f;         // = m_kv[1]
+  m_CrtzL.m_forwardKa = 0.42279125944509977f;        // = m_ka[0]
+  m_CrtzL.m_backwardKa = 0.4037295051102273f;        // = m_ka[1]
+  m_CrtzL.m_forwardIntercept = 0.29337288743049417f; // = m_intercept[0]
+  m_CrtzL.m_backwardIntercept = -0.2980326729368912f;
 
-    m_CrtzL.m_forwardKv = 2.961074589352691f;
-    m_CrtzL.m_backwardKv = 2.955671698032205f;         // = m_kv[1]
-    m_CrtzL.m_forwardKa = 0.42279125944509977f;        // = m_ka[0]
-    m_CrtzL.m_backwardKa = 0.4037295051102273f;        // = m_ka[1]
-    m_CrtzL.m_forwardIntercept = 0.29337288743049417f; // = m_intercept[0]
-    m_CrtzL.m_backwardIntercept = -0.2980326729368912f;
+  m_CrtzR.m_forwardKv = 2.6368631645896765f;
+  m_CrtzR.m_backwardKv = 2.6235298370570757f;        // = m_kv[1]
+  m_CrtzR.m_forwardKa = 0.451022875842432f;          // = m_ka[0]
+  m_CrtzR.m_backwardKa = 0.45627272443623107f;       // = m_ka[1]
+  m_CrtzR.m_forwardIntercept = 0.30401126757243535f; // = m_intercept[0]
+  m_CrtzR.m_backwardIntercept = -0.3249879861355316f;
 
-    m_CrtzR.m_forwardKv = 2.6368631645896765f;
-    m_CrtzR.m_backwardKv = 2.6235298370570757f;        // = m_kv[1]
-    m_CrtzR.m_forwardKa = 0.451022875842432f;          // = m_ka[0]
-    m_CrtzR.m_backwardKa = 0.45627272443623107f;       // = m_ka[1]
-    m_CrtzR.m_forwardIntercept = 0.30401126757243535f; // = m_intercept[0]
-    m_CrtzR.m_backwardIntercept = -0.3249879861355316f;
+  m_follower.initialize(&m_TrajectoryPack);
+  m_state = 0;*/
 
-    m_follower.initialize(&m_TrajectoryPack);
-    m_state = 0;
-    */
-
-  m_stateShootOnly = StateShootOnly::Nearshoot;
-  m_stateNearShoot = StateNearShoot::PreShoot;
+  m_stateShootOnly = StateShootOnly::Backward;
   // m_stateCenter2Auto = StateCenter2Auto::Nearshoot;
   // m_stateNearShoot = StateNearShoot::PreShoot;
 }
@@ -357,7 +329,6 @@ void Robot::AutonomousPeriodic()
   ShootOnly();
   // Center2Auto();
 
-  /*
   NLRAMSETEOUTPUT output;
   NLFOLLOWER_TANK_OUTPUT *pout = nullptr;
 
@@ -416,17 +387,15 @@ void Robot::AutonomousPeriodic()
   //   NErrorIf(1, NERROR_UNAUTHORIZED_CASE);
   //   break;
   // }
-
+  /*
   m_encoderLeftValue = m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance();
   m_encoderRightValue = m_robotContainer.m_drivetrain.m_EncoderRight.GetDistance();
-  m_gyroAngle = NDEGtoRAD(m_gyro.GetAngle());
-  if (m_state == 0)
-  {
-    m_follower.estimate(m_encoderLeftValue, m_encoderRightValue, m_gyroAngle);
-    m_follower.updateTarget(&m_TrajectoryPack, 0.02f);
-    pout = m_follower.compute();
-    m_robotContainer.m_drivetrain.SetVoltage(m_CrtzR.getVoltage(pout->m_rightVelocity, pout->m_rightAcceleration), m_CrtzL.getVoltage(pout->m_leftVelocity, pout->m_leftAcceleration));
-  }
+  m_gyroAngle = 0.0;
+  m_follower.estimate(m_encoderLeftValue, m_encoderRightValue, m_gyroAngle);
+  m_follower.updateTarget(&m_TrajectoryPack, 0.02f);
+  pout = m_follower.compute();
+  m_robotContainer.m_drivetrain.SetVoltage(m_CrtzR.getVoltage(pout->m_rightVelocity, 0.0), m_CrtzL.getVoltage(pout->m_leftVelocity, 0.0));
+
   m_VoltageLeft = m_CrtzL.getVoltage(pout->m_leftVelocity, pout->m_leftAcceleration);
   m_VoltageRight = m_CrtzR.getVoltage(pout->m_rightVelocity, pout->m_rightAcceleration);
 
@@ -443,7 +412,6 @@ void Robot::AutonomousPeriodic()
 
     case NL_CATEGORIZED_MESSAGE_TRJ_TIMEOUT:
       // m_robotContainer.m_drivetrain.SetVoltage(0.0, 0.0);
-      m_state = 1;
 
       break;
 
@@ -482,18 +450,19 @@ void Robot::AutonomousPeriodic()
   {
     PreShoot();
   }
+  */
   std::cout << "droite" << m_robotContainer.m_drivetrain.m_EncoderRight.GetDistance() << std::endl;
   std::cout << "gauche" << m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance() << std::endl;
-
-  m_csv.write();*/
 }
 
 void Robot::TeleopInit()
 {
-  m_robotContainer.m_auto = false;
+  m_robotContainer.m_drivetrain.IsAuto = false;
 }
 void Robot::TeleopPeriodic()
 {
+  // std::cout << "droite" << m_robotContainer.m_drivetrain.m_EncoderRight.GetRaw() << std::endl;
+  // std::cout << "gauche" << m_robotContainer.m_drivetrain.m_EncoderLeft.GetRaw() << std::endl;
   frc::SmartDashboard::PutBoolean("Loaded", m_robotContainer.m_feeder.IsNoteLoaded);
   frc::SmartDashboard::PutNumber("auto", m_robotContainer.m_drivetrain.m_EncoderLeft.GetDistance());
 
@@ -513,7 +482,6 @@ void Robot::TeleopPeriodic()
 
 void Robot::DisabledInit()
 {
-  // m_csv.close();
 }
 
 void Robot::DisabledPeriodic() {}

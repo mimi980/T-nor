@@ -27,7 +27,10 @@ void Drive::Execute()
   // else
   // {
   //   std::cout << m_pCamera->m_output << std::endl;
-  m_pDrivetrain->Drive(forward, turn, false);
+  if (!m_pDrivetrain->IsAuto)
+  {
+    m_pDrivetrain->Drive(forward, turn, false);
+  }
   // }
 }
 
