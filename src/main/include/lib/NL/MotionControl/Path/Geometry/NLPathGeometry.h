@@ -43,6 +43,8 @@ struct NLPATH_GEOMETRY
 	Nu32	write(FILE* pfile);
 	Nu32	read(FILE* pfile);
 
+	Nu32 writeTxt(FILE* pfile);
+	
 	inline void erase() { NEraseArray(&m_pathPointsArray, NLclearNLPathPrimitivePtrInArrayCallBack); NEraseArray(&m_primitivesArray, NLclearNLPathPrimitiveInArrayCallBack); m_ds = 0.0f; /*m_flags = 0;*/ }
 
 	//void getPathPoint(NLPATH_POINT_S *pres, const Nf32 s)const;
