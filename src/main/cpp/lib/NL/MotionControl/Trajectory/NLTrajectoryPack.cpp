@@ -431,6 +431,129 @@ Nu32 NLTRAJECTORY_PACK::save(const Nchar* pfilename)
 	return 1;
 
 }
+Nu32 NLTRAJECTORY_PACK::exportTxt(const Nchar* pfilename)
+{
+
+	FILE *pfile = fopen(pfilename, "w");	// ouverture du fichier
+	fseek(pfile, 0, SEEK_SET);			// on se place au début du fichier
+
+	fprintf(pfile,"--PACK Export Txt:%s\n", pfilename);
+	
+	fprintf(pfile, "#header:\n");
+	fprintf(pfile, "\t.m_dt = %.5f\n",m_dt);
+	fprintf(pfile, "\t.m_matrix.X : %.5f,\t %.5f, \t %.5f, \t %.5f\n", m_matrix.XAxis.x, m_matrix.XAxis.y, m_matrix.XAxis.z, m_matrix.XAxis.w);
+	fprintf(pfile, "\t.m_matrix.Y : %.5f,\t %.5f, \t %.5f, \t %.5f\n", m_matrix.YAxis.x, m_matrix.YAxis.y, m_matrix.YAxis.z, m_matrix.YAxis.w);
+	fprintf(pfile, "\t.m_matrix.Z : %.5f,\t %.5f, \t %.5f, \t %.5f\n", m_matrix.ZAxis.x, m_matrix.ZAxis.y, m_matrix.ZAxis.z, m_matrix.ZAxis.w);
+	fprintf(pfile, "\t.m_matrix.O : %.5f,\t %.5f, \t %.5f, \t %.5f\n", m_matrix.Origin.x, m_matrix.Origin.y, m_matrix.Origin.z, m_matrix.Origin.w);
+
+	NARRAYBOUNDS spotsarraybounds;
+	NARRAYBOUNDS tjpointdescarraybounds;
+	NARRAYBOUNDS postmessagesarraybounds;
+	NGetArrayBounds(&spotsarraybounds, &m_spotsArray);
+	NGetArrayBounds(&tjpointdescarraybounds, &m_trajectoryPointDescArray);
+	NGetArrayBounds(&postmessagesarraybounds, &m_postedMessagesArray);
+
+	fprintf(pfile, "#header.m_spotsArrayBounds:\n");
+	fprintf(pfile, "\t.Size = %d\n", spotsarraybounds.Size);
+	fprintf(pfile, "\t.Capacity = %d\n", spotsarraybounds.Capacity);
+	fprintf(pfile, "\t.ElementSize = %d\n", spotsarraybounds.ElementSize);
+
+	fprintf(pfile, "#header.m_trajectoryPointDescArrayBounds:\n");
+	fprintf(pfile, "\t.Size = %d\n", tjpointdescarraybounds.Size);
+	fprintf(pfile, "\t.Capacity = %d\n", tjpointdescarraybounds.Capacity);
+	fprintf(pfile, "\t.ElementSize = %d\n", tjpointdescarraybounds.ElementSize);
+
+	fprintf(pfile, "#header.m_postedMessagesArrayBounds:\n");
+	fprintf(pfile, "\t.Size = %d\n", postmessagesarraybounds.Size);
+	fprintf(pfile, "\t.Capacity = %d\n", postmessagesarraybounds.Capacity);
+	fprintf(pfile, "\t.ElementSize = %d\n", postmessagesarraybounds.ElementSize);
+
+	fprintf(pfile, "\n#Ramsete.m_b: %.5f\n",m_ramsete.m_b);
+	fprintf(pfile, "#Ramsete.m_zeta: %.5f\n", m_ramsete.m_zeta);
+
+	fprintf(pfile, "\n#m_driveTrainSpecifications:\n");
+	fprintf(pfile, "\t.m_limits.m_v = %.5f\n", m_driveTrainSpecifications.m_limits.m_v);
+	fprintf(pfile, "\t.m_limits.m_a = %.5f\n", m_driveTrainSpecifications.m_limits.m_a);
+	fprintf(pfile, "\t.m_limits.m_j = %.5f\n", m_driveTrainSpecifications.m_limits.m_j);
+
+	fprintf(pfile, "\t.m_staticFriction = %.5f\n", m_driveTrainSpecifications.m_staticFriction);
+	fprintf(pfile, "\t.m_mass = %.5f\n", m_driveTrainSpecifications.m_mass);
+	fprintf(pfile, "\t.m_weight = %.5f\n", m_driveTrainSpecifications.m_weight);
+	fprintf(pfile, "\t.m_centerOfMass.x = %.5f\n", m_driveTrainSpecifications.m_centerOfMass.x);
+	fprintf(pfile, "\t.m_centerOfMass.y = %.5f\n", m_driveTrainSpecifications.m_centerOfMass.y);
+	fprintf(pfile, "\t.m_centerOfMass.z = %.5f\n", m_driveTrainSpecifications.m_centerOfMass.z);
+	fprintf(pfile, "\t.m_axleTrack = %.5f\n", m_driveTrainSpecifications.m_axleTrack);
+	fprintf(pfile, "\t.m_wheelRadius = %.5f\n", m_driveTrainSpecifications.m_wheelRadius);
+
+
+	m_pathGeometry.writeTxt(pfile);
+
+
+	// spotsArray
+	if (m_spotsArray.Size)
+	{
+		fprintf(pfile, "\n#m_spotsArray of  %d NLPATH_POINT\n", m_spotsArray.Size);
+		NLPATH_POINT* pp = (NLPATH_POINT*)m_spotsArray.pFirst;
+		for (Nu32 i = 0; i < m_spotsArray.Size; i++, pp++)
+		{
+			fprintf(pfile, "\n#NLPATH_POINT n°%d\n", i);
+			fprintf(pfile, "\t.p.x = %.5f\n", pp->p.x);
+			fprintf(pfile, "\t.p.y = %.5f\n", pp->p.y);
+			fprintf(pfile, "\t.k = %.5f\n", pp->k);
+			fprintf(pfile, "\t.u.x = %.5f\n", pp->u.x);
+			fprintf(pfile, "\t.u.y = %.5f\n", pp->u.y);
+			fprintf(pfile, "\t.s = %.5f\n", pp->s);
+		}
+	}
+	else
+	{
+		fprintf(pfile, "#m_spotsArray of  NLPATH_POINT is empty\n");
+	}
+
+	//
+	if (m_trajectoryPointDescArray.Size)
+	{
+		fprintf(pfile, "\n#m_trajectoryPointDescArray of  %d NLTRJPOINT_DESC\n", m_trajectoryPointDescArray.Size);
+		Ns32 kptid, primid;
+		NLTRJPOINT_DESC* ptpdsc = (NLTRJPOINT_DESC*)m_trajectoryPointDescArray.pFirst;
+		for (Nu32 i = 0; i < m_trajectoryPointDescArray.Size; i++, ptpdsc++)
+		{
+			fprintf(pfile, "\n#NLTRJPOINT_DESC n°%d\n", i);
+			fprintf(pfile, "\tm_kin.m_s = %.5f\n", ptpdsc->m_kin.m_s);
+			fprintf(pfile, "\tm_kin.m_v = %.5f\n", ptpdsc->m_kin.m_v);
+			fprintf(pfile, "\tm_kin.m_a = %.5f\n", ptpdsc->m_kin.m_a);
+			fprintf(pfile, "\tm_kin.m_j = %.5f\n", ptpdsc->m_kin.m_j);
+			fprintf(pfile, "\tm_kin.m_t = %.5f\n", ptpdsc->m_kin.m_t);
+		
+			fprintf(pfile, "\n\t.m_flags = 0x%X\n", ptpdsc->m_flags);
+
+			if (ISFLAG_ON(ptpdsc->m_flags, FLAG_NLTRJPOINT_DESC_KTYPE_SPOT))
+			{
+				fprintf(pfile, "\t( type is KTYPE_SPOT )\n");
+				kptid = ptpdsc->m_pPathPoint1 - (NLPATH_POINT*)m_spotsArray.pFirst;
+				primid = -1;
+				fprintf(pfile, "\t.m_pPathPoint1 ID = %d\n",kptid);
+				fprintf(pfile, "\t.m_pPrimitive ID = NVOID\n");
+			}
+			else
+			{
+				fprintf(pfile, "\t( type is KTYPE_TRAVELLING)\n");
+				kptid = (ptpdsc->m_pPathPoint1 - (NLPATH_POINT*)m_pathGeometry.m_pathPointsArray.pFirst);
+				primid = (ptpdsc->m_pPrimitive - (NLPATH_PRIMITIVE*)m_pathGeometry.m_primitivesArray.pFirst);
+				fprintf(pfile, "\t.m_pPathPoint1 ID = %d\n", kptid);
+				fprintf(pfile, "\t.m_pPrimitive ID = %d\n", primid);
+			}
+		}
+	}
+
+	fprintf(pfile, "\n ------------------------------------------------------");
+	fprintf(pfile, "\n ------------------------------------------------------");
+	fprintf(pfile, "\n -----------------END OF PACK--------------------------");
+
+	fclose(pfile);
+
+	return 0;
+}
 /*
 void NLTRAJECTORY_PACK::storeRelevantParameters(const NLDRIVETRAINSPECS* pdtspecs)
 {

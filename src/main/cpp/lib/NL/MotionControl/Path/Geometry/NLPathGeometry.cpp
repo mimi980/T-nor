@@ -146,7 +146,30 @@ Nu32 NLPATH_GEOMETRY::write(FILE* pfile)
 
 	return 1;
 }
+Nu32 NLPATH_GEOMETRY::writeTxt(FILE* pfile)
+{
+	fprintf(pfile, "\n--NLPATH_GEOMETRY Export Txt --\n");
 
+	fprintf(pfile, "#header.m_ds: %.5f\n", m_ds);
+
+	NARRAYBOUNDS keypointsarraybounds;
+	NARRAYBOUNDS primitivesarraybounds;
+	NGetArrayBounds(&keypointsarraybounds, &m_pathPointsArray);
+	NGetArrayBounds(&primitivesarraybounds, &m_primitivesArray);
+
+	fprintf(pfile, "#header.m_keyPointsArrayBounds:\n");
+	fprintf(pfile, "\t.Size = %d\n", keypointsarraybounds.Size);
+	fprintf(pfile, "\t.Capacity = %d\n", keypointsarraybounds.Capacity);
+	fprintf(pfile, "\t.ElementSize = %d\n", keypointsarraybounds.ElementSize);
+
+	fprintf(pfile, "#header.m_primitivesArrayBounds:\n");
+	fprintf(pfile, "\t.Size = %d\n", primitivesarraybounds.Size);
+	fprintf(pfile, "\t.Capacity = %d\n", primitivesarraybounds.Capacity);
+	fprintf(pfile, "\t.ElementSize = %d\n", primitivesarraybounds.ElementSize);
+
+	fprintf(pfile, "\n-------------------------------------\n");
+	return 0;
+}
 Nu32 NLPATH_GEOMETRY::read(FILE* pfile)
 {
 	// 1) lecture Version

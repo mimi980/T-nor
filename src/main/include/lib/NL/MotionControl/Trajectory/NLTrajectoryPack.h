@@ -41,7 +41,8 @@ public:
 
 	Nu32	read(FILE* pfile);
 	Nu32	write(FILE *pfile);
-
+	Nu32 	exportTxt(const Nchar* pfilename);
+	
 	Nu32	load(const Nchar* pfilename);
 	Nu32	save(const Nchar* pfilename);
 	void	getPoint(NLTRAJECTORY_PACK_GETPOINT_PERSISTENT_RESULT* presult, const Nf32 t);
