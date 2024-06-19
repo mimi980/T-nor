@@ -46,7 +46,6 @@ public:
   void NearShoot();
   void Shoot(double speed, double angle);
 
-  frc::Timer m_timer;
   double m_deltatime;
   double m_previoustime;
 
@@ -66,12 +65,14 @@ public:
   void ShootOnly();
   enum class StateShootOnly
   {
+    Wait,
     Nearshoot,
     Backward,
     End
   };
   StateShootOnly m_stateShootOnly;
   bool m_shootOnly;
+  int m_countWait;
 
   enum class StateTakeNote
   {
@@ -140,7 +141,7 @@ public:
   NLTRAJECTORY_PACK m_TrajectoryPack;
   NLFOLLOWER_TANK m_follower;
 
-  AHRS m_gyro{frc::SerialPort::Port::kUSB};
+  // AHRS m_gyro{frc::SerialPort::Port::kUSB};
   int m_state;
 
   // Auto Selector
@@ -161,7 +162,6 @@ public:
   std::string m_sideSelected;
 
   int m_countable;
-  NLCSV m_csv{7};
   double m_encoderRightValue;
   double m_encoderLeftValue;
   double m_gyroAngle;
